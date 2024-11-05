@@ -4,7 +4,7 @@ import SwiftUI
 struct Helper {
     static func mapFont(_ font: String) -> Font {
         switch font.lowercased() {
-        case "largeTitle": return .largeTitle
+        case "largetitle": return .largeTitle
         case "title": return .title
         case "title2": return .title2
         case "title3": return .title3
@@ -63,12 +63,63 @@ struct Helper {
         }
     }
 
-    func mapAlignment(_ alignment: String) -> HorizontalAlignment {
+    static func mapAlignmentHorizontal(_ alignment: String) -> HorizontalAlignment {
         switch alignment.lowercased() {
         case "leading": return .leading
         case "trailing": return .trailing
         case "center": return .center
         default: return .center
+        }
+    }
+    
+    static func mapAlignment(_ alignment: String) -> Alignment {
+        switch alignment.lowercased() {
+        case "leading": return .leading
+        case "leadingLasttextbaseline": return .leadingLastTextBaseline
+        case "leadingfirsttextbaseline": return .leadingFirstTextBaseline
+        case "trailing": return .trailing
+        case "trailinglasttextbaseline": return .trailingLastTextBaseline
+        case "trailingfirsttextbaseline": return .trailingFirstTextBaseline
+        case "top": return .top
+        case "topleading": return .topLeading
+        case "toptrailing": return .topTrailing
+        case "bottom": return .bottom
+        case "bottomleading": return .bottomLeading
+        case "bottomtrailing": return .bottomTrailing
+        case "center": return .center
+        case "centerfirsttextbaseline": return .centerFirstTextBaseline
+        case "centerlasttextbaseline": return .centerLastTextBaseline
+        default:
+            return .center
+        }
+    }
+    
+    static func mapStringToNullableInt(_ value :String)->Int?{
+        if value.isEmpty {
+            return nil
+        } else {
+            return Int(value)
+        }
+    }
+    
+    static func mapStringToSize(_ value :String)->CGFloat?{
+        if value.isEmpty {
+            return nil
+        } else if let number =  Double(value) {
+            return CGFloat( number)
+        }else {
+            switch value.lowercased() {
+            case "infinity": return .infinity
+            case "greatestfinitemagnitude": return .greatestFiniteMagnitude
+            case "leastnormalmagnitude": return .leastNormalMagnitude
+            case "leastnonzeromagnitude": return .leastNonzeroMagnitude
+            case "nan": return .nan
+            case "pi": return .pi
+            case "ulpofone": return .ulpOfOne
+            case "zero": return .zero
+            default:
+                return nil
+            }
         }
     }
 }
