@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Nativeblocks
 
 struct Helper {
     static func mapFont(_ font: String) -> Font {
@@ -35,23 +36,7 @@ struct Helper {
     }
 
     static func mapHexColor(_ hex: String) -> Color {
-        var hexFormatted = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if hexFormatted.hasPrefix("#") {
-            hexFormatted.remove(at: hexFormatted.startIndex)
-        }
-
-        guard hexFormatted.count == 6 else {
-            return Color.clear
-        }
-
-        var rgbValue: UInt64 = 0
-        Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
-
-        return Color(
-            red: Double((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: Double((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: Double(rgbValue & 0x0000FF) / 255.0
-        )
+        return Color(hex: hex) ?? Color.black.opacity(0)
     }
 
     static func mapTextAlignment(_ alignment: String) -> TextAlignment {
@@ -103,9 +88,7 @@ struct Helper {
     }
     
     static func mapStringToSize(_ value :String)->CGFloat?{
-        if value.isEmpty {
-            return nil
-        } else if let number =  Double(value) {
+        if let number =  Double(value) {
             return CGFloat( number)
         }else {
             switch value.lowercased() {

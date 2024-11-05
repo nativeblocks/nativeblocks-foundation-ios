@@ -22,6 +22,7 @@ struct NativeVStack<Content: View>: View {
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
+            NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
             NativeBlockValuePickerOption("nan", "nan"),
             NativeBlockValuePickerOption("zero", "zero"),
@@ -32,7 +33,7 @@ struct NativeVStack<Content: View>: View {
             NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
         ]
     )
-    var spacing: String = ""
+    var spacing: String = "notSet"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
     var paddingTop: CGFloat = 0
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
@@ -44,6 +45,7 @@ struct NativeVStack<Content: View>: View {
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
+            NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
             NativeBlockValuePickerOption("nan", "nan"),
             NativeBlockValuePickerOption("zero", "zero"),
@@ -55,10 +57,11 @@ struct NativeVStack<Content: View>: View {
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
-    var frameWidth: String = ""
+    var frameMinWidth: String = "notSet"
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
+            NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
             NativeBlockValuePickerOption("nan", "nan"),
             NativeBlockValuePickerOption("zero", "zero"),
@@ -70,7 +73,39 @@ struct NativeVStack<Content: View>: View {
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
-    var frameHeight: String = ""
+    var frameMinHeight: String = "notSet"
+    @NativeBlockProp(
+        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("notSet", "notSet"),
+            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("nan", "nan"),
+            NativeBlockValuePickerOption("zero", "zero"),
+            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
+            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
+            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
+            NativeBlockValuePickerOption("pi", "pi"),
+            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+    )
+    var frameMaxWidth: String = "notSet"
+    @NativeBlockProp(
+        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("notSet", "notSet"),
+            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("nan", "nan"),
+            NativeBlockValuePickerOption("zero", "zero"),
+            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
+            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
+            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
+            NativeBlockValuePickerOption("pi", "pi"),
+            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+    )
+    var frameMaxHeight: String = "notSet"
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
@@ -119,17 +154,21 @@ struct NativeVStack<Content: View>: View {
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Shadow"))
     var shadowY: CGFloat = 0
     var body: some View {
-        VStack(alignment: Helper.mapAlignmentHorizontal(alignmentHorizontal), spacing: Helper.mapStringToSize(spacing)) {
+        VStack(alignment: Helper.mapAlignmentHorizontal(alignmentHorizontal),spacing: 0) {
             content(-1)
         }
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
-        .frame(width: Helper.mapStringToSize(frameWidth), height: Helper.mapStringToSize(frameHeight), alignment: Helper.mapAlignment(alignment))
+        .frame(alignment: Helper.mapAlignment(alignment))
+        .frame(maxWidth:  Helper.mapStringToSize(frameMaxWidth))
+        .frame(maxHeight: Helper.mapStringToSize(frameMaxHeight))
+        .frame(minWidth:  Helper.mapStringToSize(frameMinWidth))
+        .frame(minHeight: Helper.mapStringToSize(frameMinHeight))
         .background(Helper.mapHexColor(backgroundColor))
         .cornerRadius(cornerRadius)
-        .border(Helper.mapHexColor(borderColor), width: borderWidth)
+        .border(Helper.mapHexColor( borderColor), width: borderWidth)
         .shadow(color: Helper.mapHexColor(shadowColor), radius: shadowRadius, x: shadowX, y: shadowY)
     }
 }
