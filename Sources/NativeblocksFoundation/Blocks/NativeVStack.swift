@@ -16,24 +16,21 @@ struct NativeVStack<Content: View>: View {
             NativeBlockValuePickerOption("leading", "leading"),
             NativeBlockValuePickerOption("trailing", "trailing"),
             NativeBlockValuePickerOption("center", "center"),
-        ]
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
-    var alignmentHorizontal: String = "center"
+    var alignmentHorizontal: String = "leading"
+    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Alignment"))
+    var spacing: CGFloat = 0
     @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
-            NativeBlockValuePickerOption("nan", "nan"),
-            NativeBlockValuePickerOption("zero", "zero"),
-            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
-            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
-            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
-            NativeBlockValuePickerOption("pi", "pi"),
-            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
-        ]
+            NativeBlockValuePickerOption("LTR", "LTR"),
+            NativeBlockValuePickerOption("RTL", "LTR"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Direction")
     )
-    var spacing: String = "notSet"
+    var direction: String = "LTR"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
     var paddingTop: CGFloat = 0
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
@@ -47,87 +44,19 @@ struct NativeVStack<Content: View>: View {
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
-            NativeBlockValuePickerOption("nan", "nan"),
-            NativeBlockValuePickerOption("zero", "zero"),
-            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
-            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
-            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
-            NativeBlockValuePickerOption("pi", "pi"),
-            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
-    var frameMinWidth: String = "notSet"
+    var frameWidth: String = "notSet"
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
-            NativeBlockValuePickerOption("nan", "nan"),
-            NativeBlockValuePickerOption("zero", "zero"),
-            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
-            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
-            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
-            NativeBlockValuePickerOption("pi", "pi"),
-            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
-    var frameMinHeight: String = "notSet"
-    @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
-            NativeBlockValuePickerOption("nan", "nan"),
-            NativeBlockValuePickerOption("zero", "zero"),
-            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
-            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
-            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
-            NativeBlockValuePickerOption("pi", "pi"),
-            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
-    )
-    var frameMaxWidth: String = "notSet"
-    @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
-            NativeBlockValuePickerOption("nan", "nan"),
-            NativeBlockValuePickerOption("zero", "zero"),
-            NativeBlockValuePickerOption("greatestFiniteMagnitude", "greatestFiniteMagnitude"),
-            NativeBlockValuePickerOption("leastNormalMagnitude", "leastNormalMagnitude"),
-            NativeBlockValuePickerOption("leastNonzeroMagnitude", "leastNonzeroMagnitude"),
-            NativeBlockValuePickerOption("pi", "pi"),
-            NativeBlockValuePickerOption("ulpOfOne", "ulpOfOne"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
-    )
-    var frameMaxHeight: String = "notSet"
-    @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("leadingLastTextBaseline", "leadingLastTextBaseline"),
-            NativeBlockValuePickerOption("leadingFirstTextBaseline", "leadingFirstTextBaseline"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-            NativeBlockValuePickerOption("trailingLastTextBaseline", "trailingLastTextBaseline"),
-            NativeBlockValuePickerOption("trailingFirstTextBaseline", "trailingFirstTextBaseline"),
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("topLeading", "topLeading"),
-            NativeBlockValuePickerOption("topTrailing", "topTrailing"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("bottomLeading", "bottomLeading"),
-            NativeBlockValuePickerOption("bottomTrailing", "bottomTrailing"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("centerFirstTextBaseline", "centerFirstTextBaseline"),
-            NativeBlockValuePickerOption("centerLastTextBaseline", "centerLastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
-    )
-    var alignment: String = "center"
+    var frameHeight: String = "notSet"
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
@@ -144,31 +73,37 @@ struct NativeVStack<Content: View>: View {
     var borderWidth: CGFloat = 0
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Shadow")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var shadowColor: String = "#00000000"
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Shadow"))
+    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Background"))
     var shadowRadius: CGFloat = 0
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Shadow"))
+    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Background"))
     var shadowX: CGFloat = 0
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Shadow"))
+    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Background"))
     var shadowY: CGFloat = 0
     var body: some View {
-        VStack(alignment: Helper.mapAlignmentHorizontal(alignmentHorizontal),spacing: 0) {
+        VStack(
+            alignment: BlockHelper.mapAlignmentHorizontal(alignmentHorizontal),
+            spacing: spacing
+        ) {
             content(-1)
         }
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
-        .frame(alignment: Helper.mapAlignment(alignment))
-        .frame(maxWidth:  Helper.mapStringToSize(frameMaxWidth))
-        .frame(maxHeight: Helper.mapStringToSize(frameMaxHeight))
-        .frame(minWidth:  Helper.mapStringToSize(frameMinWidth))
-        .frame(minHeight: Helper.mapStringToSize(frameMinHeight))
-        .background(Helper.mapHexColor(backgroundColor))
+        .widthAndHeightModifier(frameWidth, frameHeight)
+        .background(Color(hex: backgroundColor) ?? Color.black.opacity(0))
         .cornerRadius(cornerRadius)
-        .border(Helper.mapHexColor( borderColor), width: borderWidth)
-        .shadow(color: Helper.mapHexColor(shadowColor), radius: shadowRadius, x: shadowX, y: shadowY)
+        .border(
+            Color(hex: borderColor) ?? Color.black.opacity(0),
+            width: borderWidth
+        )
+        .shadow(
+            color: Color(hex: shadowColor) ?? Color.black.opacity(0),
+            radius: shadowRadius, x: shadowX, y: shadowY
+        )
+        .direction(direction)
     }
 }
