@@ -3,23 +3,25 @@ import NativeblocksCompiler
 import SwiftUI
 
 @NativeBlock(
-    name: "Native VStack",
-    keyType: "NATIVE_VSTACK",
-    description: "Nativeblocks VStack block"
+    name: "Native HStack",
+    keyType: "NATIVE_HSTACK",
+    description: "Nativeblocks HStack block"
 )
-struct NativeVStack<Content: View>: View {
+struct NativeHStack<Content: View>: View {
     @NativeBlockSlot
     var content: (BlockIndex) -> Content
     @NativeBlockProp(
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
+            NativeBlockValuePickerOption("top", "top"),
+            NativeBlockValuePickerOption("bottom", "bottom"),
             NativeBlockValuePickerOption("center", "center"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
-    var alignmentHorizontal: String = "leading"
+    var alignmentVertical: String = "top"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Alignment"))
     var spacing: CGFloat = 0
     @NativeBlockProp(
@@ -85,8 +87,8 @@ struct NativeVStack<Content: View>: View {
     @NativeBlockEvent
     var onClick: () -> Void
     var body: some View {
-        VStack(
-            alignment: mapBlockAlignmentHorizontal(alignmentHorizontal),
+        HStack(
+            alignment: mapBlockVerticalAlignment(alignmentVertical),
             spacing: spacing
         ) {
             content(-1)
@@ -113,8 +115,8 @@ struct NativeVStack<Content: View>: View {
     }
 }
 
-#Preview("NativeVStack") {
-    NativeVStack(
+#Preview("NativeHStack") {
+    NativeHStack(
         content: { index in
             Text("Hello")
         },

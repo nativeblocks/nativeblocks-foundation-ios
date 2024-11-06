@@ -5,7 +5,7 @@ import SwiftUI
 @NativeBlock(
     name: "Native Text",
     keyType: "NATIVE_TEXT",
-    description: "Native text block"
+    description: "Nativeblocks text block"
 )
 struct NativeText: View {
     @NativeBlockData
@@ -98,21 +98,27 @@ struct NativeText: View {
 
     var body: some View {
         Text(text)
-            .font(
+            .blockFont(
                 family: fontFamily,
                 size: fontSize,
                 weight: fontWeight,
                 design: fontDesign
             )
-            .foregroundColor(Color(hex: foregroundColor) ?? Color.black.opacity(0))
-            .multilineTextAlignment(multilineTextAlignment)
+            .foregroundColor(Color(blockHex: foregroundColor) ?? Color.black.opacity(0))
+            .blockMultilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
             .lineSpacing(lineSpacing)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)
             .padding(.trailing, paddingTrailing)
-            .widthAndHeightModifier(frameWidth, frameHeight)
-            .direction(direction)
+            .blockWidthAndHeightModifier(frameWidth, frameHeight)
+            .blockDirection(direction)
     }
+}
+
+#Preview("NativeText") {
+    NativeText(
+        text: "Hello"
+    )
 }

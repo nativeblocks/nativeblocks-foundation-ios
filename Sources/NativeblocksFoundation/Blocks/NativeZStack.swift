@@ -3,11 +3,11 @@ import NativeblocksCompiler
 import SwiftUI
 
 @NativeBlock(
-    name: "Native VStack",
-    keyType: "NATIVE_VSTACK",
-    description: "Nativeblocks VStack block"
+    name: "Native ZStack",
+    keyType: "NATIVE_ZSTACK",
+    description: "Nativeblocks ZStack block"
 )
-struct NativeVStack<Content: View>: View {
+struct NativeZStack<Content: View>: View {
     @NativeBlockSlot
     var content: (BlockIndex) -> Content
     @NativeBlockProp(
@@ -20,6 +20,18 @@ struct NativeVStack<Content: View>: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
     var alignmentHorizontal: String = "leading"
+    @NativeBlockProp(
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("top", "top"),
+            NativeBlockValuePickerOption("bottom", "bottom"),
+            NativeBlockValuePickerOption("center", "center"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+    )
+    var alignmentVertical: String = "top"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Alignment"))
     var spacing: CGFloat = 0
     @NativeBlockProp(
@@ -85,9 +97,11 @@ struct NativeVStack<Content: View>: View {
     @NativeBlockEvent
     var onClick: () -> Void
     var body: some View {
-        VStack(
-            alignment: mapBlockAlignmentHorizontal(alignmentHorizontal),
-            spacing: spacing
+        ZStack(
+            alignment: Alignment(
+                horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
+                vertical: mapBlockVerticalAlignment(alignmentVertical)
+            )
         ) {
             content(-1)
         }
@@ -113,8 +127,9 @@ struct NativeVStack<Content: View>: View {
     }
 }
 
-#Preview("NativeVStack") {
-    NativeVStack(
+
+#Preview("NativeZStack") {
+    NativeZStack(
         content: { index in
             Text("Hello")
         },
