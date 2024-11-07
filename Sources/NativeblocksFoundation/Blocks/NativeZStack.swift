@@ -105,16 +105,27 @@ struct NativeZStack<Content: View>: View {
         ) {
             content(-1)
         }
+        .blockWidthAndHeightModifier(
+            frameWidth, frameHeight,
+            alignment: Alignment(
+                horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
+                vertical: mapBlockVerticalAlignment(alignmentVertical)
+            )
+        )
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
-        .blockWidthAndHeightModifier(frameWidth, frameHeight)
         .background(Color(blockHex: backgroundColor) ?? Color.black.opacity(0))
         .cornerRadius(cornerRadius)
-        .border(
-            Color(blockHex: borderColor) ?? Color.black.opacity(0),
-            width: borderWidth
+        .overlay(
+            RoundedRectangle(
+                cornerRadius:
+                    cornerRadius
+            ).stroke(
+                Color(blockHex: borderColor) ?? Color.black.opacity(0),
+                lineWidth: borderWidth
+            )
         )
         .shadow(
             color: Color(blockHex: shadowColor) ?? Color.black.opacity(0),
@@ -127,12 +138,61 @@ struct NativeZStack<Content: View>: View {
     }
 }
 
-
-#Preview("NativeZStack") {
+#Preview("Simple") {
     NativeZStack(
-        content: { index in
-            Text("Hello")
+        content: { _ in
+            Text("Text 1")
         },
-        onClick:{ }
+        alignmentHorizontal: "leading",
+        alignmentVertical: "top",
+        spacing: 0,
+        direction: "LTR",
+        paddingTop: 0,
+        paddingLeading: 0,
+        paddingBottom: 0,
+        paddingTrailing: 0,
+        frameWidth: "notSet",
+        frameHeight: "notSet",
+        backgroundColor: "#00000000",
+        cornerRadius: 0,
+        borderColor: "#00000000",
+        borderWidth: 0,
+        shadowColor: "#00000000",
+        shadowRadius: 0,
+        shadowX: 0,
+        shadowY: 0,
+        onClick: {}
     )
+}
+
+#Preview("with Pading") {
+    ZStack {
+        NativeZStack(
+            content: { _ in
+                Text("Top Left Aligned")
+                    .padding()
+            },
+            alignmentHorizontal: "trailing",
+            alignmentVertical: "center",
+            spacing: 0,
+            direction: "LTR",
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            backgroundColor: "#ff0000ff",
+            cornerRadius: 30,
+            borderColor: "#ff000000",
+            borderWidth: 5,
+            shadowColor: "#ff000000",
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
+            onClick: {}
+        )
+    }
+    .padding(10)
+    .background(Color.blue)
 }

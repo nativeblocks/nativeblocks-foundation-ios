@@ -95,6 +95,28 @@ struct NativeText: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
     var frameHeight: String = "notSet"
+    @NativeBlockProp(
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("leading", "leading"),
+            NativeBlockValuePickerOption("trailing", "trailing"),
+            NativeBlockValuePickerOption("center", "center"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+    )
+    var alignmentHorizontal: String = "leading"
+    @NativeBlockProp(
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("top", "top"),
+            NativeBlockValuePickerOption("bottom", "bottom"),
+            NativeBlockValuePickerOption("center", "center"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+    )
+    var alignmentVertical: String = "top"
 
     var body: some View {
         Text(text)
@@ -108,17 +130,39 @@ struct NativeText: View {
             .blockMultilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
             .lineSpacing(lineSpacing)
+            .blockWidthAndHeightModifier(
+                frameWidth,
+                frameHeight,
+                alignment: Alignment(
+                    horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
+                    vertical: mapBlockVerticalAlignment(alignmentVertical)
+                )
+            )
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)
             .padding(.trailing, paddingTrailing)
-            .blockWidthAndHeightModifier(frameWidth, frameHeight)
             .blockDirection(direction)
     }
 }
 
 #Preview("NativeText") {
     NativeText(
-        text: "Hello"
+        text: "Sample Sample Sample Sample\nSample\nSample\nSample Sample Sample Sample Sample\nSample\n",
+        fontFamily: "system",
+        fontWeight: "bold",
+        fontDesign: "monospaced",
+        fontSize: 20,
+        foregroundColor: "#ff0000ff",
+        multilineTextAlignment: "leading",
+        lineLimit: 3,
+        lineSpacing: 9,
+        direction: "LTR",
+        paddingTop: 8,
+        paddingLeading: 8,
+        paddingBottom: 8,
+        paddingTrailing: 8,
+        frameWidth: "infinity",
+        frameHeight: "infinity"
     )
 }

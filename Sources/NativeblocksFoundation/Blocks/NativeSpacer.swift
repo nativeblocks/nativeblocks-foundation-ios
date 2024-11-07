@@ -33,7 +33,9 @@ struct NativeSpacer: View {
     }
 }
 
-
 #Preview("NativeSpacer") {
-    NativeSpacer()
+    NativeSpacer(
+        frameWidth: "notSet",
+        frameHeight: "infinity"
+    )
 }

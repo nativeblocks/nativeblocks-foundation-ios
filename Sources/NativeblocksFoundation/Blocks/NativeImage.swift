@@ -66,7 +66,7 @@ struct NativeImage: View {
     var backgroundColor: String = "#00000000"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Background"))
     var cornerRadius: CGFloat = 0
-    
+
     var body: some View {
         let shape = roundedRectangleShape(cornerRadius)
         let background = Color(blockHex: backgroundColor) ?? Color.black.opacity(0)
@@ -77,8 +77,8 @@ struct NativeImage: View {
                     HStack(alignment: .center) {
                         ProgressView()
                     }
-                    .background(background)
                     .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                    .background(background)
                     .clipShape(shape)
                 case .success(let image):
                     image
@@ -89,19 +89,22 @@ struct NativeImage: View {
                         .background(background)
                         .clipShape(shape)
                 case .failure:
-                    background
+                    EmptyView()
                         .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                        .background(background)
                         .clipShape(shape)
                 @unknown default:
-                    background
+                    EmptyView()
                         .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                        .background(background)
                         .clipShape(shape)
                 }
             }
             .accessibility(label: Text(contentDescription))
-        }else {
-            background
+        } else {
+            EmptyView()
                 .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                .background(background)
                 .clipShape(shape)
         }
     }
@@ -110,10 +113,15 @@ struct NativeImage: View {
 #Preview("NativeImage") {
     NativeImage(
         imageUrl: "https://picsum.photos/seed/picsum/300/200",
+        contentDescription: "",
+        aspectRatio: 0,
+        contentMode: "fit",
+        resizable: "stretch",
+        interpolation: "none",
         frameWidth: "200",
         frameHeight: "200",
-        backgroundColor:"#ff0000ff",
-        cornerRadius : 200
+        backgroundColor: "#00000000",
+        cornerRadius: 0
     )
 }
 
@@ -122,28 +130,26 @@ struct NativeImage: View {
         imageUrl: "https://picsum.photos/seed/picsum/600/200",
         contentMode: "fill",
         frameWidth: "200",
-        frameHeight: "200",
-        backgroundColor:"#ff0000ff",
-        cornerRadius : 200
+        frameHeight: "200"
     )
 }
 
-#Preview("NativeImage empty") {
+#Preview("NativeImage aspectRatio") {
     NativeImage(
-        imageUrl: "",
+        imageUrl: "https://picsum.photos/seed/picsum/600/200",
+        aspectRatio: 3,
+        contentMode: "fit",
         frameWidth: "200",
-        frameHeight: "200",
-        backgroundColor:"#ff0000ff",
-        cornerRadius : 200
+        frameHeight: "200"
     )
 }
 
 #Preview("NativeImage faile") {
     NativeImage(
-        imageUrl: "https://pics",
+        imageUrl: "https://picsum.photos/seed/picsum/600/200",
         frameWidth: "200",
         frameHeight: "200",
-        backgroundColor:"#ff0000ff",
-        cornerRadius : 200
+        backgroundColor: "#ff0000ff",
+        cornerRadius: 200
     )
 }

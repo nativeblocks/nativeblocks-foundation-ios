@@ -10,11 +10,11 @@ let package = Package(
         .library(
             name: "NativeblocksFoundation",
             targets: ["NativeblocksFoundation"]
-        ),
+        )
     ],
     dependencies: [
-//        .package(url: "git@github.com:nativeblocks/nativeblocks-ios-sdk.git", branch: "main"),
-//        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios.git", branch: "main"),
+        //        .package(url: "git@github.com:nativeblocks/nativeblocks-ios-sdk.git", branch: "main"),
+        //        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios.git", branch: "main"),
         .package(path: "../nativeblocks-compiler-ios"),
         .package(path: "../nativeblocks-ios"),
     ],

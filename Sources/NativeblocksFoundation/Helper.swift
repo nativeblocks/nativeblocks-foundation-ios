@@ -5,12 +5,14 @@ func mapBlockAlignmentHorizontal(_ alignment: String) -> HorizontalAlignment {
     switch alignment.lowercased() {
     case "leading": return .leading
     case "trailing": return .trailing
-    case "center": if #available(iOS 16.0, *) {
+    case "listrowseparatorleading":
+        if #available(iOS 16.0, *) {
             return .listRowSeparatorLeading
         } else {
             return .leading
         }
-    case "center": if #available(iOS 16.0, *) {
+    case "listrowseparatortrailing":
+        if #available(iOS 16.0, *) {
             return .listRowSeparatorTrailing
         } else {
             return .leading
@@ -25,8 +27,8 @@ func mapBlockVerticalAlignment(_ alignment: String) -> VerticalAlignment {
     case "top": return .top
     case "bottom": return .bottom
     case "center": return .center
-    case "firstTextBaseline": return .firstTextBaseline
-    case "lastTextBaseline": return .lastTextBaseline
+    case "firsttextbaseline": return .firstTextBaseline
+    case "lasttextbaseline": return .lastTextBaseline
     default: return .top
     }
 }
@@ -39,8 +41,8 @@ func mapBlockImageContentMode(_ mode: String) -> ContentMode {
     }
 }
 
-public extension String {
-    func isValidImageUrl() -> Bool {
+extension String {
+    public func isValidImageUrl() -> Bool {
         guard let url = URL(string: self) else {
             return false
         }
@@ -57,65 +59,43 @@ public extension String {
     }
 }
 
-public struct WidthAndHeightModifier: ViewModifier {
-    var width: String?
-    var height: String?
-    init(width: String? = nil, height: String? = nil) {
-        self.width = width
-        self.height = height
-    }
+extension View {
+    public func blockWidthAndHeightModifier(_ width: String, _ height: String, alignment: Alignment = .center) -> some View {
+        var maxWidth: CGFloat? = nil
+        var maxHeight: CGFloat? = nil
 
-    public func body(content: Content) -> some View {
-        content
-            .modifier(WidthModifier(width: self.width))
-            .modifier(HeightModifier(height: self.height))
-    }
-}
-
-public struct HeightModifier: ViewModifier {
-    var height: String?
-
-    public func body(content: Content) -> some View {
-        if let height = height {
-            switch height.lowercased() {
-            case "infinity":
-                return AnyView(content.frame(maxHeight: .infinity))
-            default:
-                if let heightValue = Double(height) {
-                    return AnyView(content.frame(height: CGFloat(heightValue)))
-                }
+        switch width.lowercased() {
+        case "infinity":
+            maxWidth = .infinity
+        default:
+            if let widthValue = Double(width) {
+                maxWidth = CGFloat(widthValue)
             }
         }
-        return AnyView(content)
-    }
-}
 
-public struct WidthModifier: ViewModifier {
-    var width: String?
-
-    public func body(content: Content) -> some View {
-        if let width = width {
-            switch width.lowercased() {
-            case "infinity":
-                return AnyView(content.frame(maxWidth: .infinity))
-            default:
-                if let widthValue = Double(width) {
-                    return AnyView(content.frame(width: CGFloat(widthValue)))
-                }
+        switch height.lowercased() {
+        case "infinity":
+            maxHeight = .infinity
+        default:
+            if let heightValue = Double(height) {
+                maxHeight = CGFloat(heightValue)
             }
         }
-        return AnyView(content)
+
+        if maxWidth != nil && maxHeight != nil {
+            return AnyView(self.frame(maxWidth: maxWidth, maxHeight: maxHeight, alignment: alignment))
+        } else if maxWidth != nil {
+            return AnyView(self.frame(maxWidth: maxWidth, alignment: alignment))
+        } else if maxHeight != nil {
+            return AnyView(self.frame(maxHeight: maxHeight, alignment: alignment))
+        } else {
+            return AnyView(self.frame(alignment: alignment))
+        }
     }
 }
 
-public extension View {
-    func blockWidthAndHeightModifier(_ width: String?, _ height: String?) -> some View {
-        self.modifier(WidthAndHeightModifier(width: width, height: height))
-    }
-}
-
-public extension View {
-    func blockMultilineTextAlignment(_ alignment: String) -> some View {
+extension View {
+    public func blockMultilineTextAlignment(_ alignment: String) -> some View {
         var textAlignment = TextAlignment.leading
         switch alignment.lowercased() {
         case "leading":
@@ -131,11 +111,11 @@ public extension View {
     }
 }
 
-public extension View {
-    func blockFont(family: String, size: CGFloat, weight: String, design: String) -> some View {
+extension View {
+    public func blockFont(family: String, size: CGFloat, weight: String, design: String) -> some View {
         var font: Font? = nil
-        var fontWeight = self.mapFontWeight(weight)
-        var fontDesign = self.mapFontDesign(design)
+        let fontWeight = self.mapFontWeight(weight)
+        let fontDesign = self.mapFontDesign(design)
         switch family.lowercased() {
         case "system":
             font = .system(size: size, weight: fontWeight, design: fontDesign)
@@ -173,8 +153,8 @@ public extension View {
     }
 }
 
-public extension View {
-    func blockDirection(_ direction: String) -> some View {
+extension View {
+    public func blockDirection(_ direction: String) -> some View {
         let blockDirection: LayoutDirection =
             if direction == "RTL" {
                 LayoutDirection.rightToLeft
@@ -186,8 +166,8 @@ public extension View {
     }
 }
 
-public extension View {
-    func blockAspectRatio( ratio: CGFloat,mode:String) -> some View {
+extension View {
+    public func blockAspectRatio(ratio: CGFloat, mode: String) -> some View {
         var aspectRatio: CGFloat? = nil
         var contentMode: ContentMode = .fill
 
@@ -199,19 +179,18 @@ public extension View {
         default:
             contentMode = .fill
         }
-        
-        if(ratio > 0){
+
+        if ratio > 0 {
             aspectRatio = ratio
         }
-        
+
         return self.aspectRatio(aspectRatio, contentMode: contentMode)
-        
     }
 }
 
-public extension Image {
-    func blockResizable(_ mode:String) -> Image {
-        var  resizingMode: Image.ResizingMode? = nil
+extension Image {
+    public func blockResizable(_ mode: String) -> Image {
+        var resizingMode: Image.ResizingMode? = nil
         switch mode.lowercased() {
         case "stretch":
             resizingMode = .stretch
@@ -220,17 +199,17 @@ public extension Image {
         default:
             resizingMode = nil
         }
-        
-        if resizingMode != nil{
+
+        if resizingMode != nil {
             return self.resizable(resizingMode: resizingMode!)
-        }else{
+        } else {
             return self
         }
     }
 }
 
-public extension Image {
-    func blockInterpolation(_ value: String) -> Image{
+extension Image {
+    public func blockInterpolation(_ value: String) -> Image {
         var interpolation: Image.Interpolation = .none
 
         switch value.lowercased() {
@@ -247,8 +226,8 @@ public extension Image {
     }
 }
 
-public extension Color {
-    init?(blockHex: String) {
+extension Color {
+    public init?(blockHex: String) {
         var hexSanitized = blockHex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
 
@@ -280,9 +259,8 @@ public extension Color {
     }
 }
 
-
 public func roundedRectangleShape(
-   _ radius: CGFloat
+    _ radius: CGFloat
 ) -> RoundedRectangle {
     return RoundedRectangle(cornerRadius: radius)
 }

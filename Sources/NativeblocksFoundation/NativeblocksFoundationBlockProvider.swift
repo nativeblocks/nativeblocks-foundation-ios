@@ -1,4 +1,5 @@
 import Nativeblocks
+
 public class NativeblocksFoundationBlockProvider {
     public static func provideBlocks() {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_IMAGE", block: NativeImageBlock())
