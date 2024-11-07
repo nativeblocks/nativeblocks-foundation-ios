@@ -66,7 +66,7 @@ extension View {
 
         switch width.lowercased() {
         case "infinity":
-            maxWidth = .infinity
+            maxWidth = UIScreen.main.bounds.width
         default:
             if let widthValue = Double(width) {
                 maxWidth = CGFloat(widthValue)
@@ -75,7 +75,7 @@ extension View {
 
         switch height.lowercased() {
         case "infinity":
-            maxHeight = .infinity
+            maxHeight = UIScreen.main.bounds.height
         default:
             if let heightValue = Double(height) {
                 maxHeight = CGFloat(heightValue)
