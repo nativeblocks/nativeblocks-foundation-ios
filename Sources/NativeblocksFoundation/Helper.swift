@@ -22,6 +22,15 @@ func mapBlockAlignmentHorizontal(_ alignment: String) -> HorizontalAlignment {
     }
 }
 
+func mapBlockScrollable(_ scroll: String) -> Axis.Set {
+    switch scroll.lowercased() {
+    case "horizontal": return .horizontal
+    case "vertical": return .vertical
+    case "both": return [.vertical, .horizontal]
+    default: return [.vertical, .horizontal]
+    }
+}
+
 func mapBlockVerticalAlignment(_ alignment: String) -> VerticalAlignment {
     switch alignment.lowercased() {
     case "top": return .top
@@ -66,11 +75,7 @@ extension View {
 
         switch width.lowercased() {
         case "infinity":
-            #if os(iOS)
-                maxWidth = UIScreen.main.bounds.width
-            #else
-                maxWidth = .infinity
-            #endif
+            maxWidth = .infinity
         default:
             if let widthValue = Double(width) {
                 maxWidth = CGFloat(widthValue)
@@ -79,26 +84,20 @@ extension View {
 
         switch height.lowercased() {
         case "infinity":
-            #if os(iOS)
-                maxHeight = UIScreen.main.bounds.height
-            #else
-                maxHeight = .infinity
-            #endif
+            maxHeight = .infinity
         default:
             if let heightValue = Double(height) {
                 maxHeight = CGFloat(heightValue)
             }
         }
 
-        if maxWidth != nil && maxHeight != nil {
-            return AnyView(self.frame(maxWidth: maxWidth, maxHeight: maxHeight, alignment: alignment))
-        } else if maxWidth != nil {
-            return AnyView(self.frame(maxWidth: maxWidth, alignment: alignment))
-        } else if maxHeight != nil {
-            return AnyView(self.frame(maxHeight: maxHeight, alignment: alignment))
-        } else {
-            return AnyView(self.frame(alignment: alignment))
-        }
+        return self.frame(
+            minWidth: (maxWidth != nil && !maxWidth!.isNaN && maxWidth != .infinity) ? maxWidth : nil,
+            maxWidth: (maxWidth != nil && !maxWidth!.isNaN) ? maxWidth : nil,
+            minHeight: (maxHeight != nil && !maxHeight!.isNaN && maxHeight != .infinity) ? maxHeight : nil,
+            maxHeight: (maxHeight != nil && !maxHeight!.isNaN) ? maxHeight : nil,
+            alignment: alignment
+        )
     }
 }
 
@@ -334,5 +333,25 @@ extension View {
         #else
             return self
         #endif
+    }
+}
+
+extension View {
+    public func blockScrollIndicators(_ type: String) -> some View {
+        var autocapitalization: ScrollIndicatorVisibility = .automatic
+        switch type.lowercased() {
+        case "automatic":
+            autocapitalization = .automatic
+        case "hidden":
+            autocapitalization = .hidden
+        case "never":
+            autocapitalization = .never
+        case "visible":
+            autocapitalization = .visible
+        default:
+            autocapitalization = .visible
+        }
+
+        return self.scrollIndicators(autocapitalization)
     }
 }
