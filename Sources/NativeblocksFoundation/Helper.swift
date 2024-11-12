@@ -66,7 +66,11 @@ extension View {
 
         switch width.lowercased() {
         case "infinity":
-            maxWidth = UIScreen.main.bounds.width
+            #if os(iOS)
+                maxWidth = UIScreen.main.bounds.width
+            #else
+                maxWidth = .infinity
+            #endif
         default:
             if let widthValue = Double(width) {
                 maxWidth = CGFloat(widthValue)
@@ -75,7 +79,11 @@ extension View {
 
         switch height.lowercased() {
         case "infinity":
-            maxHeight = UIScreen.main.bounds.height
+            #if os(iOS)
+                maxHeight = UIScreen.main.bounds.height
+            #else
+                maxHeight = .infinity
+            #endif
         default:
             if let heightValue = Double(height) {
                 maxHeight = CGFloat(heightValue)
@@ -263,4 +271,68 @@ public func roundedRectangleShape(
     _ radius: CGFloat
 ) -> RoundedRectangle {
     return RoundedRectangle(cornerRadius: radius)
+}
+
+extension View {
+    public func blockKeyboardType(_ type: String) -> some View {
+        #if os(iOS)
+            var keyboardType: UIKeyboardType = .default
+
+            switch type.lowercased() {
+            case "asciicapable":
+                keyboardType = .asciiCapable
+            case "numbersandpunctuation":
+                keyboardType = .numbersAndPunctuation
+            case "url":
+                keyboardType = .URL
+            case "numberpad":
+                keyboardType = .numberPad
+            case "phonepad":
+                keyboardType = .phonePad
+            case "namephonepad":
+                keyboardType = .namePhonePad
+            case "emailaddress":
+                keyboardType = .emailAddress
+            case "decimalpad":
+                keyboardType = .decimalPad
+            case "twitter":
+                keyboardType = .twitter
+            case "websearch":
+                keyboardType = .webSearch
+            case "asciicapablenumberpad":
+                keyboardType = .asciiCapableNumberPad
+            case "alphabet":
+                keyboardType = .alphabet
+            default:
+                keyboardType = .default
+            }
+
+            return self.keyboardType(keyboardType)
+        #else
+            return self
+        #endif
+    }
+}
+
+extension View {
+    public func blockAutocapitalization(_ type: String) -> some View {
+        #if os(iOS)
+            var autocapitalization: UITextAutocapitalizationType = .none
+
+            switch type.lowercased() {
+            case "allcharacters":
+                autocapitalization = .allCharacters
+            case "sentences":
+                autocapitalization = .sentences
+            case "words":
+                autocapitalization = .words
+            default:
+                autocapitalization = .none
+            }
+
+            return self.autocapitalization(autocapitalization)
+        #else
+            return self
+        #endif
+    }
 }
