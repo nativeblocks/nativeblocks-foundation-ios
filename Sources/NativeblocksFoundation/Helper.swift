@@ -126,10 +126,8 @@ extension View {
         switch family.lowercased() {
         case "system":
             font = .system(size: size, weight: fontWeight, design: fontDesign)
-        case "center":
-            font = .custom(family, size: size)
         default:
-            font = nil
+            font = .custom(family, size: size)
         }
         return self.font(font)
     }
@@ -338,20 +336,23 @@ extension View {
 
 extension View {
     public func blockScrollIndicators(_ type: String) -> some View {
-        var autocapitalization: ScrollIndicatorVisibility = .automatic
-        switch type.lowercased() {
-        case "automatic":
-            autocapitalization = .automatic
-        case "hidden":
-            autocapitalization = .hidden
-        case "never":
-            autocapitalization = .never
-        case "visible":
-            autocapitalization = .visible
-        default:
-            autocapitalization = .visible
+        if #available(iOS 16.0, *) {
+            var autocapitalization: ScrollIndicatorVisibility = .automatic
+            switch type.lowercased() {
+            case "automatic":
+                autocapitalization = .automatic
+            case "hidden":
+                autocapitalization = .hidden
+            case "never":
+                autocapitalization = .never
+            case "visible":
+                autocapitalization = .visible
+            default:
+                autocapitalization = .visible
+            }
+            return self.scrollIndicators(autocapitalization)
+        } else {
+            return self
         }
-
-        return self.scrollIndicators(autocapitalization)
     }
 }
