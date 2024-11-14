@@ -92,10 +92,10 @@ extension View {
         }
 
         return self.frame(
-            minWidth: (maxWidth != nil && !maxWidth!.isNaN && maxWidth != .infinity) ? maxWidth : nil,
-            maxWidth: (maxWidth != nil && !maxWidth!.isNaN) ? maxWidth : nil,
-            minHeight: (maxHeight != nil && !maxHeight!.isNaN && maxHeight != .infinity) ? maxHeight : nil,
-            maxHeight: (maxHeight != nil && !maxHeight!.isNaN) ? maxHeight : nil,
+            minWidth: (maxWidth != nil && maxWidth != .infinity) ? maxWidth : nil,
+            maxWidth: maxWidth,
+            minHeight: (maxHeight != nil && maxHeight != .infinity) ? maxHeight : nil,
+            maxHeight: maxHeight,
             alignment: alignment
         )
     }
@@ -173,23 +173,21 @@ extension View {
 
 extension View {
     public func blockAspectRatio(ratio: CGFloat, mode: String) -> some View {
-        var aspectRatio: CGFloat? = nil
-        var contentMode: ContentMode = .fill
-
         switch mode.lowercased() {
         case "fill":
-            contentMode = .fill
-        case "fit":
-            contentMode = .fit
+            return AnyView(self)
+
         default:
-            contentMode = .fill
+            if ratio > 0 {
+                return AnyView(
+                    self
+                        .aspectRatio(ratio ?? 1, contentMode: .fit))
+            } else {
+                return AnyView(
+                    self
+                        .aspectRatio(contentMode: .fit))
+            }
         }
-
-        if ratio > 0 {
-            aspectRatio = ratio
-        }
-
-        return self.aspectRatio(aspectRatio, contentMode: contentMode)
     }
 }
 

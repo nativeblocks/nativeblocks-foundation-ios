@@ -81,11 +81,12 @@ struct NativeImage: View {
                     .background(background)
                     .clipShape(shape)
                 case .success(let image):
-                    image
+                    image.resizable()
                         .blockResizable(resizable)
                         .blockInterpolation(interpolation)
-                        .blockAspectRatio(ratio: aspectRatio, mode: contentMode)
                         .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                        .blockAspectRatio(ratio: aspectRatio, mode: contentMode)
+                        .contentShape(.rect)
                         .background(background)
                         .clipShape(shape)
                 case .failure:

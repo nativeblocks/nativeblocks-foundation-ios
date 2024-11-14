@@ -157,7 +157,7 @@ struct NativeScrollView<Content: View>: View {
 }
 
 #Preview("NativeVStack") {
-    ZStack {
+    HStack {
         NativeScrollView(
             content: { _ in
                 HStack {
