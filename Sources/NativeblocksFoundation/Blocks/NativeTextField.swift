@@ -170,7 +170,7 @@ struct NativeTextField: View {
     var lineSpacing: CGFloat = 0
 
     init(
-        text: String, placeholder: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
+        text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
         onChange: @escaping (String) -> Void, isSecure: Bool, keyboardType: String, autocapitalization: String, disableAutocorrection: Bool,
         fontFamily: String, fontWeight: String, fontDesign: String, fontSize: CGFloat, foregroundColor: String, backgroundColor: String,
         direction: String, paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat,
@@ -332,7 +332,6 @@ struct NativeTextFieldTest: View {
             )
             NativeTextField(
                 text: text,
-                placeholder: "Enter text",
                 isEditing: false,
                 onCommit: {
                     print("Commit triggered")
