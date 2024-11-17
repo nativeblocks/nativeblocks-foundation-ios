@@ -5,14 +5,13 @@ import SwiftUI
 @NativeBlock(
     name: "Native Text field",
     keyType: "NATIVE_TEXT_FIELD",
-    description: "Nativeblocks text field block"
+    description: "Nativeblocks text field block",
+    version: 2
 )
 struct NativeTextField: View {
     @NativeBlockData
     var text: String
     @State private var localText: String
-    @NativeBlockData
-    var placeholder: String
     @NativeBlockData
     var isEditing: Bool
     @NativeBlockEvent
@@ -180,7 +179,6 @@ struct NativeTextField: View {
     ) {
         self.text = text
         self.localText = text
-        self.placeholder = placeholder
         self.isEditing = isEditing
         self.onCommit = onCommit
         self.onEditingChanged = onEditingChanged
@@ -212,7 +210,6 @@ struct NativeTextField: View {
 
     var body: some View {
         ZStack {
-
             if isSecure {
                 SecureField(
                     "", text: $localText,
@@ -249,7 +246,7 @@ struct NativeTextField: View {
                 .lineSpacing(lineSpacing)
                 .blockDirection(direction)
 
-                TextField("", text: $localText) { isEditing in
+                TextField("", text: $localText) { _ in
                 }
                 .opacity(0.0)
                 .blockKeyboardType(keyboardType)
@@ -284,6 +281,14 @@ struct NativeTextField: View {
                     design: fontDesign
                 )
                 .foregroundColor(Color(blockHex: foregroundColor) ?? Color.black.opacity(0))
+                .blockWidthAndHeightModifier(
+                    frameWidth,
+                    frameHeight,
+                    alignment: Alignment(
+                        horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
+                        vertical: mapBlockVerticalAlignment(alignmentVertical)
+                    )
+                )
                 .padding(.top, paddingTop)
                 .padding(.leading, paddingLeading)
                 .padding(.bottom, paddingBottom)
@@ -298,42 +303,11 @@ struct NativeTextField: View {
                     onChange(newValue)
                 }
             }
-
-            if text.isEmpty {
-                Text(placeholder)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .foregroundColor(Color(blockHex: foregroundColor) ?? Color.black.opacity(0))
-                    .blockFont(
-                        family: fontFamily,
-                        size: fontSize,
-                        weight: fontWeight,
-                        design: fontDesign
-                    )
-                    .blockWidthAndHeightModifier(
-                        frameWidth,
-                        frameHeight,
-                        alignment: Alignment(
-                            horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
-                            vertical: mapBlockVerticalAlignment(alignmentVertical)
-                        )
-                    )
-                    .padding(.top, paddingTop)
-                    .padding(.leading, paddingLeading)
-                    .padding(.bottom, paddingBottom)
-                    .padding(.trailing, paddingTrailing)
-                    .background(Color(blockHex: backgroundColor) ?? Color.black.opacity(0))
-                    .cornerRadius(cornerRadius)
-                    .blockMultilineTextAlignment(multilineTextAlignment)
-                    .lineLimit(lineLimit)
-                    .lineSpacing(lineSpacing)
-                    .blockDirection(direction)
-            }
         }
     }
 }
 
 struct NativeTextFieldTest: View {
-
     @State var text = "test"
 
     var body: some View {
