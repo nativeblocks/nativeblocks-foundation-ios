@@ -52,9 +52,8 @@ class NativeChangeBlockPropertyAction: INativeAction {
         var valueTablet = propertyValueTabletProp
         var valueDesktop = propertyValueDesktopProp
 
-        if let block = actionProps.blocks?[blockKeyProp] {
-            var blockProperties = block.properties ?? [:]
-            if var currentProperty = blockProperties[propertyKeyProp] {
+        if var block = actionProps.blocks?[blockKeyProp] {
+            if var currentProperty = block.properties?[propertyKeyProp] {
                 if !propertyValueMobileProp.isEmpty {
                     actionProps.variables?.forEach { variableItem in
                         valueMobile = valueMobile.getVariableValue(variableItem.key, variableItem.value.value)
@@ -76,13 +75,10 @@ class NativeChangeBlockPropertyAction: INativeAction {
                     valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
-                blockProperties[currentProperty.key] = currentProperty
+                block.properties?[currentProperty.key] = currentProperty
             }
 
-            var blockCopy = block
-            blockCopy.properties = blockProperties
-
-            actionProps.onChangeBlock?(blockCopy)
+            actionProps.onChangeBlock?(block)
         }
 
         let param = NativeChangeBlockProperty.Parameter(
