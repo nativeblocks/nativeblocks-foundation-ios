@@ -20,8 +20,14 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "ExceptionCatcher",
+            path: "Sources/ExceptionCatcher",
+            publicHeadersPath: "include"
+        ),
+        .target(
             name: "NativeblocksFoundation",
             dependencies: [
+                "ExceptionCatcher",
                 .product(name: "Nativeblocks", package: "nativeblocks-ios"),
                 .product(name: "NativeblocksCompiler", package: "nativeblocks-compiler-ios"),
             ]

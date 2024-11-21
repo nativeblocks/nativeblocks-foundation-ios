@@ -48,17 +48,33 @@ class NativeChangeBlockPropertyAction: INativeAction {
         let propertyValueTabletProp = properties["propertyValueTablet"]?.value ?? ""
         let propertyValueDesktopProp = properties["propertyValueDesktop"]?.value ?? ""
 
+        var valueMobile = propertyValueMobileProp
+        var valueTablet = propertyValueTabletProp
+        var valueDesktop = propertyValueDesktopProp
+
         if let block = actionProps.blocks?[blockKeyProp] {
             var blockProperties = block.properties ?? [:]
             if var currentProperty = blockProperties[propertyKeyProp] {
                 if !propertyValueMobileProp.isEmpty {
-                    currentProperty.valueMobile = propertyValueMobileProp
+                    actionProps.variables?.forEach { variableItem in
+                        valueMobile = valueMobile.getVariableValue(variableItem.key, variableItem.value.value)
+                    }
+                    valueMobile = valueMobile.evaluateMixConditionOperator(type: currentProperty.type)
+                    currentProperty.valueMobile = valueMobile
                 }
                 if !propertyValueTabletProp.isEmpty {
-                    currentProperty.valueTablet = propertyValueTabletProp
+                    actionProps.variables?.forEach { variableItem in
+                        valueTablet = valueTablet.getVariableValue(variableItem.key, variableItem.value.value)
+                    }
+                    valueTablet = valueTablet.evaluateMixConditionOperator(type: currentProperty.type)
+                    currentProperty.valueTablet = valueTablet
                 }
                 if !propertyValueDesktopProp.isEmpty {
-                    currentProperty.valueDesktop = propertyValueDesktopProp
+                    actionProps.variables?.forEach { variableItem in
+                        valueDesktop = valueDesktop.getVariableValue(variableItem.key, variableItem.value.value)
+                    }
+                    valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
+                    currentProperty.valueDesktop = valueDesktop
                 }
                 blockProperties[currentProperty.key] = currentProperty
             }
