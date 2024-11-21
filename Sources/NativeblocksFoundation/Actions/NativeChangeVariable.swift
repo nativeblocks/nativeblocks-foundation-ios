@@ -48,15 +48,15 @@ class NativeChangeVariableAction: INativeAction {
 
             if value.hasOperator() {
                 value = {
-                    switch variable.type {
+                    switch variable.type.uppercased() {
                     case "INT":
-                        return String(value.operatorEvaluation()?.rounded() ?? 0)
+                        return String(value.evaluateOperator()?.rounded() ?? 0)
                     case "DOUBLE":
-                        return String(value.operatorEvaluation() ?? 0.0)
+                        return String(value.evaluateOperator() ?? 0.0)
                     case "LONG":
-                        return String(Int(value.operatorEvaluation() ?? 0.0))
+                        return String(Int(value.evaluateOperator() ?? 0.0))
                     case "FLOAT":
-                        return String(value.operatorEvaluation() ?? 0.0)
+                        return String(value.evaluateOperator() ?? 0.0)
                     default:
                         return value
                     }
@@ -65,9 +65,9 @@ class NativeChangeVariableAction: INativeAction {
 
             if value.hasCondition() {
                 value = {
-                    switch variable.type {
-                    case "BOOL":
-                        return String(value.operatorCondition())
+                    switch variable.type.uppercased() {
+                    case "BOOLEAN":
+                        return String(value.evaluateCondition())
                     default:
                         return value
                     }

@@ -17,8 +17,12 @@ public class NativeChangeBlockProperty {
         var blockKey: String
         @NativeActionProp(description: "key of the block's property")
         var propertyKey: String
-        @NativeActionProp(description: "new value for the block's property")
-        var propertyValue: String
+        @NativeActionProp(description: "new value for the block's Mobile property")
+        var propertyValueMobile: String
+        @NativeActionProp(description: "new value for the block's Tablet property")
+        var propertyValueTablet: String
+        @NativeActionProp(description: "new value for the block's Desktop property")
+        var propertyValueDesktop: String
         @NativeActionEvent(then: .NEXT)
         var onNext: () -> Void
     }
@@ -40,12 +44,22 @@ class NativeChangeBlockPropertyAction: INativeAction {
         let properties = actionProps.trigger?.properties ?? [:]
         let blockKeyProp = properties["blockKey"]?.value ?? ""
         let propertyKeyProp = properties["propertyKey"]?.value ?? ""
-        let propertyValueProp = properties["propertyValue"]?.value ?? ""
+        let propertyValueMobileProp = properties["propertyValueMobile"]?.value ?? ""
+        let propertyValueTabletProp = properties["propertyValueTablet"]?.value ?? ""
+        let propertyValueDesktopProp = properties["propertyValueDesktop"]?.value ?? ""
 
         if let block = actionProps.blocks?[blockKeyProp] {
             var blockProperties = block.properties ?? [:]
             if var currentProperty = blockProperties[propertyKeyProp] {
-                currentProperty.valueMobile = propertyValueProp
+                if !propertyValueMobileProp.isEmpty {
+                    currentProperty.valueMobile = propertyValueMobileProp
+                }
+                if !propertyValueTabletProp.isEmpty {
+                    currentProperty.valueTablet = propertyValueTabletProp
+                }
+                if !propertyValueDesktopProp.isEmpty {
+                    currentProperty.valueDesktop = propertyValueDesktopProp
+                }
                 blockProperties[currentProperty.key] = currentProperty
             }
 
@@ -58,7 +72,9 @@ class NativeChangeBlockPropertyAction: INativeAction {
         let param = NativeChangeBlockProperty.Parameter(
             blockKey: blockKeyProp,
             propertyKey: propertyKeyProp,
-            propertyValue: propertyValueProp,
+            propertyValueMobile: propertyValueMobileProp,
+            propertyValueTablet: propertyValueTabletProp,
+            propertyValueDesktop: propertyValueDesktopProp,
             onNext: {
 
                 if actionProps.trigger != nil {
