@@ -5,7 +5,8 @@ import SwiftUI
 @NativeBlock(
     name: "Native Text",
     keyType: "NATIVE_TEXT",
-    description: "Nativeblocks text block"
+    description: "Nativeblocks text block",
+    version: 1
 )
 struct NativeText: View {
     @NativeBlockData

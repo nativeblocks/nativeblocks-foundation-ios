@@ -5,7 +5,8 @@ import SwiftUI
 @NativeBlock(
     name: "Native Image",
     keyType: "NATIVE_IMAGE",
-    description: "Nativeblocks image block"
+    description: "Nativeblocks image block",
+    version: 1
 )
 struct NativeImage: View {
     @NativeBlockData

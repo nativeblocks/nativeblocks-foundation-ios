@@ -5,7 +5,8 @@ import SwiftUI
 @NativeBlock(
     name: "Native ScrollView",
     keyType: "NATIVE_SCROLLVIEW",
-    description: "Nativeblocks ScrollView block"
+    description: "Nativeblocks ScrollView block",
+    version: 1
 )
 struct NativeScrollView<Content: View>: View {
     @NativeBlockSlot

@@ -5,7 +5,8 @@ import SwiftUI
 @NativeBlock(
     name: "Native Spacer",
     keyType: "NATIVE_SPACER",
-    description: "Nativeblocks spacer block"
+    description: "Nativeblocks spacer block",
+    version: 1
 )
 struct NativeSpacer: View {
     @NativeBlockProp(

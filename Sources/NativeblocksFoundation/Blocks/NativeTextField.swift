@@ -6,7 +6,7 @@ import SwiftUI
     name: "Native Text field",
     keyType: "NATIVE_TEXT_FIELD",
     description: "Nativeblocks text field block",
-    version: 2
+    version: 1
 )
 struct NativeTextField: View {
     @NativeBlockData

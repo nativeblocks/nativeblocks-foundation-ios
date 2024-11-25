@@ -5,7 +5,8 @@ import SwiftUI
 @NativeBlock(
     name: "Native ZStack",
     keyType: "NATIVE_ZSTACK",
-    description: "Nativeblocks ZStack block"
+    description: "Nativeblocks ZStack block",
+    version: 1
 )
 struct NativeZStack<Content: View>: View {
     @NativeBlockSlot
