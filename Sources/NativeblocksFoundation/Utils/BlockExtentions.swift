@@ -42,14 +42,6 @@ func mapBlockVerticalAlignment(_ alignment: String) -> VerticalAlignment {
     }
 }
 
-func mapBlockImageContentMode(_ mode: String) -> ContentMode {
-    switch mode.lowercased() {
-    case "fill": return .fill
-    case "fit": return .fit
-    default: return .fill
-    }
-}
-
 extension String {
     public func isValidImageUrl() -> Bool {
         guard let url = URL(string: self) else {
@@ -168,64 +160,6 @@ extension View {
             }
 
         return self.environment(\.layoutDirection, blockDirection)
-    }
-}
-
-extension View {
-    public func blockAspectRatio(ratio: CGFloat, mode: String) -> some View {
-        switch mode.lowercased() {
-        case "fill":
-            return AnyView(self)
-
-        default:
-            if ratio > 0 {
-                return AnyView(
-                    self
-                        .aspectRatio(ratio ?? 1, contentMode: .fit))
-            } else {
-                return AnyView(
-                    self
-                        .aspectRatio(contentMode: .fit))
-            }
-        }
-    }
-}
-
-extension Image {
-    public func blockResizable(_ mode: String) -> Image {
-        var resizingMode: Image.ResizingMode? = nil
-        switch mode.lowercased() {
-        case "stretch":
-            resizingMode = .stretch
-        case "tile":
-            resizingMode = .tile
-        default:
-            resizingMode = nil
-        }
-
-        if resizingMode != nil {
-            return self.resizable(resizingMode: resizingMode!)
-        } else {
-            return self
-        }
-    }
-}
-
-extension Image {
-    public func blockInterpolation(_ value: String) -> Image {
-        var interpolation: Image.Interpolation = .none
-
-        switch value.lowercased() {
-        case "high":
-            interpolation = .high
-        case "low":
-            interpolation = .low
-        case "medium":
-            interpolation = .medium
-        default:
-            interpolation = .none
-        }
-        return self.interpolation(interpolation)
     }
 }
 

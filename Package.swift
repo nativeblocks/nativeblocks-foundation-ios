@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         //        .package(url: "git@github.com:nativeblocks/nativeblocks-ios-sdk.git", branch: "main"),
         //        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios.git", branch: "main"),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.1.1")),
         .package(path: "../nativeblocks-compiler-ios"),
         .package(path: "../nativeblocks-ios"),
     ],
@@ -24,6 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Nativeblocks", package: "nativeblocks-ios"),
                 .product(name: "NativeblocksCompiler", package: "nativeblocks-compiler-ios"),
+                .product(name: "Kingfisher", package: "Kingfisher"),
             ]
         ),
         .testTarget(
