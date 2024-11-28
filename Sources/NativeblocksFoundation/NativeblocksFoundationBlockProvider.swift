@@ -10,5 +10,6 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_VSTACK", block: NativeVStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_HSTACK", block: NativeHStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_TEXT_FIELD", block: NativeTextFieldBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_BUTTON", block: NativeButtonBlock())
     }
 }
