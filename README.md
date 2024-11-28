@@ -80,7 +80,13 @@ To integrate **NativeblocksFoundation** into your project, add it via Swift Pack
     import NativeblocksFoundation
     ```
 
-3. Start using the blocks provided by **NativeblocksFoundation** to create dynamic, server-driven UIs.
+3. Provide nativeblocks foundation blocks : 
+
+    ```swift
+    NativeblocksFoundationBlockProvider.provideBlocks()
+    ```
+
+4. Start using the blocks provided by **NativeblocksFoundation** to create dynamic, server-driven UIs.
 
 ### Sample App Example
 
@@ -105,6 +111,7 @@ struct SampleApp: App {
                 developmentMode: true
             )
         )
+        NativeblocksFoundationBlockProvider.provideBlocks() // ADD This line of codes
     }
 
     var body: some Scene {
