@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "nativeblocks-compiler-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nativeblocks/nativeblocks-compiler-ios",
+      "state" : {
+        "revision" : "ec72766606abbefb2ecb439ffe80ec42b9415b19",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "nativeblocks-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nativeblocks/nativeblocks-ios-sdk",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f4490cc34662e5f9269d4b593c977959ed18e974"
+      }
+    },
+    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",

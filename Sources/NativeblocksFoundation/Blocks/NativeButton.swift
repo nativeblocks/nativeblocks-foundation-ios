@@ -6,7 +6,7 @@ import SwiftUI
     name: "Native Button",
     keyType: "NATIVE_BUTTON",
     description: "Nativeblocks Button block",
-    version: 2
+    version: 1
 )
 struct NativeButton: View {
     @NativeBlockData

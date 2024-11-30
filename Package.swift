@@ -13,17 +13,17 @@ let package = Package(
         )
     ],
     dependencies: [
-        //        .package(url: "git@github.com:nativeblocks/nativeblocks-ios-sdk.git", branch: "main"),
-        //        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios.git", branch: "main"),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-ios-sdk", branch: "main"),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios", .upToNextMajor(from: "1.1.0")),
         .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.1.1")),
-        .package(path: "../nativeblocks-compiler-ios"),
-        .package(path: "../nativeblocks-ios"),
+//        .package(path: "../nativeblocks-compiler-ios"),
+//        .package(path: "../nativeblocks-ios"),
     ],
     targets: [
         .target(
             name: "NativeblocksFoundation",
             dependencies: [
-                .product(name: "Nativeblocks", package: "nativeblocks-ios"),
+                .product(name: "Nativeblocks", package: "nativeblocks-ios-sdk"),
                 .product(name: "NativeblocksCompiler", package: "nativeblocks-compiler-ios"),
                 .product(name: "Kingfisher", package: "Kingfisher"),
             ]
