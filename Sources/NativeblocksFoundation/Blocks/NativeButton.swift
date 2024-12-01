@@ -8,9 +8,13 @@ import SwiftUI
     description: "Nativeblocks Button block",
     version: 1
 )
-struct NativeButton: View {
+struct NativeButton<Content: View>: View {
     @NativeBlockData
     var text: String
+    @NativeBlockSlot
+    var leadingIcon: ((BlockIndex) -> Content)? = nil
+    @NativeBlockSlot
+    var trailingIcon: ((BlockIndex) -> Content)? = nil
     @NativeBlockData
     var disabled: Bool = false
     @NativeBlockProp(
@@ -37,18 +41,6 @@ struct NativeButton: View {
     var alignmentVertical: String = "center"
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Alignment"))
     var spacing: CGFloat = 6
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Icon"))
-    var iconSystemName: String = ""
-    @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Icon")
-    )
-    var iconWidth: CGFloat = 16
-    @NativeBlockProp(
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Icon")
-    )
-    var iconHeight: CGFloat = 16
     @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Font"))
     var fontFamily: String = "system"
     @NativeBlockProp(
@@ -177,7 +169,7 @@ struct NativeButton: View {
     @NativeBlockEvent
     var onClick: () -> Void
     var body: some View {
-        let background = Color(blockHex: disabled ?disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)
+        let background = Color(blockHex: disabled ? disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)
 
         let border = Color(blockHex: disabled ? disablBorderColor : borderColor) ?? Color.black.opacity(0)
 
@@ -189,14 +181,7 @@ struct NativeButton: View {
             }
         }) {
             HStack(alignment: mapBlockVerticalAlignment(alignmentVertical), spacing: spacing) {
-                if !iconSystemName.isEmpty {
-                    Image(systemName: iconSystemName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: iconWidth, height: iconHeight)
-                        .foregroundColor(foreground)
-                }
-
+                leadingIcon?(-1)
                 Text(text)
                     .blockFont(
                         family: fontFamily,
@@ -208,6 +193,7 @@ struct NativeButton: View {
                     .blockMultilineTextAlignment(multilineTextAlignment)
                     .lineLimit(lineLimit)
                     .lineSpacing(lineSpacing)
+                trailingIcon?(-1)
             }
             .blockWidthAndHeightModifier(
                 frameWidth,
@@ -229,7 +215,7 @@ struct NativeButton: View {
         .overlay(
             RoundedRectangle(
                 cornerRadius:
-                cornerRadius
+                    cornerRadius
             ).stroke(
                 border,
                 lineWidth: borderWidth
@@ -248,38 +234,32 @@ struct NativeButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 20) {
             NativeButton(
-                text: "Text 1",
-                alignmentHorizontal: "center",
-                alignmentVertical: "center",
-                iconSystemName: "a",
-                iconWidth: 16,
-                iconHeight: 16,
-                foregroundColor: "#FFFFFF",
-                direction: "LTR",
-                paddingTop: 10,
-                paddingLeading: 10,
-                paddingBottom: 10,
-                paddingTrailing: 10,
-                frameWidth: "80",
-                frameHeight: "40",
-                backgroundColor: "#ff000ff0",
-                cornerRadius: 10,
-                borderColor: "#00000000",
-                borderWidth: 3,
-                shadowColor: "#33000000",
-                shadowRadius: 0,
-                shadowX: 7,
-                shadowY: 7,
+                text: "Enable Action",
+                leadingIcon: { _ in
+                    AnyView(
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .foregroundColor(Color.primary))
+                },
+                trailingIcon: { _ in
+                    AnyView(
+                        Image(systemName: "a")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(Color.white))
+                },
                 onClick: {}
             )
 
             NativeButton(
-                text: "Text 2",
-                onClick: {}
-            )
-
-            NativeButton(
-                text: "Text 3",
+                text: "Disable Action",
+                leadingIcon: { _ in
+                    EmptyView()
+                },
+                trailingIcon: { _ in
+                    EmptyView()
+                },
                 disabled: true,
                 onClick: {}
             )
