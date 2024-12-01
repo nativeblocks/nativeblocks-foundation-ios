@@ -7,7 +7,7 @@ import SwiftUI
     name: "Native Image",
     keyType: "NATIVE_IMAGE",
     description: "Nativeblocks image block",
-    version: 1
+    version: 2
 )
 struct NativeImage<Content: View>: View {
     @NativeBlockData
@@ -63,10 +63,6 @@ struct NativeImage<Content: View>: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var cornerRadius: CGFloat = 0
-    @NativeBlockProp(
-        valuePickerGroup: NativeBlockValuePickerPosition("Cache")
-    )
-    var cacheMemoryOnly: Bool = false
 
     var body: some View {
         let shape = roundedRectangleShape(cornerRadius)
@@ -79,7 +75,6 @@ struct NativeImage<Content: View>: View {
                 }
                 .resizable()
                 .blockResizable(resizable)
-                .cacheMemoryOnly(cacheMemoryOnly)
                 .blockScaled(contentMode)
                 .blockWidthAndHeightModifier(frameWidth, frameHeight)
                 .contentShape(.rect)
