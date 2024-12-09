@@ -2,6 +2,27 @@ import Nativeblocks
 import NativeblocksCompiler
 import SwiftUI
 
+/// A customizable text field block for Nativeblocks.
+///
+/// `NativeTextField` allows for user input with various customization options, such as font, alignment,
+/// secure text entry, and event handling.
+///
+/// ### Features:
+/// - Handles secure and standard text input.
+/// - Configurable keyboard types, autocapitalization, and autocorrection.
+/// - Fully customizable font, padding, alignment, and frame.
+/// - Triggers events for text changes, editing status, and submission.
+///
+/// ### Example:
+/// ```swift
+/// NativeTextField(
+///     text: "Enter your text",
+///     isEditing: false,
+///     onCommit: { print("Commit!") },
+///     onEditingChanged: { isEditing in print("Editing: \(isEditing)") },
+///     onChange: { newText in print("Changed: \(newText)") }
+/// )
+/// ```
 @NativeBlock(
     name: "Native Text field",
     keyType: "NATIVE_TEXT_FIELD",
@@ -9,24 +30,48 @@ import SwiftUI
     version: 1
 )
 struct NativeTextField: View {
-    @NativeBlockData
+    // MARK: - Data Properties
+
+    /// The current text in the text field.
+    @NativeBlockData(description: "The current text in the text field.")
     var text: String
+
+    /// The local state of the text field for internal binding.
     @State private var localText: String
-    @NativeBlockData
+
+    /// Indicates whether the text field is currently being edited.
+    @NativeBlockData(description: "Indicates whether the text field is currently being edited.")
     var isEditing: Bool
-    @NativeBlockEvent
+
+    // MARK: - Event Properties
+
+    /// Triggered when the text field's editing is committed.
+    @NativeBlockEvent(description: "Triggered when the text field's editing is committed.")
     var onCommit: () -> Void
+
+    /// Triggered when the editing state changes, with `isEditing` updated automatically.
     @NativeBlockEvent(
+        description: "Triggered when the editing state changes. Updates `isEditing` automatically.",
         dataBinding: ["isEditing"]
     )
     var onEditingChanged: (Bool) -> Void
+
+    /// Triggered whenever the text in the text field changes, with `text` updated automatically.
     @NativeBlockEvent(
+        description: "Triggered whenever the text changes. Updates `text` automatically.",
         dataBinding: ["text"]
     )
     var onChange: (String) -> Void
-    @NativeBlockProp
+
+    // MARK: - Input Properties
+
+    /// Indicates whether the text field hides input for secure entry.
+    @NativeBlockProp(description: "Hides input for secure entry if set to true.")
     var isSecure: Bool = false
+
+    /// Specifies the keyboard type for the text field.
     @NativeBlockProp(
+        description: "Specifies the keyboard type for the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("default", "default"),
@@ -45,7 +90,10 @@ struct NativeTextField: View {
         ]
     )
     var keyboardType: String = "default"
+
+    /// Specifies the autocapitalization type for the text field.
     @NativeBlockProp(
+        description: "Specifies the autocapitalization type for the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("none", "none"),
@@ -55,11 +103,23 @@ struct NativeTextField: View {
         ]
     )
     var autocapitalization: String = "none"
-    @NativeBlockProp
+
+    /// Disables autocorrection if set to true.
+    @NativeBlockProp(description: "Disables autocorrection if set to true.")
     var disableAutocorrection: Bool = false
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Font"))
-    var fontFamily: String = "system"
+
+    // MARK: - Font Properties
+
+    /// The font family used in the text field.
     @NativeBlockProp(
+        description: "The font family used in the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+    )
+    var fontFamily: String = "system"
+
+    /// The font weight used in the text field.
+    @NativeBlockProp(
+        description: "The font weight used in the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("regular", "regular"),
@@ -75,7 +135,10 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Font")
     )
     var fontWeight: String = "regular"
+
+    /// The font design used in the text field.
     @NativeBlockProp(
+        description: "The font design used in the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("default", "default"),
@@ -86,33 +149,71 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Font")
     )
     var fontDesign: String = "default"
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Font"))
-    var fontSize: CGFloat = 16
+
+    /// The font size used in the text field.
     @NativeBlockProp(
+        description: "The font size used in the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+    )
+    var fontSize: CGFloat = 16
+
+    /// The text color of the text field.
+    @NativeBlockProp(
+        description: "The text color of the text field.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Font")
     )
     var foregroundColor: String = "#ff000000"
-    @NativeBlockProp
+
+    /// The background color of the text field.
+    @NativeBlockProp(description: "The background color of the text field.")
     var backgroundColor: String = "#00000000"
+
+    // MARK: - Layout and Appearance Properties
+
+    /// The layout direction of the text field (LTR or RTL).
     @NativeBlockProp(
+        description: "The layout direction of the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "LTR"),
+            NativeBlockValuePickerOption("RTL", "RTL"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Direction")
     )
     var direction: String = "LTR"
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
-    var paddingTop: CGFloat = 0
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
-    var paddingLeading: CGFloat = 0
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
-    var paddingBottom: CGFloat = 0
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Padding"))
-    var paddingTrailing: CGFloat = 0
+
+    /// The top padding of the text field.
     @NativeBlockProp(
+        description: "The top padding inside the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+    )
+    var paddingTop: CGFloat = 0
+
+    /// The leading (left) padding of the text field.
+    @NativeBlockProp(
+        description: "The leading padding inside the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+    )
+    var paddingLeading: CGFloat = 0
+
+    /// The bottom padding of the text field.
+    @NativeBlockProp(
+        description: "The bottom padding inside the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+    )
+    var paddingBottom: CGFloat = 0
+
+    /// The trailing (right) padding of the text field.
+    @NativeBlockProp(
+        description: "The trailing padding inside the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+    )
+    var paddingTrailing: CGFloat = 0
+
+    /// The width of the text field's frame.
+    @NativeBlockProp(
+        description: "The width of the text field's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -121,7 +222,10 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
     var frameWidth: String = "notSet"
+
+    /// The height of the text field's frame.
     @NativeBlockProp(
+        description: "The height of the text field's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -130,9 +234,16 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Size")
     )
     var frameHeight: String = "notSet"
-    @NativeBlockProp
+
+    /// The corner radius of the text field.
+    @NativeBlockProp(description: "The corner radius of the text field.")
     var cornerRadius: CGFloat = 8.0
+
+    // MARK: - Alignment Properties
+
+    /// The horizontal alignment of the text field.
     @NativeBlockProp(
+        description: "The horizontal alignment of the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("leading", "leading"),
@@ -142,19 +253,24 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
     var alignmentHorizontal: String = "leading"
+
+    /// The vertical alignment of the text field.
     @NativeBlockProp(
+        description: "The vertical alignment of the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("top", "top"),
             NativeBlockValuePickerOption("bottom", "bottom"),
             NativeBlockValuePickerOption("center", "center"),
             NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
     var alignmentVertical: String = "top"
+
+    /// The multiline text alignment of the text field.
     @NativeBlockProp(
+        description: "The alignment for multiline text within the text field.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("leading", "leading"),
@@ -164,9 +280,19 @@ struct NativeTextField: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Font")
     )
     var multilineTextAlignment: String = "leading"
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Font"))
+
+    /// The maximum number of lines allowed in the text field.
+    @NativeBlockProp(
+        description: "The maximum number of lines for the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+    )
     var lineLimit: Int = 9999
-    @NativeBlockProp(valuePickerGroup: NativeBlockValuePickerPosition("Font"))
+
+    /// The spacing between lines of text.
+    @NativeBlockProp(
+        description: "The spacing between lines of text in the text field.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+    )
     var lineSpacing: CGFloat = 0
 
     init(
