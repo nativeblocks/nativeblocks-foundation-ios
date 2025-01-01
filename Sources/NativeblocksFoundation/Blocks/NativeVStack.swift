@@ -32,9 +32,14 @@ import SwiftUI
     name: "Native VStack",
     keyType: "NATIVE_VSTACK",
     description: "Nativeblocks VStack block",
-    version: 1
+    version: 2
 )
 struct NativeVStack<Content: View>: View {
+    @NativeBlockData(
+        description:
+            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked."
+    )
+    var list: String = ""
     // MARK: - Slot Properties
 
     /// The content of the VStack, provided as a slot.
@@ -220,7 +225,14 @@ struct NativeVStack<Content: View>: View {
             alignment: mapBlockAlignmentHorizontal(alignmentHorizontal),
             spacing: spacing
         ) {
-            content(-1)
+            let listArray = list.parseBlockList()
+            if listArray != nil {
+                ForEach(0..<max(1, listArray?.count ?? 0), id: \.self) { index in
+                    content(index)
+                }
+            } else {
+                content(-1)
+            }
         }
         .blockWidthAndHeightModifier(
             frameWidth,

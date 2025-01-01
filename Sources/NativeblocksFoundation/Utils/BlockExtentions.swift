@@ -1,4 +1,5 @@
 import Foundation
+import Nativeblocks
 import SwiftUI
 
 /// Maps a horizontal alignment string to the corresponding `HorizontalAlignment`.
@@ -218,6 +219,7 @@ extension Color {
         self.init(red: r, green: g, blue: b, opacity: a)
     }
 }
+
 /// Creates a rounded rectangle shape with the specified corner radius.
 /// - Parameter radius: The corner radius of the rounded rectangle.
 /// - Returns: A `RoundedRectangle` with the specified corner radius.
@@ -351,5 +353,11 @@ extension View {
         } else {
             return self
         }
+    }
+}
+
+extension String {
+    func parseBlockList() -> [Any]? {
+        return NativeJsonPath().query(jsonString: self, query: "$") as? [Any]
     }
 }

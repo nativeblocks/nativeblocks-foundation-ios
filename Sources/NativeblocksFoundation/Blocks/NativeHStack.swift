@@ -27,9 +27,15 @@ import SwiftUI
     name: "Native HStack",
     keyType: "NATIVE_HSTACK",
     description: "Nativeblocks HStack block",
-    version: 1
+    version: 2
 )
 struct NativeHStack<Content: View>: View {
+    @NativeBlockData(
+        description:
+            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked."
+    )
+    var list: String = ""
+
     // MARK: - Properties
 
     /// The content of the HStack, defined as a slot.
@@ -222,7 +228,14 @@ struct NativeHStack<Content: View>: View {
             alignment: mapBlockVerticalAlignment(alignmentVertical),
             spacing: spacing
         ) {
-            content(-1)
+            let listArray = list.parseBlockList()
+            if list != nil {
+                ForEach(0..<max(1, listArray?.count ?? 0), id: \.self) { index in
+                    content(index)
+                }
+            } else {
+                content(-1)
+            }
         }
         .blockWidthAndHeightModifier(
             frameWidth, frameHeight,
