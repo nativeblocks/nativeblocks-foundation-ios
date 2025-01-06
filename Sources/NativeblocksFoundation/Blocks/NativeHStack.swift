@@ -213,7 +213,7 @@ struct NativeHStack<Content: View>: View {
     @NativeBlockEvent(
         description: "The action triggered when the HStack is tapped."
     )
-    var onClick: () -> Void
+    var onClick: (() -> Void)?
 
     // MARK: - Body
 
@@ -252,8 +252,9 @@ struct NativeHStack<Content: View>: View {
         )
         .blockDirection(direction)
         .onTapGesture {
-            onClick()
+            onClick?()
         }
+        .disabled(onClick == nil)
     }
 }
 
