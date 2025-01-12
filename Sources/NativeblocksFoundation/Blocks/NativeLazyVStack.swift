@@ -2,9 +2,9 @@ import Nativeblocks
 import NativeblocksCompiler
 import SwiftUI
 
-/// A customizable vertical stack (VStack) block for Nativeblocks.
+/// A customizable lazy vertical stack (LazyVStack) block for Nativeblocks.
 ///
-/// `NativeVStack` allows you to stack child views vertically with alignment, spacing, padding,
+/// `NativeLazyVStack` allows you to stack child views vertically with alignment, spacing, padding,
 /// and styling options. It also supports click events and customizable layout direction.
 ///
 /// ### Features:
@@ -16,7 +16,7 @@ import SwiftUI
 ///
 /// ### Example:
 /// ```swift
-/// NativeVStack(
+/// NativeLazyVStack(
 ///     content: { _ in
 ///          Text("Top Left Aligned")
 ///            .padding()
@@ -25,16 +25,16 @@ import SwiftUI
 ///     alignmentVertical: "top",
 ///     spacing: 10,
 ///     backgroundColor: "#ffffff",
-///     onClick: { print("VStack clicked") }
+///     onClick: { print("LazyVStack clicked") }
 /// )
 /// ```
 @NativeBlock(
-    name: "Native VStack",
-    keyType: "NATIVE_VSTACK",
-    description: "Nativeblocks VStack block",
-    version: 2
+    name: "Native LazyVStack",
+    keyType: "NATIVE_LAZY_VSTACK",
+    description: "Nativeblocks LazyVStack block",
+    version: 1
 )
-struct NativeVStack<Content: View>: View {
+struct NativeLazyVStack<Content: View>: View {
     @NativeBlockData(
         description:
             "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked."
@@ -42,15 +42,15 @@ struct NativeVStack<Content: View>: View {
     var list: String = ""
     // MARK: - Slot Properties
 
-    /// The content of the VStack, provided as a slot.
-    @NativeBlockSlot(description: "The content to display inside the VStack.")
+    /// The content of the LazyVStack, provided as a slot.
+    @NativeBlockSlot(description: "The content to display inside the LazyVStack.")
     var content: (BlockIndex) -> Content
 
     // MARK: - Alignment Properties
 
-    /// The horizontal alignment of the VStack's content.
+    /// The horizontal alignment of the LazyVStack's content.
     @NativeBlockProp(
-        description: "The horizontal alignment of the VStack's content.",
+        description: "The horizontal alignment of the LazyVStack's content.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("leading", "leading"),
@@ -61,9 +61,9 @@ struct NativeVStack<Content: View>: View {
     )
     var alignmentHorizontal: String = "leading"
 
-    /// The vertical alignment of the VStack's content.
+    /// The vertical alignment of the LazyVStack's content.
     @NativeBlockProp(
-        description: "The vertical alignment of the VStack's content.",
+        description: "The vertical alignment of the LazyVStack's content.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("top", "top"),
@@ -78,16 +78,16 @@ struct NativeVStack<Content: View>: View {
 
     // MARK: - Layout Properties
 
-    /// The spacing between child views in the VStack.
+    /// The spacing between child views in the LazyVStack.
     @NativeBlockProp(
-        description: "The spacing between child views in the VStack.",
+        description: "The spacing between child views in the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
     )
     var spacing: CGFloat = 0
 
-    /// The layout direction of the VStack (LTR or RTL).
+    /// The layout direction of the LazyVStack (LTR or RTL).
     @NativeBlockProp(
-        description: "The layout direction of the VStack.",
+        description: "The layout direction of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("LTR", "LTR"),
@@ -99,39 +99,39 @@ struct NativeVStack<Content: View>: View {
 
     // MARK: - Padding Properties
 
-    /// The top padding inside the VStack.
+    /// The top padding inside the LazyVStack.
     @NativeBlockProp(
-        description: "The top padding inside the VStack.",
+        description: "The top padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding")
     )
     var paddingTop: CGFloat = 0
 
-    /// The leading (left) padding inside the VStack.
+    /// The leading (left) padding inside the LazyVStack.
     @NativeBlockProp(
-        description: "The leading padding inside the VStack.",
+        description: "The leading padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding")
     )
     var paddingLeading: CGFloat = 0
 
-    /// The bottom padding inside the VStack.
+    /// The bottom padding inside the LazyVStack.
     @NativeBlockProp(
-        description: "The bottom padding inside the VStack.",
+        description: "The bottom padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding")
     )
     var paddingBottom: CGFloat = 0
 
-    /// The trailing (right) padding inside the VStack.
+    /// The trailing (right) padding inside the LazyVStack.
     @NativeBlockProp(
-        description: "The trailing padding inside the VStack.",
+        description: "The trailing padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding")
     )
     var paddingTrailing: CGFloat = 0
 
     // MARK: - Frame Properties
 
-    /// The width of the VStack's frame.
+    /// The width of the LazyVStack's frame.
     @NativeBlockProp(
-        description: "The width of the VStack's frame.",
+        description: "The width of the LazyVStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -141,9 +141,9 @@ struct NativeVStack<Content: View>: View {
     )
     var frameWidth: String = "notSet"
 
-    /// The height of the VStack's frame.
+    /// The height of the LazyVStack's frame.
     @NativeBlockProp(
-        description: "The height of the VStack's frame.",
+        description: "The height of the LazyVStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -155,73 +155,73 @@ struct NativeVStack<Content: View>: View {
 
     // MARK: - Background and Styling Properties
 
-    /// The background color of the VStack.
+    /// The background color of the LazyVStack.
     @NativeBlockProp(
-        description: "The background color of the VStack.",
+        description: "The background color of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var backgroundColor: String = "#00000000"
 
-    /// The corner radius of the VStack.
+    /// The corner radius of the LazyVStack.
     @NativeBlockProp(
-        description: "The corner radius of the VStack.",
+        description: "The corner radius of the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var cornerRadius: CGFloat = 0
 
-    /// The border color of the VStack.
+    /// The border color of the LazyVStack.
     @NativeBlockProp(
-        description: "The border color of the VStack.",
+        description: "The border color of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var borderColor: String = "#00000000"
 
-    /// The border width of the VStack.
+    /// The border width of the LazyVStack.
     @NativeBlockProp(
-        description: "The border width of the VStack.",
+        description: "The border width of the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var borderWidth: CGFloat = 0
 
-    /// The shadow color of the VStack.
+    /// The shadow color of the LazyVStack.
     @NativeBlockProp(
-        description: "The shadow color of the VStack.",
+        description: "The shadow color of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var shadowColor: String = "#00000000"
 
-    /// The shadow radius of the VStack.
+    /// The shadow radius of the LazyVStack.
     @NativeBlockProp(
-        description: "The shadow radius of the VStack.",
+        description: "The shadow radius of the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var shadowRadius: CGFloat = 0
 
-    /// The horizontal shadow offset of the VStack.
+    /// The horizontal shadow offset of the LazyVStack.
     @NativeBlockProp(
-        description: "The horizontal shadow offset of the VStack.",
+        description: "The horizontal shadow offset of the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var shadowX: CGFloat = 0
 
-    /// The vertical shadow offset of the VStack.
+    /// The vertical shadow offset of the LazyVStack.
     @NativeBlockProp(
-        description: "The vertical shadow offset of the VStack.",
+        description: "The vertical shadow offset of the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background")
     )
     var shadowY: CGFloat = 0
 
     // MARK: - Event Properties
 
-    /// Triggered when the VStack is clicked.
-    @NativeBlockEvent(description: "Triggered when the VStack is clicked.")
-    var onClick: (() -> Void)?
+    /// Triggered when the LazyVStack is clicked.
+    @NativeBlockEvent(description: "Triggered when the LazyVStack is clicked.")
+    var onClick: () -> Void
 
     var body: some View {
-        VStack(
+        LazyVStack(
             alignment: mapBlockAlignmentHorizontal(alignmentHorizontal),
             spacing: spacing
         ) {
@@ -262,14 +262,13 @@ struct NativeVStack<Content: View>: View {
         )
         .blockDirection(direction)
         .onTapGesture {
-            onClick?()
+            onClick()
         }
-        .disabled(onClick == nil)
     }
 }
 
 #Preview("Simple") {
-    NativeVStack(
+    NativeLazyVStack(
         content: { _ in
             Text("Text 1")
         },
@@ -297,7 +296,7 @@ struct NativeVStack<Content: View>: View {
 
 #Preview("with Pading") {
     ZStack {
-        NativeVStack(
+        NativeLazyVStack(
             content: { _ in
                 Text("Top Left Aligned")
                     .padding()

@@ -25,7 +25,7 @@ import SwiftUI
     name: "Native Button",
     keyType: "NATIVE_BUTTON",
     description: "Nativeblocks Button block",
-    version: 1
+    version: 2
 )
 struct NativeButton<Content: View>: View {
     /// The text displayed on the button.
@@ -41,8 +41,8 @@ struct NativeButton<Content: View>: View {
     var trailingIcon: ((BlockIndex) -> Content)? = nil
 
     /// Determines whether the button is disabled.
-    @NativeBlockData(description: "When true, the button is disabled and non-interactive.")
-    var disabled: Bool = false
+    @NativeBlockData(description: "When fale, the button is disabled and non-interactive.")
+    var enable: Bool = false
 
     /// The horizontal alignment of the button content.
     @NativeBlockProp(
@@ -313,15 +313,15 @@ struct NativeButton<Content: View>: View {
     var onClick: (() -> Void)?
 
     var body: some View {
-        let background = Color(blockHex: disabled ? disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)
+        let background = Color(blockHex: !enable ? disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)
 
-        let border = Color(blockHex: disabled ? disablBorderColor : borderColor) ?? Color.black.opacity(0)
+        let border = Color(blockHex: !enable ? disablBorderColor : borderColor) ?? Color.black.opacity(0)
 
-        let foreground = Color(blockHex: disabled ? disableForegroundColor : foregroundColor) ?? Color.black.opacity(0)
+        let foreground = Color(blockHex: !enable ? disableForegroundColor : foregroundColor) ?? Color.black.opacity(0)
 
         Button(action: {
-            if !disabled {
-                onClick?()
+            if enable {
+                onClick()
             }
         }) {
             HStack(alignment: mapBlockVerticalAlignment(alignmentVertical), spacing: spacing) {
@@ -353,7 +353,7 @@ struct NativeButton<Content: View>: View {
             .padding(.trailing, paddingTrailing)
         }
 
-        .disabled(disabled)
+        .disabled(!enable)
         .background(background)
         .cornerRadius(cornerRadius)
         .overlay(
@@ -404,7 +404,7 @@ struct NativeButton_Previews: PreviewProvider {
                 trailingIcon: { _ in
                     EmptyView()
                 },
-                disabled: true,
+                enable: true,
                 onClick: {}
             )
         }
