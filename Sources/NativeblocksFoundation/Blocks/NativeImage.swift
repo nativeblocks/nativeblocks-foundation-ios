@@ -63,7 +63,8 @@ struct NativeImage<Content: View>: View {
         valuePickerOptions: [
             NativeBlockValuePickerOption("fill", "fill"),
             NativeBlockValuePickerOption("fit", "fit"),
-        ]
+        ],
+        defaultValue: "fit"
     )
     var contentMode: String = "fit"
 
@@ -80,7 +81,8 @@ struct NativeImage<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("stretch", "stretch"),
             NativeBlockValuePickerOption("tile", "tile"),
-        ]
+        ],
+        defaultValue: "stretch"
     )
     var resizable: String = "stretch"
 
@@ -98,7 +100,8 @@ struct NativeImage<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameWidth: String = "notSet"
 
@@ -114,7 +117,8 @@ struct NativeImage<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
 
@@ -125,16 +129,18 @@ struct NativeImage<Content: View>: View {
     @NativeBlockProp(
         description: "The background color of the image.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var backgroundColor: String = "#00000000"
+    var backgroundColor: Color = Color.black.opacity(0)
 
     /// The corner radius of the image for rounded corners.
     /// - `valuePicker`: A number input for specifying the radius.
     @NativeBlockProp(
         description: "The corner radius of the image for rounded corners.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var cornerRadius: CGFloat = 0
 
@@ -142,7 +148,6 @@ struct NativeImage<Content: View>: View {
 
     var body: some View {
         let shape = roundedRectangleShape(cornerRadius)
-        let background = Color(blockHex: backgroundColor) ?? Color.black.opacity(0)
 
         if imageUrl.isValidImageUrl() {
             KFImage(URL(string: imageUrl))
@@ -154,7 +159,7 @@ struct NativeImage<Content: View>: View {
                 .blockScaled(contentMode)
                 .blockWidthAndHeightModifier(frameWidth, frameHeight)
                 .contentShape(.rect)
-                .background(background)
+                .background(backgroundColor)
                 .clipShape(shape)
                 .accessibility(label: Text(contentDescription))
         } else {

@@ -50,9 +50,10 @@ struct NativeZStack<Content: View>: View {
             NativeBlockValuePickerOption("trailing", "trailing"),
             NativeBlockValuePickerOption("center", "center"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "leading"
     )
-    var alignmentHorizontal: String = "leading"
+    var alignmentHorizontal: HorizontalAlignment = .leading
 
     /// The vertical alignment of the ZStack's content.
     @NativeBlockProp(
@@ -65,16 +66,18 @@ struct NativeZStack<Content: View>: View {
             NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
             NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "top"
     )
-    var alignmentVertical: String = "top"
+    var alignmentVertical: VerticalAlignment = .top
 
     // MARK: - Layout Properties
 
     /// The spacing between child views in the ZStack.
     @NativeBlockProp(
         description: "The spacing between child views in the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "0"
     )
     var spacing: CGFloat = 0
 
@@ -86,37 +89,42 @@ struct NativeZStack<Content: View>: View {
             NativeBlockValuePickerOption("LTR", "LTR"),
             NativeBlockValuePickerOption("RTL", "RTL"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction")
+        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
+        defaultValue: "LTR"
     )
-    var direction: String = "LTR"
+    var direction: LayoutDirection = .leftToRight
 
     // MARK: - Padding Properties
 
     /// The top padding inside the ZStack.
     @NativeBlockProp(
         description: "The top padding inside the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
 
     /// The leading (left) padding inside the ZStack.
     @NativeBlockProp(
         description: "The leading padding inside the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
 
     /// The bottom padding inside the ZStack.
     @NativeBlockProp(
         description: "The bottom padding inside the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
 
     /// The trailing (right) padding inside the ZStack.
     @NativeBlockProp(
         description: "The trailing padding inside the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
 
@@ -130,7 +138,8 @@ struct NativeZStack<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameWidth: String = "notSet"
 
@@ -142,7 +151,8 @@ struct NativeZStack<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
 
@@ -152,14 +162,16 @@ struct NativeZStack<Content: View>: View {
     @NativeBlockProp(
         description: "The background color of the ZStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var backgroundColor: String = "#00000000"
+    var backgroundColor: Color = Color.black.opacity(0)
 
     /// The corner radius of the ZStack.
     @NativeBlockProp(
         description: "The corner radius of the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var cornerRadius: CGFloat = 0
 
@@ -167,14 +179,16 @@ struct NativeZStack<Content: View>: View {
     @NativeBlockProp(
         description: "The border color of the ZStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var borderColor: String = "#00000000"
+    var borderColor: Color = Color.black.opacity(0)
 
     /// The border width of the ZStack.
     @NativeBlockProp(
         description: "The border width of the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
 
@@ -182,28 +196,32 @@ struct NativeZStack<Content: View>: View {
     @NativeBlockProp(
         description: "The shadow color of the ZStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var shadowColor: String = "#00000000"
+    var shadowColor: Color = Color.black.opacity(0)
 
     /// The shadow radius of the ZStack.
     @NativeBlockProp(
         description: "The shadow radius of the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var shadowRadius: CGFloat = 0
 
     /// The horizontal shadow offset of the ZStack.
     @NativeBlockProp(
         description: "The horizontal shadow offset of the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var shadowX: CGFloat = 0
 
     /// The vertical shadow offset of the ZStack.
     @NativeBlockProp(
         description: "The vertical shadow offset of the ZStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var shadowY: CGFloat = 0
 
@@ -216,8 +234,8 @@ struct NativeZStack<Content: View>: View {
     var body: some View {
         ZStack(
             alignment: Alignment(
-                horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
-                vertical: mapBlockVerticalAlignment(alignmentVertical)
+                horizontal: alignmentHorizontal,
+                vertical: alignmentVertical
             )
         ) {
             content(-1)
@@ -225,30 +243,30 @@ struct NativeZStack<Content: View>: View {
         .blockWidthAndHeightModifier(
             frameWidth, frameHeight,
             alignment: Alignment(
-                horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
-                vertical: mapBlockVerticalAlignment(alignmentVertical)
+                horizontal: alignmentHorizontal,
+                vertical: alignmentVertical
             )
         )
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
-        .background(Color(blockHex: backgroundColor) ?? Color.black.opacity(0))
+        .background(backgroundColor)
         .cornerRadius(cornerRadius)
         .overlay(
             RoundedRectangle(
                 cornerRadius:
                     cornerRadius
             ).stroke(
-                Color(blockHex: borderColor) ?? Color.black.opacity(0),
+                borderColor,
                 lineWidth: borderWidth
             )
         )
         .shadow(
-            color: Color(blockHex: shadowColor) ?? Color.black.opacity(0),
+            color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .blockDirection(direction)
+        .environment(\.layoutDirection, direction)
         .onTapGesture {
             onClick?()
         }
@@ -256,61 +274,17 @@ struct NativeZStack<Content: View>: View {
     }
 }
 
-#Preview("Simple") {
-    NativeZStack(
-        content: { _ in
-            Text("Text 1")
-        },
-        alignmentHorizontal: "leading",
-        alignmentVertical: "top",
-        spacing: 0,
-        direction: "LTR",
-        paddingTop: 0,
-        paddingLeading: 0,
-        paddingBottom: 0,
-        paddingTrailing: 0,
-        frameWidth: "notSet",
-        frameHeight: "notSet",
-        backgroundColor: "#00000000",
-        cornerRadius: 0,
-        borderColor: "#00000000",
-        borderWidth: 0,
-        shadowColor: "#00000000",
-        shadowRadius: 0,
-        shadowX: 0,
-        shadowY: 0,
-        onClick: {}
-    )
-}
+struct NativeZStack_Previews: PreviewProvider {
+    init() {
+        NativeblocksFoundationTypeProvider.provideTypes()
+    }
 
-#Preview("with Pading") {
-    ZStack {
+    static var previews: some View {
         NativeZStack(
             content: { _ in
-                Text("Top Left Aligned")
-                    .padding()
+                Text("Text 1")
             },
-            alignmentHorizontal: "trailing",
-            alignmentVertical: "center",
-            spacing: 0,
-            direction: "LTR",
-            paddingTop: 8,
-            paddingLeading: 8,
-            paddingBottom: 8,
-            paddingTrailing: 8,
-            frameWidth: "300",
-            frameHeight: "200",
-            backgroundColor: "#ff0000ff",
-            cornerRadius: 30,
-            borderColor: "#ff000000",
-            borderWidth: 5,
-            shadowColor: "#ff000000",
-            shadowRadius: 30,
-            shadowX: 7,
-            shadowY: 7,
             onClick: {}
         )
     }
-    .padding(10)
-    .background(Color.blue)
 }

@@ -41,8 +41,11 @@ struct NativeButton<Content: View>: View {
     var trailingIcon: ((BlockIndex) -> Content)? = nil
 
     /// Determines whether the button is disabled.
-    @NativeBlockData(description: "When fale, the button is disabled and non-interactive.")
-    var enable: Bool = false
+    @NativeBlockData(
+        description: "When true, the button is disabled and non-interactive.",
+        defaultValue: "true"
+    )
+    var enable: Bool = true
 
     /// The horizontal alignment of the button content.
     @NativeBlockProp(
@@ -53,9 +56,10 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("trailing", "trailing"),
             NativeBlockValuePickerOption("center", "center"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "center"
     )
-    var alignmentHorizontal: String = "center"
+    var alignmentHorizontal: HorizontalAlignment = HorizontalAlignment.center
 
     /// The vertical alignment of the button content.
     @NativeBlockProp(
@@ -68,21 +72,24 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
             NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "center"
     )
-    var alignmentVertical: String = "center"
+    var alignmentVertical: VerticalAlignment = VerticalAlignment.center
 
     /// The spacing between elements inside the button.
     @NativeBlockProp(
         description: "The spacing between elements inside the button.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment")
+        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
+        defaultValue: "6"
     )
     var spacing: CGFloat = 6
 
     /// The font family of the button text.
     @NativeBlockProp(
         description: "The font family for the button text.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "system"
     )
     var fontFamily: String = "system"
 
@@ -101,9 +108,10 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("light", "light"),
             NativeBlockValuePickerOption("ultralight", "ultralight"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "regular"
     )
-    var fontWeight: String = "regular"
+    var fontWeight: Font.Weight = Font.Weight.regular
 
     /// The design of the font for the button text.
     @NativeBlockProp(
@@ -115,14 +123,16 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("rounded", "rounded"),
             NativeBlockValuePickerOption("serif", "serif"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "default"
     )
-    var fontDesign: String = "default"
+    var fontDesign: Font.Design = Font.Design.default
 
     /// The size of the font for the button text.
     @NativeBlockProp(
         description: "The font size for the button text.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "16"
     )
     var fontSize: CGFloat = 16
 
@@ -130,17 +140,19 @@ struct NativeButton<Content: View>: View {
     @NativeBlockProp(
         description: "The color of the text when the button is enabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "#ffffffff"
     )
-    var foregroundColor: String = "#ffffffff"
+    var foregroundColor: Color = .white
 
     /// The foreground color of the button text when disabled.
     @NativeBlockProp(
         description: "The color of the text when the button is disabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "#ff000000"
     )
-    var disableForegroundColor: String = "#ff000000"
+    var disableForegroundColor: Color = .black
 
     /// The alignment of multi-line text in the button.
     @NativeBlockProp(
@@ -151,21 +163,24 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("center", "center"),
             NativeBlockValuePickerOption("trailing", "trailing"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "center"
     )
-    var multilineTextAlignment: String = "center"
+    var multilineTextAlignment: TextAlignment = TextAlignment.center
 
     /// The maximum number of lines for the button text.
     @NativeBlockProp(
         description: "The maximum number of lines for the button text.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "9999"
     )
     var lineLimit: Int = 9999
 
     /// The spacing between lines of the button text.
     @NativeBlockProp(
         description: "The spacing between lines of text in the button.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Font")
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
+        defaultValue: "0"
     )
     var lineSpacing: CGFloat = 0
 
@@ -177,35 +192,40 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("LTR", "LTR"),
             NativeBlockValuePickerOption("RTL", "RTL"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction")
+        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
+        defaultValue: "LTR"
     )
-    var direction: String = "LTR"
+    var direction: LayoutDirection = LayoutDirection.leftToRight
 
     /// The top padding of the button content.
     @NativeBlockProp(
         description: "The top padding of the button content.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
     )
     var paddingTop: CGFloat = 8
 
     /// The leading (left) padding of the button content.
     @NativeBlockProp(
         description: "The leading padding of the button content.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
     )
     var paddingLeading: CGFloat = 8
 
     /// The bottom padding of the button content.
     @NativeBlockProp(
         description: "The bottom padding of the button content.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
     )
     var paddingBottom: CGFloat = 8
 
     /// The trailing (right) padding of the button content.
     @NativeBlockProp(
         description: "The trailing padding of the button content.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Padding")
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
     )
     var paddingTrailing: CGFloat = 8
 
@@ -217,7 +237,8 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameWidth: String = "notSet"
 
@@ -229,7 +250,8 @@ struct NativeButton<Content: View>: View {
             NativeBlockValuePickerOption("notSet", "notSet"),
             NativeBlockValuePickerOption("infinity", "infinity"),
         ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Size")
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
 
@@ -237,22 +259,25 @@ struct NativeButton<Content: View>: View {
     @NativeBlockProp(
         description: "The background color of the button when enabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#ff000ff0"
     )
-    var backgroundColor: String = "#ff000ff0"
+    var backgroundColor: Color = .blue
 
     /// The background color of the button when disabled.
     @NativeBlockProp(
         description: "The background color of the button when disabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#ffc1c1c1"
     )
-    var disableBackgroundColor: String = "#c1c1c1"
+    var disableBackgroundColor: Color = .gray
 
     /// The corner radius of the button.
     @NativeBlockProp(
         description: "The corner radius of the button.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "4"
     )
     var cornerRadius: CGFloat = 4
 
@@ -260,22 +285,25 @@ struct NativeButton<Content: View>: View {
     @NativeBlockProp(
         description: "The border color of the button when enabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var borderColor: String = "#00000000"
+    var borderColor: Color = Color.black.opacity(0)
 
     /// The border color of the button when disabled.
     @NativeBlockProp(
         description: "The border color of the button when disabled.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var disablBorderColor: String = "#00000000"
+    var disablBorderColor: Color = Color.black.opacity(0)
 
     /// The width of the button's border.
     @NativeBlockProp(
         description: "The width of the button border.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
 
@@ -283,28 +311,32 @@ struct NativeButton<Content: View>: View {
     @NativeBlockProp(
         description: "The shadow color of the button.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
     )
-    var shadowColor: String = "#00000000"
+    var shadowColor: Color = Color.black.opacity(0)
 
     /// The blur radius of the button's shadow.
     @NativeBlockProp(
         description: "The blur radius of the button shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "0"
     )
     var shadowRadius: CGFloat = 0
 
     /// The horizontal offset of the shadow.
     @NativeBlockProp(
         description: "The horizontal offset of the button shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "2"
     )
     var shadowX: CGFloat = 2
 
     /// The vertical offset of the shadow.
     @NativeBlockProp(
         description: "The vertical offset of the button shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background")
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "2"
     )
     var shadowY: CGFloat = 2
 
@@ -313,18 +345,17 @@ struct NativeButton<Content: View>: View {
     var onClick: (() -> Void)?
 
     var body: some View {
-        let background = Color(blockHex: !enable ? disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)
+        let background = !enable ? disableBackgroundColor : backgroundColor
 
-        let border = Color(blockHex: !enable ? disablBorderColor : borderColor) ?? Color.black.opacity(0)
+        let border = !enable ? disablBorderColor : borderColor
 
-        let foreground = Color(blockHex: !enable ? disableForegroundColor : foregroundColor) ?? Color.black.opacity(0)
-
+        let foreground = !enable ? disableForegroundColor : foregroundColor
         Button(action: {
             if enable {
-                onClick()
+                onClick?()
             }
         }) {
-            HStack(alignment: mapBlockVerticalAlignment(alignmentVertical), spacing: spacing) {
+            HStack(alignment: alignmentVertical, spacing: spacing) {
                 leadingIcon?(-1)
                 Text(text)
                     .blockFont(
@@ -334,7 +365,7 @@ struct NativeButton<Content: View>: View {
                         design: fontDesign
                     )
                     .foregroundColor(foreground)
-                    .blockMultilineTextAlignment(multilineTextAlignment)
+                    .multilineTextAlignment(multilineTextAlignment)
                     .lineLimit(lineLimit)
                     .lineSpacing(lineSpacing)
                 trailingIcon?(-1)
@@ -343,8 +374,8 @@ struct NativeButton<Content: View>: View {
                 frameWidth,
                 frameHeight,
                 alignment: Alignment(
-                    horizontal: mapBlockAlignmentHorizontal(alignmentHorizontal),
-                    vertical: mapBlockVerticalAlignment(alignmentVertical)
+                    horizontal: alignmentHorizontal,
+                    vertical: alignmentVertical
                 )
             )
             .padding(.top, paddingTop)
@@ -366,15 +397,19 @@ struct NativeButton<Content: View>: View {
             )
         )
         .shadow(
-            color: Color(blockHex: shadowColor) ?? Color.black.opacity(0),
+            color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .blockDirection(direction)
+        .environment(\.layoutDirection, direction)
         .buttonStyle(PlainButtonStyle())
     }
 }
 
 struct NativeButton_Previews: PreviewProvider {
+    init() {
+        NativeblocksFoundationTypeProvider.provideTypes()
+    }
+
     static var previews: some View {
         VStack(spacing: 20) {
             NativeButton(
@@ -404,7 +439,7 @@ struct NativeButton_Previews: PreviewProvider {
                 trailingIcon: { _ in
                     EmptyView()
                 },
-                enable: true,
+                enable: false,
                 onClick: {}
             )
         }
