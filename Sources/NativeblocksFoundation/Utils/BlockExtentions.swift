@@ -78,6 +78,133 @@ public func roundedRectangleShape(
     return RoundedRectangle(cornerRadius: radius)
 }
 
+extension View {
+    /// Sets the keyboard type for text input fields within the view's environment.
+    /// - Parameter type: A string representing the keyboard type (e.g., "asciicapable", "numberpad").
+    /// - Returns: A view with the specified keyboard type applied.
+    ///
+    /// Supported keyboard types:
+    /// - "asciicapable"
+    /// - "numbersandpunctuation"
+    /// - "url"
+    /// - "numberpad"
+    /// - "phonepad"
+    /// - "namephonepad"
+    /// - "emailaddress"
+    /// - "decimalpad"
+    /// - "twitter"
+    /// - "websearch"
+    /// - "asciicapablenumberpad"
+    /// - "alphabet"
+    ///
+    /// Defaults to `.default` if an unsupported type is provided.
+    public func blockKeyboardType(_ type: String) -> some View {
+        #if os(iOS)
+            var keyboardType: UIKeyboardType = .default
+
+            switch type.lowercased() {
+            case "asciicapable":
+                keyboardType = .asciiCapable
+            case "numbersandpunctuation":
+                keyboardType = .numbersAndPunctuation
+            case "url":
+                keyboardType = .URL
+            case "numberpad":
+                keyboardType = .numberPad
+            case "phonepad":
+                keyboardType = .phonePad
+            case "namephonepad":
+                keyboardType = .namePhonePad
+            case "emailaddress":
+                keyboardType = .emailAddress
+            case "decimalpad":
+                keyboardType = .decimalPad
+            case "twitter":
+                keyboardType = .twitter
+            case "websearch":
+                keyboardType = .webSearch
+            case "asciicapablenumberpad":
+                keyboardType = .asciiCapableNumberPad
+            case "alphabet":
+                keyboardType = .alphabet
+            default:
+                keyboardType = .default
+            }
+
+            return self.keyboardType(keyboardType)
+        #else
+            return self
+        #endif
+    }
+}
+
+extension View {
+    /// Configures autocapitalization behavior for text input fields within the view's environment.
+    /// - Parameter type: A string representing the autocapitalization type (e.g., "allcharacters", "sentences", "words").
+    /// - Returns: A view with the specified autocapitalization type applied.
+    ///
+    /// Supported autocapitalization types:
+    /// - "allcharacters"
+    /// - "sentences"
+    /// - "words"
+    ///
+    /// Defaults to `.none` if an unsupported type is provided.
+    public func blockAutocapitalization(_ type: String) -> some View {
+        #if os(iOS)
+            var autocapitalization: UITextAutocapitalizationType = .none
+
+            switch type.lowercased() {
+            case "allcharacters":
+                autocapitalization = .allCharacters
+            case "sentences":
+                autocapitalization = .sentences
+            case "words":
+                autocapitalization = .words
+            default:
+                autocapitalization = .none
+            }
+
+            return self.autocapitalization(autocapitalization)
+        #else
+            return self
+        #endif
+    }
+}
+
+extension View {
+    /// Configures the visibility of scroll indicators within the view's environment.
+    /// - Parameter type: A string representing the scroll indicator visibility (e.g., "automatic", "hidden", "never", "visible").
+    /// - Returns: A view with the specified scroll indicator visibility applied.
+    ///
+    /// Supported visibility options:
+    /// - "automatic"
+    /// - "hidden"
+    /// - "never"
+    /// - "visible"
+    ///
+    /// Defaults to `.visible` if an unsupported type is provided. This feature is available on iOS 16.0 and later.
+    public func blockScrollIndicators(_ type: String) -> some View {
+        if #available(iOS 16.0, *) {
+            var scrollIndicatorVisibility: ScrollIndicatorVisibility = .automatic
+            switch type.lowercased() {
+            case "automatic":
+                scrollIndicatorVisibility = .automatic
+            case "hidden":
+                scrollIndicatorVisibility = .hidden
+            case "never":
+                scrollIndicatorVisibility = .never
+            case "visible":
+                scrollIndicatorVisibility = .visible
+            default:
+                scrollIndicatorVisibility = .visible
+            }
+            return self.scrollIndicators(scrollIndicatorVisibility)
+        } else {
+            return self
+        }
+    }
+}
+
 extension String {
     func parseBlockList() -> [Any]? {
         return NativeJsonPath().query(jsonString: self, query: "$") as? [Any]

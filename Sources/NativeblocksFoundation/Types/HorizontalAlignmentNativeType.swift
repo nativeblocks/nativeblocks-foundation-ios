@@ -11,19 +11,32 @@ class HorizontalAlignmentNativeType: INativeType<HorizontalAlignment> {
 
     override func toString(_ input: HorizontalAlignment?) -> String {
         guard let input = input else { return defaultString }
-        switch input {
-        case .leading:
-            return "leading"
-        case .trailing:
-            return "trailing"
-        case .center:
-            return "center"
-        case .listRowSeparatorLeading:
-            return "listrowseparatorleading"
-        case .listRowSeparatorTrailing:
-            return "listrowseparatortrailing"
-        default:
-            return defaultString
+        if #available(iOS 16.0, *) {
+            switch input {
+            case .leading:
+                return "leading"
+            case .trailing:
+                return "trailing"
+            case .center:
+                return "center"
+            case .listRowSeparatorLeading:
+                return "listrowseparatorleading"
+            case .listRowSeparatorTrailing:
+                return "listrowseparatortrailing"
+            default:
+                return defaultString
+            }
+        } else {
+            switch input {
+            case .leading:
+                return "leading"
+            case .trailing:
+                return "trailing"
+            case .center:
+                return "center"
+            default:
+                return defaultString
+            }
         }
     }
 

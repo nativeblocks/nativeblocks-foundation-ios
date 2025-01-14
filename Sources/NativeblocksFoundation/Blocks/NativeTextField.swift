@@ -2,10 +2,6 @@ import Nativeblocks
 import NativeblocksCompiler
 import SwiftUI
 
-#if os(iOS)
-    import UIKit
-#endif
-
 /// A customizable text field block for Nativeblocks.
 ///
 /// `NativeTextField` allows for user input with various customization options, such as font, alignment,
@@ -293,123 +289,81 @@ struct NativeTextField: View {
     )
     var lineSpacing: CGFloat = 0
 
-    #if os(iOS)
-        /// Specifies the keyboard type for the text field.
-        @NativeBlockProp(
-            description: "Specifies the keyboard type for the text field.",
-            valuePicker: NativeBlockValuePicker.DROPDOWN,
-            valuePickerOptions: [
-                NativeBlockValuePickerOption("default", "default"),
-                NativeBlockValuePickerOption("asciiCapable", "asciiCapable"),
-                NativeBlockValuePickerOption("numbersAndPunctuation", "numbersAndPunctuation"),
-                NativeBlockValuePickerOption("URL", "url"),
-                NativeBlockValuePickerOption("numberPad", "numberPad"),
-                NativeBlockValuePickerOption("phonePad", "phonePad"),
-                NativeBlockValuePickerOption("namePhonePad", "namePhonePad"),
-                NativeBlockValuePickerOption("emailAddress", "emailAddress"),
-                NativeBlockValuePickerOption("decimalPad", "decimalPad"),
-                NativeBlockValuePickerOption("twitter", "twitter"),
-                NativeBlockValuePickerOption("webSearch", "webSearch"),
-                NativeBlockValuePickerOption("asciiCapableNumberPad", "asciiCapableNumberPad"),
-                NativeBlockValuePickerOption("alphabet", "alphabet"),
-            ],
-            defaultValue: "default"
-        )
-        var keyboardType: UIKeyboardType = .default
-        /// Specifies the autocapitalization type for the text field.
-        @NativeBlockProp(
-            description: "Specifies the autocapitalization type for the text field.",
-            valuePicker: NativeBlockValuePicker.DROPDOWN,
-            valuePickerOptions: [
-                NativeBlockValuePickerOption("none", "none"),
-                NativeBlockValuePickerOption("allCharacters", "allCharacters"),
-                NativeBlockValuePickerOption("sentences", "sentences"),
-                NativeBlockValuePickerOption("words", "words"),
-            ],
-            defaultValue: "none"
-        )
-        var autocapitalization: UITextAutocapitalizationType = .none
+    /// Specifies the keyboard type for the text field.
+    @NativeBlockProp(
+        description: "Specifies the keyboard type for the text field.",
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("default", "default"),
+            NativeBlockValuePickerOption("asciiCapable", "asciiCapable"),
+            NativeBlockValuePickerOption("numbersAndPunctuation", "numbersAndPunctuation"),
+            NativeBlockValuePickerOption("URL", "url"),
+            NativeBlockValuePickerOption("numberPad", "numberPad"),
+            NativeBlockValuePickerOption("phonePad", "phonePad"),
+            NativeBlockValuePickerOption("namePhonePad", "namePhonePad"),
+            NativeBlockValuePickerOption("emailAddress", "emailAddress"),
+            NativeBlockValuePickerOption("decimalPad", "decimalPad"),
+            NativeBlockValuePickerOption("twitter", "twitter"),
+            NativeBlockValuePickerOption("webSearch", "webSearch"),
+            NativeBlockValuePickerOption("asciiCapableNumberPad", "asciiCapableNumberPad"),
+            NativeBlockValuePickerOption("alphabet", "alphabet"),
+        ],
+        defaultValue: "default"
+    )
+    var keyboardType: String = "default"
+    /// Specifies the autocapitalization type for the text field.
+    @NativeBlockProp(
+        description: "Specifies the autocapitalization type for the text field.",
+        valuePicker: NativeBlockValuePicker.DROPDOWN,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("none", "none"),
+            NativeBlockValuePickerOption("allCharacters", "allCharacters"),
+            NativeBlockValuePickerOption("sentences", "sentences"),
+            NativeBlockValuePickerOption("words", "words"),
+        ],
+        defaultValue: "none"
+    )
+    var autocapitalization: String = "none"
 
-        init(
-            text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
-            onChange: @escaping (String) -> Void, isSecure: Bool, disableAutocorrection: Bool, fontFamily: String, fontWeight: Font.Weight,
-            fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color, direction: LayoutDirection,
-            paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat, frameWidth: String,
-            frameHeight: String, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment, alignmentVertical: VerticalAlignment,
-            multilineTextAlignment: TextAlignment, lineLimit: Int, lineSpacing: CGFloat, keyboardType: UIKeyboardType,
-            autocapitalization: UITextAutocapitalizationType
-        ) {
-            self.text = text
-            self.localText = text
-            self.isEditing = isEditing
-            self.onCommit = onCommit
-            self.onEditingChanged = onEditingChanged
-            self.onChange = onChange
-            self.isSecure = isSecure
-            self.disableAutocorrection = disableAutocorrection
-            self.fontFamily = fontFamily
-            self.fontWeight = fontWeight
-            self.fontDesign = fontDesign
-            self.fontSize = fontSize
-            self.foregroundColor = foregroundColor
-            self.backgroundColor = backgroundColor
-            self.direction = direction
-            self.paddingTop = paddingTop
-            self.paddingLeading = paddingLeading
-            self.paddingBottom = paddingBottom
-            self.paddingTrailing = paddingTrailing
-            self.frameWidth = frameWidth
-            self.frameHeight = frameHeight
-            self.cornerRadius = cornerRadius
-            self.alignmentHorizontal = alignmentHorizontal
-            self.alignmentVertical = alignmentVertical
-            self.multilineTextAlignment = multilineTextAlignment
-            self.lineLimit = lineLimit
-            self.lineSpacing = lineSpacing
-            self.keyboardType = keyboardType
-            self.autocapitalization = autocapitalization
-        }
-
-    #else
-
-        init(
-            text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
-            onChange: @escaping (String) -> Void, isSecure: Bool, disableAutocorrection: Bool, fontFamily: String, fontWeight: Font.Weight,
-            fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color, direction: LayoutDirection,
-            paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat, frameWidth: String,
-            frameHeight: String, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment, alignmentVertical: VerticalAlignment,
-            multilineTextAlignment: TextAlignment, lineLimit: Int, lineSpacing: CGFloat
-        ) {
-            self.text = text
-            //            self.localText = text
-            self.isEditing = isEditing
-            self.onCommit = onCommit
-            self.onEditingChanged = onEditingChanged
-            self.onChange = onChange
-            self.isSecure = isSecure
-            self.disableAutocorrection = disableAutocorrection
-            self.fontFamily = fontFamily
-            self.fontWeight = fontWeight
-            self.fontDesign = fontDesign
-            self.fontSize = fontSize
-            self.foregroundColor = foregroundColor
-            self.backgroundColor = backgroundColor
-            self.direction = direction
-            self.paddingTop = paddingTop
-            self.paddingLeading = paddingLeading
-            self.paddingBottom = paddingBottom
-            self.paddingTrailing = paddingTrailing
-            self.frameWidth = frameWidth
-            self.frameHeight = frameHeight
-            self.cornerRadius = cornerRadius
-            self.alignmentHorizontal = alignmentHorizontal
-            self.alignmentVertical = alignmentVertical
-            self.multilineTextAlignment = multilineTextAlignment
-            self.lineLimit = lineLimit
-            self.lineSpacing = lineSpacing
-        }
-
-    #endif
+    init(
+        text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
+        onChange: @escaping (String) -> Void, isSecure: Bool, disableAutocorrection: Bool, fontFamily: String, fontWeight: Font.Weight,
+        fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color, direction: LayoutDirection,
+        paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat, frameWidth: String,
+        frameHeight: String, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment, alignmentVertical: VerticalAlignment,
+        multilineTextAlignment: TextAlignment, lineLimit: Int, lineSpacing: CGFloat, keyboardType: String,
+        autocapitalization: String
+    ) {
+        self.text = text
+//        self.localText = text
+        self.isEditing = isEditing
+        self.onCommit = onCommit
+        self.onEditingChanged = onEditingChanged
+        self.onChange = onChange
+        self.isSecure = isSecure
+        self.disableAutocorrection = disableAutocorrection
+        self.fontFamily = fontFamily
+        self.fontWeight = fontWeight
+        self.fontDesign = fontDesign
+        self.fontSize = fontSize
+        self.foregroundColor = foregroundColor
+        self.backgroundColor = backgroundColor
+        self.direction = direction
+        self.paddingTop = paddingTop
+        self.paddingLeading = paddingLeading
+        self.paddingBottom = paddingBottom
+        self.paddingTrailing = paddingTrailing
+        self.frameWidth = frameWidth
+        self.frameHeight = frameHeight
+        self.cornerRadius = cornerRadius
+        self.alignmentHorizontal = alignmentHorizontal
+        self.alignmentVertical = alignmentVertical
+        self.multilineTextAlignment = multilineTextAlignment
+        self.lineLimit = lineLimit
+        self.lineSpacing = lineSpacing
+        self.keyboardType = keyboardType
+        self.autocapitalization = autocapitalization
+    }
 
     var body: some View {
         ZStack {
@@ -421,10 +375,8 @@ struct NativeTextField: View {
                     }
                 )
                 .textFieldStyle(PlainTextFieldStyle())
-                #if os(iOS)
-                    .keyboardType(keyboardType)
-                    .autocapitalization(autocapitalization)
-                #endif
+                .blockKeyboardType(keyboardType)
+                .blockAutocapitalization(autocapitalization)
                 .blockFont(
                     family: fontFamily,
                     size: fontSize,
@@ -454,10 +406,8 @@ struct NativeTextField: View {
                 TextField("", text: $localText) { _ in
                 }
                 .opacity(0.0)
-                #if os(iOS)
-                    .keyboardType(keyboardType)
-                    .autocapitalization(autocapitalization)
-                #endif
+                .blockKeyboardType(keyboardType)
+                .blockAutocapitalization(autocapitalization)
                 .disableAutocorrection(disableAutocorrection)
                 .multilineTextAlignment(multilineTextAlignment)
                 .lineLimit(lineLimit)
@@ -478,11 +428,8 @@ struct NativeTextField: View {
                     }
                 )
                 .textFieldStyle(PlainTextFieldStyle())
-
-                #if os(iOS)
-                    .keyboardType(keyboardType)
-                    .autocapitalization(autocapitalization)
-                #endif
+                .blockKeyboardType(keyboardType)
+                .blockAutocapitalization(autocapitalization)
                 .disableAutocorrection(disableAutocorrection)
                 .blockFont(
                     family: fontFamily,
@@ -573,7 +520,9 @@ struct NativeTextFieldTest: View {
                 alignmentVertical: .top,
                 multilineTextAlignment: .leading,
                 lineLimit: 1,
-                lineSpacing: 0
+                lineSpacing: 0,
+                keyboardType: "default",
+                autocapitalization: "none"
             )
         }
     }

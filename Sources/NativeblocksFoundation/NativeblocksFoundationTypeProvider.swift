@@ -1,10 +1,6 @@
 import Nativeblocks
 import SwiftUI
 
-#if os(iOS)
-    import UIKit
-#endif
-
 public class NativeblocksFoundationTypeProvider {
     public static func provideTypes() {
         NativeblocksManager.getInstance().provideTypeSerializer(Color.self, serializer: ColorNativeType())
@@ -13,15 +9,7 @@ public class NativeblocksFoundationTypeProvider {
         NativeblocksManager.getInstance().provideTypeSerializer(HorizontalAlignment.self, serializer: HorizontalAlignmentNativeType())
         NativeblocksManager.getInstance().provideTypeSerializer(LayoutDirection.self, serializer: LayoutDirectionNativeType())
         NativeblocksManager.getInstance().provideTypeSerializer(Axis.Set.self, serializer: ScrollableNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(
-            ScrollIndicatorVisibility.self, serializer: ScrollIndicatorVisibilityNativeType())
         NativeblocksManager.getInstance().provideTypeSerializer(TextAlignment.self, serializer: TextAlignmentNativeType())
         NativeblocksManager.getInstance().provideTypeSerializer(VerticalAlignment.self, serializer: VerticalAlignmentNativeType())
-
-        #if os(iOS)
-            NativeblocksManager.getInstance().provideTypeSerializer(
-                UITextAutocapitalizationType.self, serializer: UITextAutocapitalizationTypeNativeType())
-            NativeblocksManager.getInstance().provideTypeSerializer(UIKeyboardType.self, serializer: UIKeyboardTypeNativeType())
-        #endif
     }
 }

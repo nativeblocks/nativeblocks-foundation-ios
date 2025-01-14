@@ -46,7 +46,7 @@ struct NativeScrollView<Content: View>: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Scrollable"),
         defaultValue: "visible"
     )
-    var scrollIndicators: ScrollIndicatorVisibility = .visible
+    var scrollIndicators: String = "visible"
 
     /// Specifies the scrolling direction of the ScrollView.
     @NativeBlockProp(
@@ -254,7 +254,7 @@ struct NativeScrollView<Content: View>: View {
         ScrollView(scrollDirection) {
             content(-1)
         }
-        .scrollIndicators(scrollIndicators)
+        .blockScrollIndicators(scrollIndicators)
         .blockWidthAndHeightModifier(
             frameWidth,
             frameHeight,
@@ -318,7 +318,7 @@ struct NativeScrollView_Previews: PreviewProvider {
                             .background(Color.red)
                     }
                 },
-                scrollIndicators: .visible,
+                scrollIndicators: "visible",
                 scrollDirection: .vertical,
                 alignmentHorizontal: .center,
                 alignmentVertical: .center,
