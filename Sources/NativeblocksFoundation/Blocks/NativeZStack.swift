@@ -256,7 +256,7 @@ struct NativeZStack<Content: View>: View {
         .overlay(
             RoundedRectangle(
                 cornerRadius:
-                    cornerRadius
+                cornerRadius
             ).stroke(
                 borderColor,
                 lineWidth: borderWidth
@@ -267,10 +267,9 @@ struct NativeZStack<Content: View>: View {
             radius: shadowRadius, x: shadowX, y: shadowY
         )
         .environment(\.layoutDirection, direction)
-        .onTapGesture {
+        .blockOnTapGesture(enable: onClick != nil){
             onClick?()
         }
-        .disabled(onClick == nil)
     }
 }
 

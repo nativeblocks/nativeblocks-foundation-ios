@@ -383,8 +383,7 @@ struct NativeButton<Content: View>: View {
             .padding(.bottom, paddingBottom)
             .padding(.trailing, paddingTrailing)
         }
-
-        .disabled(!enable)
+       .disabled(!enable)
         .background(background)
         .cornerRadius(cornerRadius)
         .overlay(
@@ -428,7 +427,9 @@ struct NativeButton_Previews: PreviewProvider {
                             .frame(width: 16, height: 16)
                             .foregroundColor(Color.white))
                 },
-                onClick: {}
+                onClick: {
+                    print("click Action")
+                }
             )
 
             NativeButton(
@@ -440,7 +441,9 @@ struct NativeButton_Previews: PreviewProvider {
                     EmptyView()
                 },
                 enable: false,
-                onClick: {}
+                onClick: {
+                    print("click Disable")
+                }
             )
         }
         .padding()

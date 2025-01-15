@@ -210,3 +210,14 @@ extension String {
         return NativeJsonPath().query(jsonString: self, query: "$") as? [Any]
     }
 }
+
+extension View {
+    public func blockOnTapGesture(enable : Bool = true ,_ action: @escaping () -> Void) -> some View {
+        if enable {
+            self.onTapGesture {
+                action()
+            }
+        }
+        return self
+    }
+}
