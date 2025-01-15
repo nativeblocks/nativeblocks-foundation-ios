@@ -3,13 +3,13 @@ import SwiftUI
 
 public class NativeblocksFoundationTypeProvider {
     public static func provideTypes() {
-        NativeblocksManager.getInstance().provideTypeSerializer(Color.self, serializer: ColorNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(Font.Design.self, serializer: FontDesignNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(Font.Weight.self, serializer: FontWeightNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(HorizontalAlignment.self, serializer: HorizontalAlignmentNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(LayoutDirection.self, serializer: LayoutDirectionNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(Axis.Set.self, serializer: ScrollableNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(TextAlignment.self, serializer: TextAlignmentNativeType())
-        NativeblocksManager.getInstance().provideTypeSerializer(VerticalAlignment.self, serializer: VerticalAlignmentNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(Color.self, converter: ColorNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(Font.Design.self, converter: FontDesignNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(Font.Weight.self, converter: FontWeightNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(HorizontalAlignment.self, converter: HorizontalAlignmentNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(LayoutDirection.self, converter: LayoutDirectionNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(Axis.Set.self, converter: ScrollableNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(TextAlignment.self, converter: TextAlignmentNativeType())
+        NativeblocksManager.getInstance().provideTypeConverter(VerticalAlignment.self, converter: VerticalAlignmentNativeType())
     }
 }
