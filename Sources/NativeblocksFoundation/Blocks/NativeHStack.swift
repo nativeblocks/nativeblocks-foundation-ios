@@ -281,7 +281,7 @@ struct NativeHStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .blockOnTapGesture(enable: onClick != nil){
+        .blockOnTapGesture(enable: onClick != nil) {
             onClick?()
         }
         .environment(\.layoutDirection, direction)

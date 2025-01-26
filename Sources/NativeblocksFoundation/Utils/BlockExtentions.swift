@@ -212,7 +212,7 @@ extension String {
 }
 
 extension View {
-    public func blockOnTapGesture(enable : Bool = true ,_ action: @escaping () -> Void) -> some View {
+    public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
         if enable {
             self.onTapGesture {
                 action()

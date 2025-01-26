@@ -279,7 +279,7 @@ struct NativeVStack<Content: View>: View {
             radius: shadowRadius, x: shadowX, y: shadowY
         )
         .environment(\.layoutDirection, direction)
-        .blockOnTapGesture(enable: onClick != nil){
+        .blockOnTapGesture(enable: onClick != nil) {
             onClick?()
         }
     }

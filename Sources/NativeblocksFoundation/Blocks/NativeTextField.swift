@@ -335,7 +335,7 @@ struct NativeTextField: View {
         autocapitalization: String
     ) {
         self.text = text
-//        self.localText = text
+        //        self.localText = text
         self.isEditing = isEditing
         self.onCommit = onCommit
         self.onEditingChanged = onEditingChanged

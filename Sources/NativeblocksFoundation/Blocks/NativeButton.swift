@@ -383,7 +383,7 @@ struct NativeButton<Content: View>: View {
             .padding(.bottom, paddingBottom)
             .padding(.trailing, paddingTrailing)
         }
-       .disabled(!enable)
+        .disabled(!enable)
         .background(background)
         .cornerRadius(cornerRadius)
         .overlay(

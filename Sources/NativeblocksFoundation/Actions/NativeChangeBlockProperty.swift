@@ -76,7 +76,6 @@ public class NativeChangeBlockProperty {
         var actionProps: ActionProps?
     }
 
-
     @NativeActionFunction()
     func onChangeBlock(param: Parameter) {
         var valueMobile = param.propertyValueMobile
