@@ -213,11 +213,21 @@ extension String {
 
 extension View {
     public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
+        self.modifier(BlockOnTapGestureModifier(enable: enable, action: action))
+    }
+}
+
+struct BlockOnTapGestureModifier: ViewModifier {
+    let enable: Bool
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
         if enable {
-            self.onTapGesture {
+            content.onTapGesture {
                 action()
             }
+        } else {
+            content
         }
-        return self
     }
 }
