@@ -13,7 +13,7 @@ class FontWeightNativeType: INativeType<Font.Weight> {
         guard let input = input else { return defaultString }
         switch input {
         case .ultraLight:
-            return "ultralight"
+            return "ultraLight"
         case .thin:
             return "thin"
         case .light:

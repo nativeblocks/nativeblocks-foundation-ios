@@ -20,9 +20,9 @@ class HorizontalAlignmentNativeType: INativeType<HorizontalAlignment> {
             case .center:
                 return "center"
             case .listRowSeparatorLeading:
-                return "listrowseparatorleading"
+                return "listRowSeparatorLeading"
             case .listRowSeparatorTrailing:
-                return "listrowseparatortrailing"
+                return "listRowSeparatorTrailing"
             default:
                 return defaultString
             }

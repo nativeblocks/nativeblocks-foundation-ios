@@ -19,9 +19,9 @@ class VerticalAlignmentNativeType: INativeType<VerticalAlignment> {
         case .center:
             return "center"
         case .firstTextBaseline:
-            return "firsttextbaseline"
+            return "firstTextBaseline"
         case .lastTextBaseline:
-            return "lasttextbaseline"
+            return "lastTextBaseline"
         default:
             return defaultString
         }
