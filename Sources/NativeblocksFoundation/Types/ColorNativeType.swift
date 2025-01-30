@@ -38,13 +38,13 @@ class ColorNativeType: INativeType<Color> {
             blue = convertedColor.blueComponent
             alpha = convertedColor.alphaComponent
         #endif
-
+        
         return String(
             format: "#%02X%02X%02X%02X",
+            Int(alpha * 255),
             Int(red * 255),
             Int(green * 255),
-            Int(blue * 255),
-            Int(alpha * 255))
+            Int(blue * 255))
     }
 
     override func fromString(_ input: String?) -> Color {
