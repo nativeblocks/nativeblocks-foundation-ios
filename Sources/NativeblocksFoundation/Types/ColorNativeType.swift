@@ -38,7 +38,7 @@ class ColorNativeType: INativeType<Color> {
             blue = convertedColor.blueComponent
             alpha = convertedColor.alphaComponent
         #endif
-        
+
         return String(
             format: "#%02X%02X%02X%02X",
             Int(alpha * 255),
