@@ -211,7 +211,7 @@ struct NativeZStack<Content: View>: View {
 
     /// Triggered when the ZStack is clicked.
     @NativeBlockEvent(description: "Triggered when the ZStack is clicked.")
-    var onClick: () -> Void
+    var onClick: (() -> Void)?
 
     var body: some View {
         ZStack(
@@ -250,8 +250,9 @@ struct NativeZStack<Content: View>: View {
         )
         .blockDirection(direction)
         .onTapGesture {
-            onClick()
+            onClick?()
         }
+        .disabled(onClick == nil)
     }
 }
 

@@ -230,12 +230,6 @@ struct NativeScrollView<Content: View>: View {
     )
     var shadowY: CGFloat = 0
 
-    // MARK: - Event Handlers
-
-    /// The action triggered when the ScrollView is tapped.
-    @NativeBlockEvent(description: "The action triggered when the ScrollView is tapped.")
-    var onClick: () -> Void
-
     var body: some View {
         ScrollView(mapBlockScrollable(scrollDirection)) {
             content(-1)
@@ -269,9 +263,6 @@ struct NativeScrollView<Content: View>: View {
             radius: shadowRadius, x: shadowX, y: shadowY
         )
         .blockDirection(direction)
-        .onTapGesture {
-            onClick()
-        }
     }
 }
 
@@ -321,8 +312,7 @@ struct NativeScrollView<Content: View>: View {
             shadowColor: "#ff000000",
             shadowRadius: 30,
             shadowX: 7,
-            shadowY: 7,
-            onClick: {}
+            shadowY: 7
         )
     }
     .padding(10)

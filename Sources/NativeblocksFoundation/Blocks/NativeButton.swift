@@ -310,7 +310,7 @@ struct NativeButton<Content: View>: View {
 
     /// The action triggered when the button is clicked.
     @NativeBlockEvent(description: "The action triggered when the button is clicked.")
-    var onClick: () -> Void
+    var onClick: (() -> Void)?
 
     var body: some View {
         let background = Color(blockHex: !enable ? disableBackgroundColor : backgroundColor) ?? Color.black.opacity(0)

@@ -218,7 +218,7 @@ struct NativeVStack<Content: View>: View {
 
     /// Triggered when the VStack is clicked.
     @NativeBlockEvent(description: "Triggered when the VStack is clicked.")
-    var onClick: () -> Void
+    var onClick: (() -> Void)?
 
     var body: some View {
         VStack(
@@ -262,8 +262,9 @@ struct NativeVStack<Content: View>: View {
         )
         .blockDirection(direction)
         .onTapGesture {
-            onClick()
+            onClick?()
         }
+        .disabled(onClick == nil)
     }
 }
 
