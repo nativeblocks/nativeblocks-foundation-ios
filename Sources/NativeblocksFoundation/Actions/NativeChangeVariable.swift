@@ -82,7 +82,7 @@ public class NativeChangeVariable {
         }
 
         // Convert the value to a string representation suitable for action data.
-        value = value.toActionDataStringValue(variables: param.actionProps?.variables, index: param.actionProps?.listItemIndex)
+        value = value.parseWithJsonPath(variables: param.actionProps?.variables, index: param.actionProps?.listItemIndex)
 
         // Evaluate any conditions or arithmetic operations in the value.
         value = value.evaluateMixConditionOperator(type: variable.type)
