@@ -2,56 +2,6 @@ import Foundation
 import Nativeblocks
 import SwiftUI
 
-/// Maps a horizontal alignment string to the corresponding `HorizontalAlignment`.
-/// - Parameter alignment: The alignment string (e.g., "leading", "trailing", "center").
-/// - Returns: The mapped `HorizontalAlignment` value.
-func mapBlockAlignmentHorizontal(_ alignment: String) -> HorizontalAlignment {
-    switch alignment.lowercased() {
-    case "leading": return .leading
-    case "trailing": return .trailing
-    case "listrowseparatorleading":
-        if #available(iOS 16.0, *) {
-            return .listRowSeparatorLeading
-        } else {
-            return .leading
-        }
-    case "listrowseparatortrailing":
-        if #available(iOS 16.0, *) {
-            return .listRowSeparatorTrailing
-        } else {
-            return .leading
-        }
-    case "center": return .center
-    default: return .leading
-    }
-}
-
-/// Maps a scrollable axis string to the corresponding `Axis.Set`.
-/// - Parameter scroll: The scroll string (e.g., "horizontal", "vertical", "both").
-/// - Returns: The mapped `Axis.Set` value.
-func mapBlockScrollable(_ scroll: String) -> Axis.Set {
-    switch scroll.lowercased() {
-    case "horizontal": return .horizontal
-    case "vertical": return .vertical
-    case "both": return [.vertical, .horizontal]
-    default: return [.vertical, .horizontal]
-    }
-}
-
-/// Maps a vertical alignment string to the corresponding `VerticalAlignment`.
-/// - Parameter alignment: The alignment string (e.g., "top", "bottom", "center").
-/// - Returns: The mapped `VerticalAlignment` value.
-func mapBlockVerticalAlignment(_ alignment: String) -> VerticalAlignment {
-    switch alignment.lowercased() {
-    case "top": return .top
-    case "bottom": return .bottom
-    case "center": return .center
-    case "firsttextbaseline": return .firstTextBaseline
-    case "lasttextbaseline": return .lastTextBaseline
-    default: return .top
-    }
-}
-
 extension String {
     /// Checks if the string is a valid URL for an image.
     /// - Returns: `true` if the URL is valid, otherwise `false`.
@@ -105,35 +55,10 @@ extension View {
         )
     }
 
-    /// Aligns the text of a view based on the provided alignment string.
-    /// - Parameter alignment: The alignment string (e.g., "leading", "center", "trailing").
-    /// - Returns: A view with the specified text alignment.
-    public func blockMultilineTextAlignment(_ alignment: String) -> some View {
-        var textAlignment = TextAlignment.leading
-        switch alignment.lowercased() {
-        case "leading":
-            textAlignment = .leading
-        case "center":
-            textAlignment = .center
-        case "trailing":
-            textAlignment = .trailing
-        default:
-            textAlignment = .leading
-        }
-        return self.multilineTextAlignment(textAlignment)
-    }
-
-    /// Applies a font style to the view.
-    /// - Parameters:
-    ///   - family: The font family (e.g., "system", "custom font name").
-    ///   - size: The font size.
-    ///   - weight: The font weight string (e.g., "regular", "bold").
-    ///   - design: The font design string (e.g., "default", "serif").
-    /// - Returns: A view with the specified font style.
-    public func blockFont(family: String, size: CGFloat, weight: String, design: String) -> some View {
+    public func blockFont(family: String, size: CGFloat, weight: Font.Weight, design: Font.Design) -> some View {
         var font: Font? = nil
-        let fontWeight = self.mapFontWeight(weight)
-        let fontDesign = self.mapFontDesign(design)
+        let fontWeight = weight
+        let fontDesign = design
         switch family.lowercased() {
         case "system":
             font = .system(size: size, weight: fontWeight, design: fontDesign)
@@ -141,82 +66,6 @@ extension View {
             font = .custom(family, size: size)
         }
         return self.font(font)
-    }
-
-    private func mapFontWeight(_ fontWeight: String) -> Font.Weight {
-        switch fontWeight.lowercased() {
-        case "ultralight": return .ultraLight
-        case "thin": return .thin
-        case "light": return .light
-        case "regular": return .regular
-        case "medium": return .medium
-        case "semibold": return .semibold
-        case "bold": return .bold
-        case "heavy": return .heavy
-        case "black": return .black
-        default: return .regular
-        }
-    }
-
-    private func mapFontDesign(_ fontWeight: String) -> Font.Design {
-        switch fontWeight.lowercased() {
-        case "default": return .default
-        case "monospaced": return .monospaced
-        case "rounded": return .rounded
-        case "serif": return .serif
-        default: return .default
-        }
-    }
-
-    /// Sets the layout direction of the view's environment based on the specified direction.
-    /// - Parameter direction: The layout direction as a string ("RTL" for right-to-left, otherwise defaults to left-to-right).
-    /// - Returns: A view with the updated layout direction applied in its environment.
-    ///
-    /// This method updates the environment's layout direction, which is useful for supporting languages
-    /// or regions that require right-to-left (RTL) layouts, such as Arabic or Hebrew.
-    public func blockDirection(_ direction: String) -> some View {
-        let blockDirection: LayoutDirection =
-            if direction == "RTL" {
-                LayoutDirection.rightToLeft
-            } else {
-                LayoutDirection.leftToRight
-            }
-
-        return self.environment(\.layoutDirection, blockDirection)
-    }
-}
-
-/// Initializes a color from a hexadecimal string.
-/// - Parameter blockHex: The hexadecimal color string (e.g., "#RRGGBB" or "#AARRGGBB").
-extension Color {
-    public init?(blockHex: String) {
-        var hexSanitized = blockHex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-        var r: CGFloat = 0.0
-        var g: CGFloat = 0.0
-        var b: CGFloat = 0.0
-        var a: CGFloat = 1.0
-
-        let length = hexSanitized.count
-
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
-
-        if length == 6 {
-            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000FF) / 255.0
-        } else if length == 8 {
-            a = CGFloat((rgb & 0xFF00_0000) >> 24) / 255.0
-            r = CGFloat((rgb & 0x00FF_0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x0000_FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000_00FF) / 255.0
-        } else {
-            return nil
-        }
-
-        self.init(red: r, green: g, blue: b, opacity: a)
     }
 }
 
@@ -357,7 +206,28 @@ extension View {
 }
 
 extension String {
-    func parseBlockList() -> [Any]? {
-        return NativeJsonPath().query(jsonString: self, query: "$") as? [Any]
+    func listSize() -> Int? {
+        return (NativeJsonPath().query(jsonString: self, query: "$") as? [Any])?.count ?? nil
+    }
+}
+
+extension View {
+    public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
+        self.modifier(BlockOnTapGestureModifier(enable: enable, action: action))
+    }
+}
+
+struct BlockOnTapGestureModifier: ViewModifier {
+    let enable: Bool
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        if enable {
+            content.onTapGesture {
+                action()
+            }
+        } else {
+            content
+        }
     }
 }

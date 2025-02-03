@@ -1,4 +1,5 @@
 import Nativeblocks
+import SwiftUI
 
 public class NativeblocksFoundationBlockProvider {
     public static func provideBlocks() {
