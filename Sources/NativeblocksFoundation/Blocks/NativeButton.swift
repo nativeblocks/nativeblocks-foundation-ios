@@ -42,7 +42,7 @@ struct NativeButton<Content: View>: View {
 
     /// Determines whether the button is disabled.
     @NativeBlockData(
-        description: "When true, the button is disabled and non-interactive.",
+        description: "When false, the button is disabled and non-interactive.",
         defaultValue: "true"
     )
     var enable: Bool = true
@@ -352,7 +352,7 @@ struct NativeButton<Content: View>: View {
         let foreground = !enable ? disableForegroundColor : foregroundColor
         Button(action: {
             if enable {
-                onClick?()
+                onClick()
             }
         }) {
             HStack(alignment: alignmentVertical, spacing: spacing) {
