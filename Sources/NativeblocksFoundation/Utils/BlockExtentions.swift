@@ -206,8 +206,8 @@ extension View {
 }
 
 extension String {
-    func parseBlockList() -> [Any]? {
-        return NativeJsonPath().query(jsonString: self, query: "$") as? [Any]
+    func listSize() -> Int? {
+        return (NativeJsonPath().query(jsonString: self, query: "$") as? [Any])?.count ?? nil
     }
 }
 
