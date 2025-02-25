@@ -73,7 +73,7 @@ public class NativeChangeBlockProperty {
         var onNext: () -> Void
 
         /// Additional action properties, such as variables and blocks.
-        var actionProps: ActionProps?
+        var actionProps: ActionProps
     }
 
     @NativeActionFunction()
@@ -82,31 +82,25 @@ public class NativeChangeBlockProperty {
         var valueTablet = param.propertyValueTablet
         var valueDesktop = param.propertyValueDesktop
 
-        if var block = param.actionProps?.blocks?[param.blockKey] {
+        if var block = param.actionProps.blocks?[param.blockKey] {
             if var currentProperty = block.properties?[param.propertyKey] {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
-                    param.actionProps?.variables?.forEach { variableItem in
-                        valueMobile = valueMobile.getVariableValue(key: variableItem.key, replacement: variableItem.value.value)
-                    }
+                    valueMobile = valueMobile.replaceNativeVariable(param.actionProps.variables)
                     valueMobile = valueMobile.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueMobile = valueMobile
                 }
 
                 // Update tablet value
                 if !param.propertyValueTablet.isEmpty {
-                    param.actionProps?.variables?.forEach { variableItem in
-                        valueTablet = valueTablet.getVariableValue(key: variableItem.key, replacement: variableItem.value.value)
-                    }
+                    valueTablet = valueTablet.replaceNativeVariable(param.actionProps.variables)
                     valueTablet = valueTablet.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueTablet = valueTablet
                 }
 
                 // Update desktop value
                 if !param.propertyValueDesktop.isEmpty {
-                    param.actionProps?.variables?.forEach { variableItem in
-                        valueDesktop = valueDesktop.getVariableValue(key: variableItem.key, replacement: variableItem.value.value)
-                    }
+                    valueDesktop = valueDesktop.replaceNativeVariable(param.actionProps.variables)
                     valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
@@ -116,7 +110,7 @@ public class NativeChangeBlockProperty {
             }
 
             // Notify the change
-            param.actionProps?.onChangeBlock?(block)
+            param.actionProps.onChangeBlock?(block)
         }
 
         // Execute the next step
