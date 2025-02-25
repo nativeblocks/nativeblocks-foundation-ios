@@ -352,7 +352,7 @@ struct NativeButton<Content: View>: View {
         let foreground = !enable ? disableForegroundColor : foregroundColor
         Button(action: {
             if enable {
-                onClick()
+                onClick?()
             }
         }) {
             HStack(alignment: alignmentVertical, spacing: spacing) {

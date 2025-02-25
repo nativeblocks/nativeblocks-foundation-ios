@@ -243,9 +243,8 @@ struct NativeLazyVStack<Content: View>: View {
             alignment: alignmentHorizontal,
             spacing: spacing
         ) {
-            let listArray = list.listSize()
-            if listArray != nil {
-                ForEach(0..<max(1, listArray ?? 0), id: \.self) { index in
+            if let listSize = list.listSize() {
+                ForEach(0..<max(1, listSize), id: \.self) { index in
                     content(index)
                 }
             } else {

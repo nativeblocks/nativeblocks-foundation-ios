@@ -246,9 +246,8 @@ struct NativeHStack<Content: View>: View {
             alignment: alignmentVertical,
             spacing: spacing
         ) {
-            let listArray = list.parseBlockList()
-            if !list.isEmpty {
-                ForEach(0..<max(1, listArray?.count ?? 0), id: \.self) { index in
+            if let listSize = list.listSize() {
+                ForEach(0..<max(1, listSize), id: \.self) { index in
                     content(index)
                 }
             } else {
