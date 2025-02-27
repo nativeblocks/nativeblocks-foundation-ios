@@ -5,13 +5,12 @@ import SwiftUI
 /// A customizable lazy vertical stack (LazyVStack) block for Nativeblocks.
 ///
 /// `NativeLazyVStack` allows you to stack child views vertically with alignment, spacing, padding,
-/// and styling options. It also supports click events and customizable layout direction.
+/// and styling options. It also supports click events and customizable layout.
 ///
 /// ### Features:
 /// - Customizable alignment (horizontal and vertical).
 /// - Configurable spacing between child views.
 /// - Support for padding, frame sizing, and background styling.
-/// - Layout direction options (LTR or RTL).
 /// - Shadow and border customization.
 ///
 /// ### Example:
@@ -87,19 +86,6 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "0"
     )
     var spacing: CGFloat = 0
-
-    /// The layout direction of the LazyVStack (LTR or RTL).
-    @NativeBlockProp(
-        description: "The layout direction of the LazyVStack.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = LayoutDirection.leftToRight
 
     // MARK: - Padding Properties
 
@@ -277,7 +263,6 @@ struct NativeLazyVStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
         .onTapGesture {
             onClick()
         }

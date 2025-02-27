@@ -9,7 +9,7 @@ import SwiftUI
 ///
 /// ### Features:
 /// - Dynamic content defined using slots.
-/// - Configurable alignment, direction, padding, and size.
+/// - Configurable alignment, padding, and size.
 /// - Background, border, and shadow styling options.
 /// - Trigger actions on tap events.
 ///
@@ -85,23 +85,6 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0"
     )
     var spacing: CGFloat = 0
-
-    // MARK: - Direction Property
-
-    /// Layout direction of the LazyHStack (LTR or RTL).
-    /// - `valuePicker`: A dropdown picker for choosing the layout direction.
-    /// - `valuePickerOptions`: Contains options like "LTR" (Left-to-Right) and "RTL" (Right-to-Left).
-    @NativeBlockProp(
-        description: "The layout direction of the LazyHStack (Left-to-Right or Right-to-Left).",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = LayoutDirection.leftToRight
 
     // MARK: - Padding Properties
 
@@ -280,7 +263,6 @@ struct NativeLazyHStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
         .onTapGesture {
             onClick()
         }
