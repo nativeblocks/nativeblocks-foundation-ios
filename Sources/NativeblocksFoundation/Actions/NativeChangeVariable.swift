@@ -6,35 +6,11 @@ import NativeblocksCompiler
 /// The `NativeChangeVariable` class enables the modification of a value dynamically.
 /// It supports variable substitution, conditional evaluation, and arithmetic operations for property values.
 ///
-/// The `evaluateMixConditionOperator` function evaluates a value that may contain mixed conditions and operators
-/// based on the variable type specified by `variableKey`. If the string contains conditions, it evaluates them and converts
-/// the result to a boolean string if the variable type is "BOOLEAN". If the string contains operators, it evaluates the
-/// expression and converts the result to the specified numeric type.
-///
-/// Supported types: "BOOLEAN", "INT", "DOUBLE", "LONG", "FLOAT", "STRING".
-///
-/// The evaluated variable value is returned as a string, or the original value if no conditions or operators are found.
-///
-/// ## Example 1 (for BOOLEAN type):
-/// - variableValue: `"(4 / 2 != 0) && (true == true)"`
-/// - Evaluated value: `"true"` (evaluates the condition and returns boolean as string)
-///
-/// ## Example 2 (for INT type):
-/// - variableValue: `"(3+1)/2"`
-/// - Evaluated value: `"2"` (evaluates the arithmetic expression and returns the result as an integer)
-///
-/// ## Example 3 (for STRING type):
-/// - variableValue: `"\"test\" == \"test\""`
-/// - Evaluated value: `"true"` (evaluates string equality and returns the result as string)
-///
-/// ## Example 4 (for FLOAT type):
-/// - variableValue: `"2 * 2.5"`
-/// - Evaluated value: `"5.0"` (evaluates multiplication and returns the result as float)
-///
-/// ## Example 5 (for Variable Substitution):
-/// - variableKey: `"myVar"`
-/// - variableValue: `"Hello, {myVar}!"`
-/// - If `myVar` is `"World"`, the evaluated value will be `"Hello, World!"`.
+/// Variable Value Supported Formats:
+///   - `{var:variable-key}`: Replaces with the value of the variable.
+///   - `{index}`: Replaces with the list item index.
+///   - `{$json-variable-key:$[json-path]}`: Extracts values from JSON using a path.
+///   - `#SCRIPT 2 + 2 #ENDSCRIPT`: The string with evaluated JavaScript code replacing the script tags.
 ///
 @NativeAction(
     name: "Native Change Variable",
@@ -72,10 +48,9 @@ public class NativeChangeVariable {
         guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else { return }
 
         var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
-
-        // Evaluate any conditions or arithmetic operations in the value.
-        value = value.evaluateMixConditionOperator(type: variable.type)
-
+        value = value.replacingScriptValue()
+        value = value.replacingTypeValue(type: variable.type)
+        
         // Trigger the onNext callback with the evaluated value.
         param.onNext(value)
     }

@@ -10,31 +10,11 @@ import SwiftUI
 /// This function updates the mobile, tablet, and desktop values of a block's property.
 /// It supports variable substitution and conditional evaluation for the property values.
 ///
-/// The `evaluateMixConditionOperator` function evaluates a property value that may contain mixed conditions and operators
-/// based on the property type specified by `propertyKey`. If the string contains conditions, it evaluates them and converts
-/// the result to a boolean string if the property type is "BOOLEAN". If the string contains operators, it evaluates the
-/// expression and converts the result to the specified numeric type.
-///
-/// Supported types: "BOOLEAN", "INT", "DOUBLE", "LONG", "FLOAT".
-///
-/// The evaluated property value is returned as a string, or the original value if no conditions or operators are found.
-///
-/// ## Example 1 (for BOOLEAN type):
-/// - propertyValue: `"(4 / 2 != 0) && (true == true)"`
-/// - Evaluated value: `"true"` (evaluates the condition and returns boolean as string)
-///
-/// ## Example 2 (for INT type):
-/// - propertyValue: `"(3+1)/2"`
-/// - Evaluated value: `"2"` (evaluates the arithmetic expression and returns the result as an integer)
-///
-/// ## Example 3 (for STRING type):
-/// - propertyValue: `"\"test\" == \"test\""`
-/// - Evaluated value: `"true"` (evaluates string equality and returns the result as string)
-///
-/// ## Example 4 (for FLOAT type):
-/// - propertyValue: `"2 * 2.5"`
-/// - Evaluated value: `"5.0"` (evaluates multiplication and returns the result as float)
-///
+/// Property Value Supported Formats:
+///   - `{var:variable-key}`: Replaces with the value of the variable.
+///   - `{index}`: Replaces with the list item index.
+///   - `{$json-variable-key:$[json-path]}`: Extracts values from JSON using a path.
+///   - `#SCRIPT 2 + 2 #ENDSCRIPT`: The string with evaluated JavaScript code replacing the script tags.
 ///
 @NativeAction(
     name: "Native Change Block Property",
@@ -87,21 +67,24 @@ public class NativeChangeBlockProperty {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
                     valueMobile = actionHandleVariableValue(actionProps: param.actionProps, value: valueMobile) ?? ""
-                    valueMobile = valueMobile.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueMobile = valueMobile.replacingScriptValue()
+                    valueMobile = valueMobile.replacingTypeValue(type: currentProperty.type)
                     currentProperty.valueMobile = valueMobile
                 }
 
                 // Update tablet value
                 if !param.propertyValueTablet.isEmpty {
                     valueTablet = actionHandleVariableValue(actionProps: param.actionProps, value: valueTablet) ?? ""
-                    valueTablet = valueTablet.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueTablet = valueTablet.replacingScriptValue()
+                    valueTablet = valueTablet.replacingTypeValue(type: currentProperty.type)
                     currentProperty.valueTablet = valueTablet
                 }
 
                 // Update desktop value
                 if !param.propertyValueDesktop.isEmpty {
                     valueDesktop = actionHandleVariableValue(actionProps: param.actionProps, value: valueDesktop) ?? ""
-                    valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueDesktop = valueDesktop.replacingScriptValue()
+                    valueDesktop = valueDesktop.replacingTypeValue(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
 
