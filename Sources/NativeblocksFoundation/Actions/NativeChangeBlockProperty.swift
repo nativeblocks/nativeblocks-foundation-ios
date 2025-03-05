@@ -86,21 +86,21 @@ public class NativeChangeBlockProperty {
             if var currentProperty = block.properties?[param.propertyKey] {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
-                    valueMobile = valueMobile.replaceNativeVariable(param.actionProps.variables)
+                    valueMobile = actionHandleVariableValue(actionProps: param.actionProps, value: valueMobile) ?? ""
                     valueMobile = valueMobile.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueMobile = valueMobile
                 }
 
                 // Update tablet value
                 if !param.propertyValueTablet.isEmpty {
-                    valueTablet = valueTablet.replaceNativeVariable(param.actionProps.variables)
+                    valueTablet = actionHandleVariableValue(actionProps: param.actionProps, value: valueTablet) ?? ""
                     valueTablet = valueTablet.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueTablet = valueTablet
                 }
 
                 // Update desktop value
                 if !param.propertyValueDesktop.isEmpty {
-                    valueDesktop = valueDesktop.replaceNativeVariable(param.actionProps.variables)
+                    valueDesktop = actionHandleVariableValue(actionProps: param.actionProps, value: valueDesktop) ?? ""
                     valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
