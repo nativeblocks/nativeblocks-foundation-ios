@@ -25,7 +25,7 @@ class ScrollableNativeType: INativeType<Axis.Set> {
 
     override func fromString(_ input: String?) -> Axis.Set {
         guard let input = input else { return dafault }
-        switch input.lowercased() {
+        switch input {
         case "horizontal": return .horizontal
         case "vertical": return .vertical
         case "both": return [.vertical, .horizontal]

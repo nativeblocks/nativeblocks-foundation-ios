@@ -23,7 +23,7 @@ class TextAlignmentNativeType: INativeType<TextAlignment> {
 
     override func fromString(_ input: String?) -> TextAlignment {
         guard let input = input else { return dafault }
-        switch input.lowercased() {
+        switch input {
         case "leading":
             return .leading
         case "center":
