@@ -1,4 +1,5 @@
 import Nativeblocks
+import SwiftUI
 
 public class NativeblocksFoundationBlockProvider {
     public static func provideBlocks() {
@@ -7,6 +8,8 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_SCROLLVIEW", block: NativeScrollViewBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_TEXT", block: NativeTextBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_SPACER", block: NativeSpacerBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_LAZY_VSTACK", block: NativeLazyVStackBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_LAZY_HSTACK", block: NativeLazyHStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_VSTACK", block: NativeVStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_HSTACK", block: NativeHStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "NATIVE_TEXT_FIELD", block: NativeTextFieldBlock())

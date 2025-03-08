@@ -1,56 +1,13 @@
 import Foundation
+import Nativeblocks
 import SwiftUI
 
-func mapBlockAlignmentHorizontal(_ alignment: String) -> HorizontalAlignment {
-    switch alignment.lowercased() {
-    case "leading": return .leading
-    case "trailing": return .trailing
-    case "listrowseparatorleading":
-        if #available(iOS 16.0, *) {
-            return .listRowSeparatorLeading
-        } else {
-            return .leading
-        }
-    case "listrowseparatortrailing":
-        if #available(iOS 16.0, *) {
-            return .listRowSeparatorTrailing
-        } else {
-            return .leading
-        }
-    case "center": return .center
-    default: return .leading
-    }
-}
-
-func mapBlockScrollable(_ scroll: String) -> Axis.Set {
-    switch scroll.lowercased() {
-    case "horizontal": return .horizontal
-    case "vertical": return .vertical
-    case "both": return [.vertical, .horizontal]
-    default: return [.vertical, .horizontal]
-    }
-}
-
-func mapBlockVerticalAlignment(_ alignment: String) -> VerticalAlignment {
-    switch alignment.lowercased() {
-    case "top": return .top
-    case "bottom": return .bottom
-    case "center": return .center
-    case "firsttextbaseline": return .firstTextBaseline
-    case "lasttextbaseline": return .lastTextBaseline
-    default: return .top
-    }
-}
-
 extension String {
+    /// Checks if the string is a valid URL for an image.
+    /// - Returns: `true` if the URL is valid, otherwise `false`.
     public func isValidImageUrl() -> Bool {
-        guard let url = URL(string: self) else {
-            return false
-        }
-
-        guard url.scheme == "http" || url.scheme == "https" else {
-            return false
-        }
+        guard let url = URL(string: self) else { return false }
+        guard url.scheme == "http" || url.scheme == "https" else { return false }
 
         #if os(iOS)
             return UIApplication.shared.canOpenURL(url)
@@ -61,6 +18,12 @@ extension String {
 }
 
 extension View {
+    /// Applies a width and height modifier to a view.
+    /// - Parameters:
+    ///   - width: The width string (e.g., "infinity" or a numeric value).
+    ///   - height: The height string (e.g., "infinity" or a numeric value).
+    ///   - alignment: The alignment for the view's frame.
+    /// - Returns: A view with the specified frame settings.
     public func blockWidthAndHeightModifier(_ width: String, _ height: String, alignment: Alignment = .center) -> some View {
         var maxWidth: CGFloat? = nil
         var maxHeight: CGFloat? = nil
@@ -91,30 +54,11 @@ extension View {
             alignment: alignment
         )
     }
-}
 
-extension View {
-    public func blockMultilineTextAlignment(_ alignment: String) -> some View {
-        var textAlignment = TextAlignment.leading
-        switch alignment.lowercased() {
-        case "leading":
-            textAlignment = .leading
-        case "center":
-            textAlignment = .center
-        case "trailing":
-            textAlignment = .trailing
-        default:
-            textAlignment = .leading
-        }
-        return self.multilineTextAlignment(textAlignment)
-    }
-}
-
-extension View {
-    public func blockFont(family: String, size: CGFloat, weight: String, design: String) -> some View {
+    public func blockFont(family: String, size: CGFloat, weight: Font.Weight, design: Font.Design) -> some View {
         var font: Font? = nil
-        let fontWeight = self.mapFontWeight(weight)
-        let fontDesign = self.mapFontDesign(design)
+        let fontWeight = weight
+        let fontDesign = design
         switch family.lowercased() {
         case "system":
             font = .system(size: size, weight: fontWeight, design: fontDesign)
@@ -123,79 +67,11 @@ extension View {
         }
         return self.font(font)
     }
-
-    private func mapFontWeight(_ fontWeight: String) -> Font.Weight {
-        switch fontWeight.lowercased() {
-        case "ultralight": return .ultraLight
-        case "thin": return .thin
-        case "light": return .light
-        case "regular": return .regular
-        case "medium": return .medium
-        case "semibold": return .semibold
-        case "bold": return .bold
-        case "heavy": return .heavy
-        case "black": return .black
-        default: return .regular
-        }
-    }
-
-    private func mapFontDesign(_ fontWeight: String) -> Font.Design {
-        switch fontWeight.lowercased() {
-        case "default": return .default
-        case "monospaced": return .monospaced
-        case "rounded": return .rounded
-        case "serif": return .serif
-        default: return .default
-        }
-    }
 }
 
-extension View {
-    public func blockDirection(_ direction: String) -> some View {
-        let blockDirection: LayoutDirection =
-            if direction == "RTL" {
-                LayoutDirection.rightToLeft
-            } else {
-                LayoutDirection.leftToRight
-            }
-
-        return self.environment(\.layoutDirection, blockDirection)
-    }
-}
-
-extension Color {
-    public init?(blockHex: String) {
-        var hexSanitized = blockHex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-
-        var r: CGFloat = 0.0
-        var g: CGFloat = 0.0
-        var b: CGFloat = 0.0
-        var a: CGFloat = 1.0
-
-        let length = hexSanitized.count
-
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
-
-        if length == 6 {
-            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000FF) / 255.0
-        } else if length == 8 {
-            a = CGFloat((rgb & 0xFF00_0000) >> 24) / 255.0
-            r = CGFloat((rgb & 0x00FF_0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x0000_FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000_00FF) / 255.0
-        } else {
-            return nil
-        }
-
-        self.init(red: r, green: g, blue: b, opacity: a)
-    }
-}
-
+/// Creates a rounded rectangle shape with the specified corner radius.
+/// - Parameter radius: The corner radius of the rounded rectangle.
+/// - Returns: A `RoundedRectangle` with the specified corner radius.
 public func roundedRectangleShape(
     _ radius: CGFloat
 ) -> RoundedRectangle {
@@ -203,6 +79,25 @@ public func roundedRectangleShape(
 }
 
 extension View {
+    /// Sets the keyboard type for text input fields within the view's environment.
+    /// - Parameter type: A string representing the keyboard type (e.g., "asciicapable", "numberpad").
+    /// - Returns: A view with the specified keyboard type applied.
+    ///
+    /// Supported keyboard types:
+    /// - "asciicapable"
+    /// - "numbersandpunctuation"
+    /// - "url"
+    /// - "numberpad"
+    /// - "phonepad"
+    /// - "namephonepad"
+    /// - "emailaddress"
+    /// - "decimalpad"
+    /// - "twitter"
+    /// - "websearch"
+    /// - "asciicapablenumberpad"
+    /// - "alphabet"
+    ///
+    /// Defaults to `.default` if an unsupported type is provided.
     public func blockKeyboardType(_ type: String) -> some View {
         #if os(iOS)
             var keyboardType: UIKeyboardType = .default
@@ -244,6 +139,16 @@ extension View {
 }
 
 extension View {
+    /// Configures autocapitalization behavior for text input fields within the view's environment.
+    /// - Parameter type: A string representing the autocapitalization type (e.g., "allcharacters", "sentences", "words").
+    /// - Returns: A view with the specified autocapitalization type applied.
+    ///
+    /// Supported autocapitalization types:
+    /// - "allcharacters"
+    /// - "sentences"
+    /// - "words"
+    ///
+    /// Defaults to `.none` if an unsupported type is provided.
     public func blockAutocapitalization(_ type: String) -> some View {
         #if os(iOS)
             var autocapitalization: UITextAutocapitalizationType = .none
@@ -267,24 +172,62 @@ extension View {
 }
 
 extension View {
+    /// Configures the visibility of scroll indicators within the view's environment.
+    /// - Parameter type: A string representing the scroll indicator visibility (e.g., "automatic", "hidden", "never", "visible").
+    /// - Returns: A view with the specified scroll indicator visibility applied.
+    ///
+    /// Supported visibility options:
+    /// - "automatic"
+    /// - "hidden"
+    /// - "never"
+    /// - "visible"
+    ///
+    /// Defaults to `.visible` if an unsupported type is provided. This feature is available on iOS 16.0 and later.
     public func blockScrollIndicators(_ type: String) -> some View {
         if #available(iOS 16.0, *) {
-            var autocapitalization: ScrollIndicatorVisibility = .automatic
+            var scrollIndicatorVisibility: ScrollIndicatorVisibility = .automatic
             switch type.lowercased() {
             case "automatic":
-                autocapitalization = .automatic
+                scrollIndicatorVisibility = .automatic
             case "hidden":
-                autocapitalization = .hidden
+                scrollIndicatorVisibility = .hidden
             case "never":
-                autocapitalization = .never
+                scrollIndicatorVisibility = .never
             case "visible":
-                autocapitalization = .visible
+                scrollIndicatorVisibility = .visible
             default:
-                autocapitalization = .visible
+                scrollIndicatorVisibility = .visible
             }
-            return self.scrollIndicators(autocapitalization)
+            return self.scrollIndicators(scrollIndicatorVisibility)
         } else {
             return self
+        }
+    }
+}
+
+extension String {
+    func listSize() -> Int? {
+        return (NativeJsonPath().query(jsonString: self, query: "$") as? [Any])?.count ?? nil
+    }
+}
+
+extension View {
+    public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
+        self.modifier(BlockOnTapGestureModifier(enable: enable, action: action))
+    }
+}
+
+struct BlockOnTapGestureModifier: ViewModifier {
+    let enable: Bool
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        if enable {
+            content.onTapGesture {
+                action()
+            }
+        } else {
+            content
         }
     }
 }

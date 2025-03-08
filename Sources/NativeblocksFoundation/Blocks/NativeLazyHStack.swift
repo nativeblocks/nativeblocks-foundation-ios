@@ -2,9 +2,9 @@ import Nativeblocks
 import NativeblocksCompiler
 import SwiftUI
 
-/// A customizable HStack block for Nativeblocks.
+/// A customizable LazyHStack block for Nativeblocks.
 ///
-/// `NativeHStack` is a flexible horizontal stack layout that integrates with the Nativeblocks ecosystem.
+/// `NativeLazyHStack` is a flexible horizontal stack layout that integrates with the Nativeblocks ecosystem.
 /// It supports features like customizable alignment, spacing, padding, colors, shadows, and more.
 ///
 /// ### Features:
@@ -15,21 +15,21 @@ import SwiftUI
 ///
 /// ### Example:
 /// ```swift
-/// NativeHStack(
+/// NativeLazyHStack(
 ///     content: { _ in Text("Hello, World!") },
 ///     alignmentHorizontal: "center",
 ///     alignmentVertical: "center",
 ///     spacing: 10,
-///     onClick: { print("HStack clicked") }
+///     onClick: { print("LazyHStack clicked") }
 /// )
 /// ```
 @NativeBlock(
-    name: "Native HStack",
-    keyType: "NATIVE_HSTACK",
-    description: "Nativeblocks HStack block",
-    version: 2
+    name: "Native LazyHStack",
+    keyType: "NATIVE_LAZY_HSTACK",
+    description: "Nativeblocks LazyHStack block",
+    version: 1
 )
-struct NativeHStack<Content: View>: View {
+struct NativeLazyHStack<Content: View>: View {
     @NativeBlockData(
         description:
             "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked."
@@ -38,17 +38,17 @@ struct NativeHStack<Content: View>: View {
 
     // MARK: - Properties
 
-    /// The content of the HStack, defined as a slot.
-    @NativeBlockSlot(description: "The content displayed inside the HStack.")
+    /// The content of the LazyHStack, defined as a slot.
+    @NativeBlockSlot(description: "The content displayed inside the LazyHStack.")
     var content: (BlockIndex) -> Content
 
     // MARK: - Alignment Properties
 
-    /// Horizontal alignment of the content in the HStack.
+    /// Horizontal alignment of the content in the LazyHStack.
     /// - `valuePicker`: A dropdown picker for choosing alignment options.
     /// - `valuePickerOptions`: Contains options like "leading", "trailing", and "center".
     @NativeBlockProp(
-        description: "Horizontal alignment of the HStack's content.",
+        description: "Horizontal alignment of the LazyHStack's content.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("leading", "leading"),
@@ -60,11 +60,11 @@ struct NativeHStack<Content: View>: View {
     )
     var alignmentHorizontal: HorizontalAlignment = HorizontalAlignment.leading
 
-    /// Vertical alignment of the content in the HStack.
+    /// Vertical alignment of the content in the LazyHStack.
     /// - `valuePicker`: A dropdown picker for choosing vertical alignment options.
     /// - `valuePickerOptions`: Contains options like "top", "bottom", "center", and baselines.
     @NativeBlockProp(
-        description: "Vertical alignment of the HStack's content.",
+        description: "Vertical alignment of the LazyHStack's content.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("top", "top"),
@@ -78,9 +78,9 @@ struct NativeHStack<Content: View>: View {
     )
     var alignmentVertical: VerticalAlignment = VerticalAlignment.top
 
-    /// Spacing between elements in the HStack.
+    /// Spacing between elements in the LazyHStack.
     @NativeBlockProp(
-        description: "Spacing between elements inside the HStack.",
+        description: "Spacing between elements inside the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
         defaultValue: "0"
     )
@@ -88,33 +88,33 @@ struct NativeHStack<Content: View>: View {
 
     // MARK: - Padding Properties
 
-    /// Padding at the top of the HStack.
+    /// Padding at the top of the LazyHStack.
     @NativeBlockProp(
-        description: "Padding at the top of the HStack.",
+        description: "Padding at the top of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
 
-    /// Padding at the leading edge of the HStack.
+    /// Padding at the leading edge of the LazyHStack.
     @NativeBlockProp(
-        description: "Padding at the leading edge of the HStack.",
+        description: "Padding at the leading edge of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
 
-    /// Padding at the bottom of the HStack.
+    /// Padding at the bottom of the LazyHStack.
     @NativeBlockProp(
-        description: "Padding at the bottom of the HStack.",
+        description: "Padding at the bottom of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
 
-    /// Padding at the trailing edge of the HStack.
+    /// Padding at the trailing edge of the LazyHStack.
     @NativeBlockProp(
-        description: "Padding at the trailing edge of the HStack.",
+        description: "Padding at the trailing edge of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
@@ -123,7 +123,7 @@ struct NativeHStack<Content: View>: View {
     // MARK: - Size Properties
 
     @NativeBlockProp(
-        description: "Width of the HStack frame.",
+        description: "Width of the LazyHStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -135,7 +135,7 @@ struct NativeHStack<Content: View>: View {
     var frameWidth: String = "notSet"
 
     @NativeBlockProp(
-        description: "Height of the HStack frame.",
+        description: "Height of the LazyHStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("notSet", "notSet"),
@@ -149,7 +149,7 @@ struct NativeHStack<Content: View>: View {
     // MARK: - Background Properties
 
     @NativeBlockProp(
-        description: "Background color of the HStack.",
+        description: "Background color of the LazyHStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#00000000"
@@ -157,14 +157,14 @@ struct NativeHStack<Content: View>: View {
     var backgroundColor: Color = Color.black.opacity(0)
 
     @NativeBlockProp(
-        description: "Corner radius of the HStack's background.",
+        description: "Corner radius of the LazyHStack's background.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "0"
     )
     var cornerRadius: CGFloat = 0
 
     @NativeBlockProp(
-        description: "Border color of the HStack.",
+        description: "Border color of the LazyHStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#00000000"
@@ -172,7 +172,7 @@ struct NativeHStack<Content: View>: View {
     var borderColor: Color = Color.black.opacity(0)
 
     @NativeBlockProp(
-        description: "Border width of the HStack.",
+        description: "Border width of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "0"
     )
@@ -180,35 +180,35 @@ struct NativeHStack<Content: View>: View {
 
     // MARK: - Shadow Properties
 
-    /// Shadow color of the HStack.
+    /// Shadow color of the LazyHStack.
     /// - `valuePicker`: A color picker for selecting the shadow color.
     @NativeBlockProp(
-        description: "Shadow color of the HStack.",
+        description: "Shadow color of the LazyHStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#00000000"
     )
     var shadowColor: Color = Color.black.opacity(0)
 
-    /// Shadow blur radius of the HStack.
+    /// Shadow blur radius of the LazyHStack.
     @NativeBlockProp(
-        description: "Shadow blur radius of the HStack.",
+        description: "Shadow blur radius of the LazyHStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "0"
     )
     var shadowRadius: CGFloat = 0
 
-    /// Horizontal offset of the HStack's shadow.
+    /// Horizontal offset of the LazyHStack's shadow.
     @NativeBlockProp(
-        description: "Horizontal offset of the HStack's shadow.",
+        description: "Horizontal offset of the LazyHStack's shadow.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "0"
     )
     var shadowX: CGFloat = 0
 
-    /// Vertical offset of the HStack's shadow.
+    /// Vertical offset of the LazyHStack's shadow.
     @NativeBlockProp(
-        description: "Vertical offset of the HStack's shadow.",
+        description: "Vertical offset of the LazyHStack's shadow.",
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "0"
     )
@@ -216,16 +216,16 @@ struct NativeHStack<Content: View>: View {
 
     // MARK: - Event Handlers
 
-    /// Action triggered when the HStack is tapped.
+    /// Action triggered when the LazyHStack is tapped.
     @NativeBlockEvent(
-        description: "The action triggered when the HStack is tapped."
+        description: "The action triggered when the LazyHStack is tapped."
     )
-    var onClick: (() -> Void)?
+    var onClick: () -> Void
 
     // MARK: - Body
 
     var body: some View {
-        HStack(
+        LazyHStack(
             alignment: alignmentVertical,
             spacing: spacing
         ) {
@@ -263,27 +263,41 @@ struct NativeHStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .blockOnTapGesture(enable: onClick != nil) {
-            onClick?()
+        .onTapGesture {
+            onClick()
         }
     }
 }
 
-struct NativeHStack_Previews: PreviewProvider {
+struct NativeLazyHStack_Previews: PreviewProvider {
+    init() {
+        NativeblocksFoundationTypeProvider.provideTypes()
+    }
+
+    static var previews: some View {
+        NativeLazyHStack(
+            content: { _ in
+                Text("Text 1")
+            },
+            onClick: {}
+        )
+    }
+}
+
+struct NativeLazyHStack_Padding_Previews: PreviewProvider {
     init() {
         NativeblocksFoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {
         ZStack {
-            NativeHStack(
+            NativeLazyHStack(
                 content: { _ in
                     Text("Top Left Aligned")
                         .padding()
                 },
-                alignmentHorizontal: HorizontalAlignment.center,
+                alignmentHorizontal: HorizontalAlignment.leading,
                 alignmentVertical: VerticalAlignment.center,
-                spacing: 0,
                 paddingTop: 8,
                 paddingLeading: 8,
                 paddingBottom: 8,
