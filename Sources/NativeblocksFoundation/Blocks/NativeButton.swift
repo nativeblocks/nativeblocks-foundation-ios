@@ -184,19 +184,6 @@ struct NativeButton<Content: View>: View {
     )
     var lineSpacing: CGFloat = 0
 
-    /// The layout direction of the button (LTR or RTL).
-    @NativeBlockProp(
-        description: "Specifies the layout direction of the button content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = LayoutDirection.leftToRight
-
     /// The top padding of the button content.
     @NativeBlockProp(
         description: "The top padding of the button content.",
@@ -352,7 +339,7 @@ struct NativeButton<Content: View>: View {
         let foreground = !enable ? disableForegroundColor : foregroundColor
         Button(action: {
             if enable {
-                onClick()
+                onClick?()
             }
         }) {
             HStack(alignment: alignmentVertical, spacing: spacing) {
@@ -399,7 +386,6 @@ struct NativeButton<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
         .buttonStyle(PlainButtonStyle())
     }
 }

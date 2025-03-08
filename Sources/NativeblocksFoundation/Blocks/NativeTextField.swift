@@ -150,19 +150,6 @@ struct NativeTextField: View {
 
     // MARK: - Layout and Appearance Properties
 
-    /// The layout direction of the text field (LTR or RTL).
-    @NativeBlockProp(
-        description: "The layout direction of the text field.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = .leftToRight
-
     /// The top padding of the text field.
     @NativeBlockProp(
         description: "The top padding inside the text field.",
@@ -328,7 +315,7 @@ struct NativeTextField: View {
     init(
         text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
         onChange: @escaping (String) -> Void, isSecure: Bool, disableAutocorrection: Bool, fontFamily: String, fontWeight: Font.Weight,
-        fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color, direction: LayoutDirection,
+        fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color,
         paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat, frameWidth: String,
         frameHeight: String, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment, alignmentVertical: VerticalAlignment,
         multilineTextAlignment: TextAlignment, lineLimit: Int, lineSpacing: CGFloat, keyboardType: String,
@@ -348,7 +335,6 @@ struct NativeTextField: View {
         self.fontSize = fontSize
         self.foregroundColor = foregroundColor
         self.backgroundColor = backgroundColor
-        self.direction = direction
         self.paddingTop = paddingTop
         self.paddingLeading = paddingLeading
         self.paddingBottom = paddingBottom
@@ -401,7 +387,6 @@ struct NativeTextField: View {
                 .multilineTextAlignment(multilineTextAlignment)
                 .lineLimit(lineLimit)
                 .lineSpacing(lineSpacing)
-                .environment(\.layoutDirection, direction)
 
                 TextField("", text: $localText) { _ in
                 }
@@ -412,7 +397,6 @@ struct NativeTextField: View {
                 .multilineTextAlignment(multilineTextAlignment)
                 .lineLimit(lineLimit)
                 .lineSpacing(lineSpacing)
-                .environment(\.layoutDirection, direction)
                 .onChange(of: localText) { newValue in
                     onChange(newValue)
                 }
@@ -455,7 +439,6 @@ struct NativeTextField: View {
                 .multilineTextAlignment(multilineTextAlignment)
                 .lineLimit(lineLimit)
                 .lineSpacing(lineSpacing)
-                .environment(\.layoutDirection, direction)
                 .onChange(of: localText) { newValue in
                     onChange(newValue)
                 }
@@ -479,7 +462,6 @@ struct NativeTextFieldTest: View {
                 multilineTextAlignment: .leading,
                 lineLimit: 3,
                 lineSpacing: 9,
-                direction: .leftToRight,
                 paddingTop: 8,
                 paddingLeading: 8,
                 paddingBottom: 8,
@@ -508,7 +490,6 @@ struct NativeTextFieldTest: View {
                 fontSize: 16,
                 foregroundColor: Color.black,
                 backgroundColor: Color.white,
-                direction: .leftToRight,
                 paddingTop: 10,
                 paddingLeading: 16,
                 paddingBottom: 10,

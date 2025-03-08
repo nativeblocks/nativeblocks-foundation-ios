@@ -128,21 +128,6 @@ struct NativeText: View {
     )
     var lineSpacing: CGFloat = 0
 
-    // MARK: - Direction Properties
-
-    /// The layout direction for the text (LTR or RTL).
-    @NativeBlockProp(
-        description: "The layout direction for the text content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "LTR"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = .leftToRight
-
     // MARK: - Padding Properties
 
     /// The top padding of the text.
@@ -261,7 +246,6 @@ struct NativeText: View {
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)
             .padding(.trailing, paddingTrailing)
-            .environment(\.layoutDirection, direction)
     }
 }
 
@@ -281,7 +265,6 @@ struct NativeText_Previews: PreviewProvider {
             multilineTextAlignment: .leading,
             lineLimit: 3,
             lineSpacing: 9,
-            direction: .leftToRight,
             paddingTop: 8,
             paddingLeading: 8,
             paddingBottom: 8,

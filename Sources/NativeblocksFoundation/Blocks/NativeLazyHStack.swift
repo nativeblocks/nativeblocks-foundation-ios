@@ -9,7 +9,7 @@ import SwiftUI
 ///
 /// ### Features:
 /// - Dynamic content defined using slots.
-/// - Configurable alignment, direction, padding, and size.
+/// - Configurable alignment, padding, and size.
 /// - Background, border, and shadow styling options.
 /// - Trigger actions on tap events.
 ///
@@ -85,23 +85,6 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0"
     )
     var spacing: CGFloat = 0
-
-    // MARK: - Direction Property
-
-    /// Layout direction of the LazyHStack (LTR or RTL).
-    /// - `valuePicker`: A dropdown picker for choosing the layout direction.
-    /// - `valuePickerOptions`: Contains options like "LTR" (Left-to-Right) and "RTL" (Right-to-Left).
-    @NativeBlockProp(
-        description: "The layout direction of the LazyHStack (Left-to-Right or Right-to-Left).",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = LayoutDirection.leftToRight
 
     // MARK: - Padding Properties
 
@@ -246,9 +229,8 @@ struct NativeLazyHStack<Content: View>: View {
             alignment: alignmentVertical,
             spacing: spacing
         ) {
-            let listArray = list.listSize()
-            if listArray != nil {
-                ForEach(0..<max(1, listArray ?? 0), id: \.self) { index in
+            if let listSize = list.listSize() {
+                ForEach(0..<max(1, listSize), id: \.self) { index in
                     content(index)
                 }
             } else {
@@ -281,7 +263,6 @@ struct NativeLazyHStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
         .onTapGesture {
             onClick()
         }

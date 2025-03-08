@@ -60,29 +60,18 @@ public class NativeChangeVariable {
         var onNext: (String) -> Void
 
         /// Additional properties for the action, such as variables and triggers.
-        var actionProps: ActionProps?
+        var actionProps: ActionProps
     }
 
     /// Function to handle the change of a variable.
     @NativeActionFunction()
     func onChangeBlock(param: Parameter) {
         // Retrieve data from the action properties.
-        let data = param.actionProps?.trigger?.data ?? [:]
-        let variableKeyData = param.actionProps?.variables?[data["variableKey"]?.value ?? ""]
+        let data = param.actionProps.trigger?.data ?? [:]
 
-        // Initialize the value with the provided variableValue.
-        var value = param.variableValue
+        guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else { return }
 
-        // Ensure the variable exists in the action properties.
-        guard let variable = variableKeyData else { return }
-
-        // Substitute variables in the value with their actual values.
-        param.actionProps?.variables?.forEach { variableItem in
-            value = value.getVariableValue(key: variableItem.key, replacement: variableItem.value.value)
-        }
-
-        // Convert the value to a string representation suitable for action data.
-        value = value.parseWithJsonPath(variables: param.actionProps?.variables, index: param.actionProps?.listItemIndex)
+        var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
 
         // Evaluate any conditions or arithmetic operations in the value.
         value = value.evaluateMixConditionOperator(type: variable.type)

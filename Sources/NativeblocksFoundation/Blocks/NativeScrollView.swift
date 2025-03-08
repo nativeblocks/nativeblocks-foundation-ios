@@ -102,21 +102,6 @@ struct NativeScrollView<Content: View>: View {
     )
     var spacing: CGFloat = 0
 
-    // MARK: - Direction Properties
-
-    /// The layout direction of the content (LTR or RTL).
-    @NativeBlockProp(
-        description: "Sets the layout direction of the content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = .leftToRight
-
     // MARK: - Padding Properties
 
     /// The top padding of the content inside the ScrollView.
@@ -282,7 +267,6 @@ struct NativeScrollView<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
     }
 }
 
@@ -323,7 +307,6 @@ struct NativeScrollView_Previews: PreviewProvider {
                 alignmentHorizontal: .center,
                 alignmentVertical: .center,
                 spacing: 0,
-                direction: .rightToLeft,
                 paddingTop: 0,
                 paddingLeading: 0,
                 paddingBottom: 0,

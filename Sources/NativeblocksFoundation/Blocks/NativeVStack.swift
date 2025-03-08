@@ -5,13 +5,12 @@ import SwiftUI
 /// A customizable vertical stack (VStack) block for Nativeblocks.
 ///
 /// `NativeVStack` allows you to stack child views vertically with alignment, spacing, padding,
-/// and styling options. It also supports click events and customizable layout direction.
+/// and styling options. It also supports click events and customizable layout.
 ///
 /// ### Features:
 /// - Customizable alignment (horizontal and vertical).
 /// - Configurable spacing between child views.
 /// - Support for padding, frame sizing, and background styling.
-/// - Layout direction options (LTR or RTL).
 /// - Shadow and border customization.
 ///
 /// ### Example:
@@ -87,19 +86,6 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0"
     )
     var spacing: CGFloat = 0
-
-    /// The layout direction of the VStack (LTR or RTL).
-    @NativeBlockProp(
-        description: "The layout direction of the VStack.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("LTR", "LTR"),
-            NativeBlockValuePickerOption("RTL", "RTL"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Direction"),
-        defaultValue: "LTR"
-    )
-    var direction: LayoutDirection = .leftToRight
 
     // MARK: - Padding Properties
 
@@ -243,9 +229,8 @@ struct NativeVStack<Content: View>: View {
             alignment: alignmentHorizontal,
             spacing: spacing
         ) {
-            let listArray = list.parseBlockList()
-            if listArray != nil {
-                ForEach(0..<max(1, listArray?.count ?? 0), id: \.self) { index in
+            if let listSize = list.listSize() {
+                ForEach(0..<max(1, listSize), id: \.self) { index in
                     content(index)
                 }
             } else {
@@ -278,7 +263,6 @@ struct NativeVStack<Content: View>: View {
             color: shadowColor,
             radius: shadowRadius, x: shadowX, y: shadowY
         )
-        .environment(\.layoutDirection, direction)
         .blockOnTapGesture(enable: onClick != nil) {
             onClick?()
         }
