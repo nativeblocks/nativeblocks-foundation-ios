@@ -27,7 +27,7 @@ class FontDesignNativeType: INativeType<Font.Design> {
 
     override func fromString(_ input: String?) -> Font.Design {
         guard let input = input else { return dafault }
-        switch input.lowercased() {
+        switch input {
         case "default": return .default
         case "monospaced": return .monospaced
         case "rounded": return .rounded

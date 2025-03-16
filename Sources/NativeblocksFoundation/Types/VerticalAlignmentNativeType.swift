@@ -29,12 +29,12 @@ class VerticalAlignmentNativeType: INativeType<VerticalAlignment> {
 
     override func fromString(_ input: String?) -> VerticalAlignment {
         guard let input = input else { return dafault }
-        switch input.lowercased() {
+        switch input {
         case "top": return .top
         case "bottom": return .bottom
         case "center": return .center
-        case "firsttextbaseline": return .firstTextBaseline
-        case "lasttextbaseline": return .lastTextBaseline
+        case "firstTextBaseline": return .firstTextBaseline
+        case "lastTextBaseline": return .lastTextBaseline
         default: return dafault
         }
     }

@@ -42,16 +42,16 @@ class HorizontalAlignmentNativeType: INativeType<HorizontalAlignment> {
 
     override func fromString(_ input: String?) -> HorizontalAlignment {
         guard let input = input else { return dafault }
-        switch input.lowercased() {
+        switch input {
         case "leading": return .leading
         case "trailing": return .trailing
-        case "listrowseparatorleading":
+        case "listRowSeparatorLeading":
             if #available(iOS 16.0, *) {
                 return .listRowSeparatorLeading
             } else {
                 return dafault
             }
-        case "listrowseparatortrailing":
+        case "listRowSeparatorTrailing":
             if #available(iOS 16.0, *) {
                 return .listRowSeparatorTrailing
             } else {
