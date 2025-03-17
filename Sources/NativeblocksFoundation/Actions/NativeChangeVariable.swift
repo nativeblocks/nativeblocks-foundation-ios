@@ -9,7 +9,6 @@ import NativeblocksCompiler
 /// Variable Value Supported Formats:
 ///   - `{var:variable-key}`: Replaces with the value of the variable.
 ///   - `{index}`: Replaces with the list item index.
-///   - `{$json-variable-key:$[json-path]}`: Extracts values from JSON using a path.
 ///   - `#SCRIPT 2 + 2 #ENDSCRIPT`: The string with evaluated JavaScript code replacing the script tags.
 ///
 @NativeAction(
