@@ -48,7 +48,6 @@ public class NativeChangeVariable {
         guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else { return }
 
         var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
-        value = value.replacingScriptValue()
         value = value.replacingTypeValue(type: variable.type)
         
         // Trigger the onNext callback with the evaluated value.
