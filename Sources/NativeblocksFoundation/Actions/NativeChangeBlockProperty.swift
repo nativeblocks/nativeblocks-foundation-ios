@@ -18,7 +18,8 @@ import SwiftUI
 @NativeAction(
     name: "Native Change Block Property",
     keyType: "NATIVE_CHANGE_BLOCK_PROPERTY",
-    description: "Native Change Block Property"
+    description: "Native Change Block Property",
+    version: 2
 )
 public class NativeChangeBlockProperty {
     /// Initializes a new instance of `NativeChangeBlockProperty`.
@@ -36,15 +37,15 @@ public class NativeChangeBlockProperty {
         var propertyKey: String
 
         /// The new value for the block's mobile property.
-        @NativeActionProp(description: "new value for the block's Mobile property")
+        @NativeActionProp(description: "new value for the block's Mobile property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueMobile: String
 
         /// The new value for the block's tablet property.
-        @NativeActionProp(description: "new value for the block's Tablet property")
+        @NativeActionProp(description: "new value for the block's Tablet property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueTablet: String
 
         /// The new value for the block's desktop property.
-        @NativeActionProp(description: "new value for the block's Desktop property")
+        @NativeActionProp(description: "new value for the block's Desktop property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueDesktop: String
 
         /// A closure to execute after the property is changed.

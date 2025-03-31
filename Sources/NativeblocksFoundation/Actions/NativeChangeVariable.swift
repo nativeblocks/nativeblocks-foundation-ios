@@ -14,7 +14,8 @@ import NativeblocksCompiler
 @NativeAction(
     name: "Native Change Variable",
     keyType: "NATIVE_CHANGE_VARIABLE",
-    description: "Native Change Variable"
+    description: "Native Change Variable",
+    version: 2
 )
 public class NativeChangeVariable {
     public init() {}
@@ -27,7 +28,7 @@ public class NativeChangeVariable {
         var variableKey: String
 
         /// The new value to be assigned to the variable.
-        @NativeActionProp(description: "value of the variable", valuePicker: .TEXT_AREA_INPUT)
+        @NativeActionProp(description: "value of the variable", valuePicker: .SCRIPT_AREA_INPUT)
         var variableValue: String
 
         /// Callback triggered after the variable is updated.
