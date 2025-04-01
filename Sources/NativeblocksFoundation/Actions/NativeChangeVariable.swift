@@ -41,7 +41,7 @@ public class NativeChangeVariable {
 
     /// Function to handle the change of a variable.
     @NativeActionFunction()
-    func onChangeBlock(param: Parameter) {
+    func onChangeBlock(param: Parameter) async {
         // Retrieve data from the action properties.
         let data = param.actionProps.trigger?.data ?? [:]
 
@@ -49,7 +49,7 @@ public class NativeChangeVariable {
 
         var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
         value = value.replacingTypeValue(type: variable.type)
-        
+
         // Trigger the onNext callback with the evaluated value.
         param.onNext(value)
     }
