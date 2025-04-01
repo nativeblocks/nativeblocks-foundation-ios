@@ -67,21 +67,21 @@ public class NativeChangeBlockProperty {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
                     valueMobile = actionHandleVariableValue(actionProps: param.actionProps, value: valueMobile) ?? ""
-                    valueMobile = valueMobile.replacingTypeValue(type: currentProperty.type)
+                    valueMobile = valueMobile.cast(type: currentProperty.type)
                     currentProperty.valueMobile = valueMobile
                 }
 
                 // Update tablet value
                 if !param.propertyValueTablet.isEmpty {
                     valueTablet = actionHandleVariableValue(actionProps: param.actionProps, value: valueTablet) ?? ""
-                    valueTablet = valueTablet.replacingTypeValue(type: currentProperty.type)
+                    valueTablet = valueTablet.cast(type: currentProperty.type)
                     currentProperty.valueTablet = valueTablet
                 }
 
                 // Update desktop value
                 if !param.propertyValueDesktop.isEmpty {
                     valueDesktop = actionHandleVariableValue(actionProps: param.actionProps, value: valueDesktop) ?? ""
-                    valueDesktop = valueDesktop.replacingTypeValue(type: currentProperty.type)
+                    valueDesktop = valueDesktop.cast(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
 
