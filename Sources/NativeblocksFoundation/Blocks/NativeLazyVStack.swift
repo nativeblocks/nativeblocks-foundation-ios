@@ -40,7 +40,7 @@ struct NativeLazyVStack<Content: View>: View {
         deprecated: true,
         deprecatedReason: "For better performance, use the 'length' instead."
     )
-    var list: String = "" 
+    var list: String = ""
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"

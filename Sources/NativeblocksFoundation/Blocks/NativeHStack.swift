@@ -37,7 +37,7 @@ struct NativeHStack<Content: View>: View {
         deprecatedReason: "For better performance, use the 'length' instead."
     )
     var list: String = ""
-    
+
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
