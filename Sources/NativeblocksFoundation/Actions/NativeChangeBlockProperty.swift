@@ -10,36 +10,16 @@ import SwiftUI
 /// This function updates the mobile, tablet, and desktop values of a block's property.
 /// It supports variable substitution and conditional evaluation for the property values.
 ///
-/// The `evaluateMixConditionOperator` function evaluates a property value that may contain mixed conditions and operators
-/// based on the property type specified by `propertyKey`. If the string contains conditions, it evaluates them and converts
-/// the result to a boolean string if the property type is "BOOLEAN". If the string contains operators, it evaluates the
-/// expression and converts the result to the specified numeric type.
-///
-/// Supported types: "BOOLEAN", "INT", "DOUBLE", "LONG", "FLOAT".
-///
-/// The evaluated property value is returned as a string, or the original value if no conditions or operators are found.
-///
-/// ## Example 1 (for BOOLEAN type):
-/// - propertyValue: `"(4 / 2 != 0) && (true == true)"`
-/// - Evaluated value: `"true"` (evaluates the condition and returns boolean as string)
-///
-/// ## Example 2 (for INT type):
-/// - propertyValue: `"(3+1)/2"`
-/// - Evaluated value: `"2"` (evaluates the arithmetic expression and returns the result as an integer)
-///
-/// ## Example 3 (for STRING type):
-/// - propertyValue: `"\"test\" == \"test\""`
-/// - Evaluated value: `"true"` (evaluates string equality and returns the result as string)
-///
-/// ## Example 4 (for FLOAT type):
-/// - propertyValue: `"2 * 2.5"`
-/// - Evaluated value: `"5.0"` (evaluates multiplication and returns the result as float)
-///
+/// Property Value Supported Formats:
+///   - `{var:variable-key}`: Replaces with the value of the variable.
+///   - `{index}`: Replaces with the list item index.
+///   - `#SCRIPT 2 + 2 #ENDSCRIPT`: The string with evaluated JavaScript code replacing the script tags.
 ///
 @NativeAction(
     name: "Native Change Block Property",
     keyType: "NATIVE_CHANGE_BLOCK_PROPERTY",
-    description: "Native Change Block Property"
+    description: "Native Change Block Property",
+    version: 2
 )
 public class NativeChangeBlockProperty {
     /// Initializes a new instance of `NativeChangeBlockProperty`.
@@ -57,15 +37,15 @@ public class NativeChangeBlockProperty {
         var propertyKey: String
 
         /// The new value for the block's mobile property.
-        @NativeActionProp(description: "new value for the block's Mobile property")
+        @NativeActionProp(description: "new value for the block's Mobile property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueMobile: String
 
         /// The new value for the block's tablet property.
-        @NativeActionProp(description: "new value for the block's Tablet property")
+        @NativeActionProp(description: "new value for the block's Tablet property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueTablet: String
 
         /// The new value for the block's desktop property.
-        @NativeActionProp(description: "new value for the block's Desktop property")
+        @NativeActionProp(description: "new value for the block's Desktop property", valuePicker: .SCRIPT_AREA_INPUT)
         var propertyValueDesktop: String
 
         /// A closure to execute after the property is changed.
@@ -77,7 +57,7 @@ public class NativeChangeBlockProperty {
     }
 
     @NativeActionFunction()
-    func onChangeBlock(param: Parameter) {
+    func onChangeBlock(param: Parameter) async {
         var valueMobile = param.propertyValueMobile
         var valueTablet = param.propertyValueTablet
         var valueDesktop = param.propertyValueDesktop
@@ -87,21 +67,21 @@ public class NativeChangeBlockProperty {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
                     valueMobile = actionHandleVariableValue(actionProps: param.actionProps, value: valueMobile) ?? ""
-                    valueMobile = valueMobile.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueMobile = valueMobile.cast(type: currentProperty.type)
                     currentProperty.valueMobile = valueMobile
                 }
 
                 // Update tablet value
                 if !param.propertyValueTablet.isEmpty {
                     valueTablet = actionHandleVariableValue(actionProps: param.actionProps, value: valueTablet) ?? ""
-                    valueTablet = valueTablet.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueTablet = valueTablet.cast(type: currentProperty.type)
                     currentProperty.valueTablet = valueTablet
                 }
 
                 // Update desktop value
                 if !param.propertyValueDesktop.isEmpty {
                     valueDesktop = actionHandleVariableValue(actionProps: param.actionProps, value: valueDesktop) ?? ""
-                    valueDesktop = valueDesktop.evaluateMixConditionOperator(type: currentProperty.type)
+                    valueDesktop = valueDesktop.cast(type: currentProperty.type)
                     currentProperty.valueDesktop = valueDesktop
                 }
 
