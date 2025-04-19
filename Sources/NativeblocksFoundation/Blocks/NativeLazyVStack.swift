@@ -31,14 +31,21 @@ import SwiftUI
     name: "Native LazyVStack",
     keyType: "NATIVE_LAZY_VSTACK",
     description: "Nativeblocks LazyVStack block",
-    version: 1
+    version: 4
 )
 struct NativeLazyVStack<Content: View>: View {
     @NativeBlockData(
         description:
-            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked."
+            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked.",
+        deprecated: true,
+        deprecatedReason: "For better performance, use the 'length' instead."
     )
     var list: String = ""
+    @NativeBlockData(
+        description: "length of list",
+        defaultValue: "-1"
+    )
+    var length: Int = -1
     // MARK: - Slot Properties
 
     /// The content of the LazyVStack, provided as a slot.
@@ -229,8 +236,8 @@ struct NativeLazyVStack<Content: View>: View {
             alignment: alignmentHorizontal,
             spacing: spacing
         ) {
-            if let listSize = list.listSize() {
-                ForEach(0..<max(1, listSize), id: \.self) { index in
+            if length >= 0 {
+                ForEach(0..<length, id: \.self) { index in
                     content(index)
                 }
             } else {

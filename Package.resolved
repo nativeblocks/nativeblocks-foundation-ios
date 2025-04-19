@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nativeblocks/nativeblocks-compiler-ios",
       "state" : {
-        "revision" : "71f4f59cfa804909b5ac11dd37eea37b89b67a52",
-        "version" : "1.2.0"
+        "revision" : "bc9e80cd348663bdb74c4a48a5b645516207f880",
+        "version" : "1.2.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nativeblocks/nativeblocks-ios-sdk",
       "state" : {
-        "revision" : "82ff2483280111cd08ad0c1ad2b19ad886922d9c",
-        "version" : "1.3.0"
+        "revision" : "734693990bb851f3601e182196330f2fd8390cce",
+        "version" : "1.3.1"
       }
     },
     {
