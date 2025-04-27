@@ -23,7 +23,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nativeblocks/nativeblocks-ios-sdk",
       "state" : {
-        "revision" : "734693990bb851f3601e182196330f2fd8390cce",
+        "revision" : "bf8f828442b970f1a9f8dcf5e5dc71928c44d62d",
         "version" : "1.3.1"
       }
     },
