@@ -13,9 +13,9 @@ import NativeblocksCompiler
 ///
 @NativeAction(
     name: "Native Change Variable",
-    keyType: "NATIVE_CHANGE_VARIABLE",
+    keyType: "nativeblocks/CHANGE_VARIABLE",
     description: "Native Change Variable",
-    version: 2
+    version: 1
 )
 public class NativeChangeVariable {
     public init() {}

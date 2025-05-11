@@ -27,7 +27,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Image",
-    keyType: "NATIVE_IMAGE",
+    keyType: "nativeblocks/IMAGE",
     description: "Nativeblocks image block",
     version: 1
 )

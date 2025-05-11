@@ -25,7 +25,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Text field",
-    keyType: "NATIVE_TEXT_FIELD",
+    keyType: "nativeblocks/TEXT_FIELD",
     description: "Nativeblocks text field block",
     version: 1
 )

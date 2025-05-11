@@ -21,7 +21,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native ScrollView",
-    keyType: "NATIVE_SCROLLVIEW",
+    keyType: "nativeblocks/SCROLLVIEW",
     description: "Nativeblocks ScrollView block",
     version: 1
 )

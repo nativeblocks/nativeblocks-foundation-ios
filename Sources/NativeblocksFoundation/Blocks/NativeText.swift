@@ -23,7 +23,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Text",
-    keyType: "NATIVE_TEXT",
+    keyType: "nativeblocks/TEXT",
     description: "Nativeblocks text block",
     version: 1
 )

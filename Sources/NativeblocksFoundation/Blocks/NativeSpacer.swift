@@ -20,7 +20,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Spacer",
-    keyType: "NATIVE_SPACER",
+    keyType: "nativeblocks/SPACER",
     description: "Nativeblocks spacer block",
     version: 1
 )
