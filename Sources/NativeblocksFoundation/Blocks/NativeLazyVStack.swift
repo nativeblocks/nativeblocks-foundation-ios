@@ -29,9 +29,9 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyVStack",
-    keyType: "NATIVE_LAZY_VSTACK",
+    keyType: "nativeblocks/LAZY_VSTACK",
     description: "Nativeblocks LazyVStack block",
-    version: 4
+    version: 1
 )
 struct NativeLazyVStack<Content: View>: View {
     @NativeBlockData(

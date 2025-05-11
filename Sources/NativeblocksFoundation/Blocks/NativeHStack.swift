@@ -25,9 +25,9 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native HStack",
-    keyType: "NATIVE_HSTACK",
+    keyType: "nativeblocks/HSTACK",
     description: "Nativeblocks HStack block",
-    version: 4
+    version: 1
 )
 struct NativeHStack<Content: View>: View {
     @NativeBlockData(

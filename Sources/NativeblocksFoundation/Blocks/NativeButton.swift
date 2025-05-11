@@ -23,9 +23,9 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Button",
-    keyType: "NATIVE_BUTTON",
+    keyType: "nativeblocks/BUTTON",
     description: "Nativeblocks Button block",
-    version: 2
+    version: 1
 )
 struct NativeButton<Content: View>: View {
     /// The text displayed on the button.

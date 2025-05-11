@@ -27,7 +27,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native ZStack",
-    keyType: "NATIVE_ZSTACK",
+    keyType: "nativeblocks/ZSTACK",
     description: "Nativeblocks ZStack block",
     version: 1
 )
