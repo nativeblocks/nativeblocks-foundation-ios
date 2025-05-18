@@ -46,7 +46,7 @@ struct NativeVStack<Content: View>: View {
 
     /// The content of the VStack, provided as a slot.
     @NativeBlockSlot(description: "The content to display inside the VStack.")
-    var content: (BlockIndex) -> Content
+    var content: (BlockIndex, Any) -> Content
 
     // MARK: - Alignment Properties
 
@@ -228,16 +228,26 @@ struct NativeVStack<Content: View>: View {
     var onClick: (() -> Void)?
 
     var body: some View {
-        VStack(
-            alignment: alignmentHorizontal,
-            spacing: spacing
-        ) {
-            if length >= 0 {
-                ForEach(0..<length, id: \.self) { index in
-                    content(index)
+        GeometryReader { geo in
+            VStack(
+                alignment: alignmentHorizontal,
+                spacing: spacing
+            ) {
+
+                if initialized {
+                    if length >= 0 {
+                        ForEach(0..<length, id: \.self) { index in
+                            content(index, proxy)
+                        }
+                    } else {
+                        content(-1, proxy)
+                    }
+                } else {
+                    Color.clear.onAppear {
+                        proxy.geo = geo
+                        initialized.toggle()
+                    }
                 }
-            } else {
-                content(-1)
             }
         }
         .blockWidthAndHeightModifier(
@@ -279,10 +289,44 @@ struct NativeVStack_Previews: PreviewProvider {
 
     static var previews: some View {
         NativeVStack(
-            content: { _ in
-                Text("Text 1")
+            length: 3,
+            content: { index, scope in
+                if index == 0 {
+                    Text("index:\(index)")
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .weighted(0.5, proxy: scope)
+                        .background(Color.cyan)
+                } else if index == 1 {
+                    Text("index:\(index)")
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .weighted(0.3, proxy: scope)
+                        .background(Color.black)
+                } else {
+                    Text("index:\(index)")
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .weighted(0, proxy: scope)
+                        .background(Color.red)
+                }
             },
+            alignmentHorizontal: HorizontalAlignment.center,
+            alignmentVertical: VerticalAlignment.center,
+            spacing: 0,
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            backgroundColor: Color.blue,
+            cornerRadius: 30,
+            borderColor: Color.black,
+            borderWidth: 5,
+            shadowColor: Color.black,
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
             onClick: {}
-        )
+        ).padding(10)
+            .background(Color.blue)
     }
 }

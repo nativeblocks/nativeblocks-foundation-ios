@@ -42,7 +42,7 @@ struct NativeHStack<Content: View>: View {
 
     /// The content of the HStack, defined as a slot.
     @NativeBlockSlot(description: "The content displayed inside the HStack.")
-    var content: (BlockIndex) -> Content
+    var content: (BlockIndex, Any) -> Content
 
     // MARK: - Alignment Properties
 
@@ -227,19 +227,28 @@ struct NativeHStack<Content: View>: View {
     // MARK: - Body
 
     var body: some View {
-        HStack(
-            alignment: alignmentVertical,
-            spacing: spacing
-        ) {
-            if length >= 0 {
-                ForEach(0..<length, id: \.self) { index in
-                    content(index)
+        GeometryReader { geo in
+            HStack(
+                alignment: alignmentVertical,
+                spacing: spacing
+            ) {
+                if initialized {
+                    if length >= 0 {
+                        ForEach(0..<length, id: \.self) { index in
+                            content(index, proxy)
+                        }
+                    } else {
+                        content(-1, proxy)
+                    }
+                } else {
+                    Color.clear.onAppear {
+                        proxy.geo = geo
+                        initialized.toggle()
+                    }
                 }
-            } else {
-                content(-1)
             }
-        }
-        .blockWidthAndHeightModifier(
+
+        }.blockWidthAndHeightModifier(
             frameWidth, frameHeight,
             alignment: Alignment(
                 horizontal: alignmentHorizontal,
@@ -277,33 +286,42 @@ struct NativeHStack_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        ZStack {
-            NativeHStack(
-                content: { _ in
-                    Text("Top Left Aligned")
-                        .padding()
-                },
-                alignmentHorizontal: HorizontalAlignment.center,
-                alignmentVertical: VerticalAlignment.center,
-                spacing: 0,
-                paddingTop: 8,
-                paddingLeading: 8,
-                paddingBottom: 8,
-                paddingTrailing: 8,
-                frameWidth: "300",
-                frameHeight: "200",
-                backgroundColor: Color.blue,
-                cornerRadius: 30,
-                borderColor: Color.black,
-                borderWidth: 5,
-                shadowColor: Color.black,
-                shadowRadius: 30,
-                shadowX: 7,
-                shadowY: 7,
-                onClick: {}
-            )
-        }
-        .padding(10)
-        .background(Color.blue)
+        NativeHStack(
+            length: 3,
+            content: { index, scope in
+                if index == 0 {
+                    Text("index:\(index)")
+                        .weighted(0.5, proxy: scope)
+                        .background(Color.cyan)
+                } else if index == 1 {
+                    Text("index:\(index)")
+                        .weighted(0.1, proxy: scope)
+                        .background(Color.black)
+                } else {
+                    Text("index:\(index)")
+                        .weighted(0.4, proxy: scope)
+                        .background(Color.red)
+                }
+            },
+            alignmentHorizontal: HorizontalAlignment.center,
+            alignmentVertical: VerticalAlignment.center,
+            spacing: 0,
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            backgroundColor: Color.blue,
+            cornerRadius: 30,
+            borderColor: Color.black,
+            borderWidth: 5,
+            shadowColor: Color.black,
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
+            onClick: {}
+        ).padding(10)
+            .background(Color.blue)
     }
 }
