@@ -31,13 +31,6 @@ import SwiftUI
 )
 struct NativeLazyHStack<Content: View>: View {
     @NativeBlockData(
-        description:
-            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked.",
-        deprecated: true,
-        deprecatedReason: "For better performance, use the 'length' instead."
-    )
-    var list: String = ""
-    @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
     )

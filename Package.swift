@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "NativeblocksFoundation",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v15), .macOS(.v13)],
     products: [
         .library(
             name: "NativeblocksFoundation",
