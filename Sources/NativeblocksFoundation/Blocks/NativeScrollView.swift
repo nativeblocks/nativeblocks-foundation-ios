@@ -26,6 +26,7 @@ import SwiftUI
     version: 1
 )
 struct NativeScrollView<Content: View>: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Slot Properties
 
     /// The content displayed inside the ScrollView.
@@ -163,7 +164,13 @@ struct NativeScrollView<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     // MARK: - Background Properties
 
     /// The background color of the ScrollView.
@@ -248,6 +255,7 @@ struct NativeScrollView<Content: View>: View {
                 vertical: alignmentVertical
             )
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)

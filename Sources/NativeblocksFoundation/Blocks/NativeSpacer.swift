@@ -25,6 +25,7 @@ import SwiftUI
     version: 1
 )
 struct NativeSpacer: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Frame Properties
 
     /// The width of the spacer.
@@ -58,10 +59,18 @@ struct NativeSpacer: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     var body: some View {
         Spacer()
             .blockWidthAndHeightModifier(frameWidth, frameHeight)
+            .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+
     }
 }
 

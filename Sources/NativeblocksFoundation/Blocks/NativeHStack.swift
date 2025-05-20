@@ -32,7 +32,7 @@ import SwiftUI
 struct NativeHStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .horizontal)
     @State private var initialized = false
-
+    var blockProps: BlockProps? = nil
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
@@ -147,7 +147,21 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
 
+    @NativeBlockProp(
+        description: "Total weight of all items. If 0, child weights are ignored.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var totalWeight: CGFloat = 0
     // MARK: - Background Properties
 
     @NativeBlockProp(
@@ -243,6 +257,7 @@ struct NativeHStack<Content: View>: View {
                 } else {
                     Color.clear.onAppear {
                         proxy.geo = geo
+                        proxy.totalWeight = totalWeight
                         initialized.toggle()
                     }
                 }
@@ -255,6 +270,7 @@ struct NativeHStack<Content: View>: View {
                 vertical: alignmentVertical
             )
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -287,19 +303,19 @@ struct NativeHStack_Previews: PreviewProvider {
 
     static var previews: some View {
         NativeHStack(
-            length: 3,
+            length: 5,
             content: { index, scope in
                 if index == 0 {
                     Text("index:\(index)")
-                        .weighted(0.5, proxy: scope)
+                        .weighted(1, proxy: scope)
                         .background(Color.cyan)
                 } else if index == 1 {
                     Text("index:\(index)")
-                        .weighted(0.1, proxy: scope)
+                        .weighted(1, proxy: scope)
                         .background(Color.black)
                 } else {
                     Text("index:\(index)")
-                        .weighted(0.4, proxy: scope)
+                        .weighted(1, proxy: scope)
                         .background(Color.red)
                 }
             },
@@ -312,6 +328,7 @@ struct NativeHStack_Previews: PreviewProvider {
             paddingTrailing: 8,
             frameWidth: "300",
             frameHeight: "200",
+            totalWeight: 5,
             backgroundColor: Color.blue,
             cornerRadius: 30,
             borderColor: Color.black,

@@ -30,6 +30,7 @@ import SwiftUI
     version: 1
 )
 struct NativeTextField: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Data Properties
 
     /// The current text in the text field.
@@ -207,7 +208,13 @@ struct NativeTextField: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     /// The corner radius of the text field.
     @NativeBlockProp(
         description: "The corner radius of the text field.",
@@ -313,14 +320,17 @@ struct NativeTextField: View {
     var autocapitalization: String = "none"
 
     init(
+        blockProps: BlockProps?,
         text: String, isEditing: Bool, onCommit: @escaping () -> Void, onEditingChanged: @escaping (Bool) -> Void,
         onChange: @escaping (String) -> Void, isSecure: Bool, disableAutocorrection: Bool, fontFamily: String, fontWeight: Font.Weight,
         fontDesign: Font.Design, fontSize: CGFloat, foregroundColor: Color, backgroundColor: Color,
         paddingTop: CGFloat, paddingLeading: CGFloat, paddingBottom: CGFloat, paddingTrailing: CGFloat, frameWidth: String,
-        frameHeight: String, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment, alignmentVertical: VerticalAlignment,
+        frameHeight: String, frameWeight: CGFloat, cornerRadius: CGFloat, alignmentHorizontal: HorizontalAlignment,
+        alignmentVertical: VerticalAlignment,
         multilineTextAlignment: TextAlignment, lineLimit: Int, lineSpacing: CGFloat, keyboardType: String,
         autocapitalization: String
     ) {
+        self.blockProps = blockProps
         self.text = text
         //        self.localText = text
         self.isEditing = isEditing
@@ -341,6 +351,7 @@ struct NativeTextField: View {
         self.paddingTrailing = paddingTrailing
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight
+        self.frameWeight = frameWeight
         self.cornerRadius = cornerRadius
         self.alignmentHorizontal = alignmentHorizontal
         self.alignmentVertical = alignmentVertical
@@ -378,6 +389,7 @@ struct NativeTextField: View {
                         vertical: alignmentVertical
                     )
                 )
+                .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
                 .padding(.top, paddingTop)
                 .padding(.leading, paddingLeading)
                 .padding(.bottom, paddingBottom)
@@ -430,6 +442,7 @@ struct NativeTextField: View {
                         vertical: alignmentVertical
                     )
                 )
+                .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
                 .padding(.top, paddingTop)
                 .padding(.leading, paddingLeading)
                 .padding(.bottom, paddingBottom)
@@ -470,6 +483,7 @@ struct NativeTextFieldTest: View {
                 frameHeight: "notSet"
             )
             NativeTextField(
+                blockProps: nil,
                 text: text,
                 isEditing: false,
                 onCommit: {
@@ -496,6 +510,7 @@ struct NativeTextFieldTest: View {
                 paddingTrailing: 10,
                 frameWidth: "infinity",
                 frameHeight: "notSet",
+                frameWeight: 0,
                 cornerRadius: 8.0,
                 alignmentHorizontal: .leading,
                 alignmentVertical: .top,

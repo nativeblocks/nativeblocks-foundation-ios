@@ -36,7 +36,7 @@ import SwiftUI
 struct NativeVStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .vertical)
     @State private var initialized = false
-
+    var blockProps: BlockProps? = nil
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
@@ -151,7 +151,21 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
 
+    @NativeBlockProp(
+        description: "Total weight of all items. If 0, child weights are ignored.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var totalWeight: CGFloat = 0
     // MARK: - Background and Styling Properties
 
     /// The background color of the VStack.
@@ -233,7 +247,6 @@ struct NativeVStack<Content: View>: View {
                 alignment: alignmentHorizontal,
                 spacing: spacing
             ) {
-
                 if initialized {
                     if length >= 0 {
                         ForEach(0..<length, id: \.self) { index in
@@ -245,6 +258,7 @@ struct NativeVStack<Content: View>: View {
                 } else {
                     Color.clear.onAppear {
                         proxy.geo = geo
+                        proxy.totalWeight = totalWeight
                         initialized.toggle()
                     }
                 }
@@ -257,6 +271,7 @@ struct NativeVStack<Content: View>: View {
                 horizontal: alignmentHorizontal,
                 vertical: alignmentVertical)
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -293,17 +308,29 @@ struct NativeVStack_Previews: PreviewProvider {
             content: { index, scope in
                 if index == 0 {
                     Text("index:\(index)")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .weighted(0.5, proxy: scope)
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
+                        .weighted(1, proxy: scope)
                         .background(Color.cyan)
                 } else if index == 1 {
                     Text("index:\(index)")
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .weighted(0.3, proxy: scope)
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
+                        .weighted(1, proxy: scope)
                         .background(Color.black)
                 } else {
                     Text("index:\(index)")
-                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
                         .weighted(0, proxy: scope)
                         .background(Color.red)
                 }
@@ -317,6 +344,7 @@ struct NativeVStack_Previews: PreviewProvider {
             paddingTrailing: 8,
             frameWidth: "300",
             frameHeight: "200",
+            totalWeight: 3,
             backgroundColor: Color.blue,
             cornerRadius: 30,
             borderColor: Color.black,
