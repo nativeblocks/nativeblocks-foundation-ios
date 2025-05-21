@@ -23,11 +23,12 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Button",
-    keyType: "NATIVE_BUTTON",
+    keyType: "nativeblocks/BUTTON",
     description: "Nativeblocks Button block",
-    version: 2
+    version: 1
 )
 struct NativeButton<Content: View>: View {
+    var blockProps: BlockProps? = nil
     /// The text displayed on the button.
     @NativeBlockData(description: "The primary text content of the button.")
     var text: String
@@ -241,7 +242,13 @@ struct NativeButton<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     /// The background color of the button when enabled.
     @NativeBlockProp(
         description: "The background color of the button when enabled.",
@@ -365,6 +372,7 @@ struct NativeButton<Content: View>: View {
                     vertical: alignmentVertical
                 )
             )
+            .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)

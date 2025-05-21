@@ -25,19 +25,14 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native HStack",
-    keyType: "NATIVE_HSTACK",
+    keyType: "nativeblocks/HSTACK",
     description: "Nativeblocks HStack block",
-    version: 4
+    version: 1
 )
 struct NativeHStack<Content: View>: View {
-    @NativeBlockData(
-        description:
-            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked.",
-        deprecated: true,
-        deprecatedReason: "For better performance, use the 'length' instead."
-    )
-    var list: String = ""
-
+    private let proxy = WeightedProxy(kind: .horizontal)
+    @State private var initialized = false
+    var blockProps: BlockProps? = nil
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
@@ -47,7 +42,7 @@ struct NativeHStack<Content: View>: View {
 
     /// The content of the HStack, defined as a slot.
     @NativeBlockSlot(description: "The content displayed inside the HStack.")
-    var content: (BlockIndex) -> Content
+    var content: (BlockIndex, Any) -> Content
 
     // MARK: - Alignment Properties
 
@@ -152,7 +147,21 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
 
+    @NativeBlockProp(
+        description: "Total weight of all items. If 0, child weights are ignored.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var totalWeight: CGFloat = 0
     // MARK: - Background Properties
 
     @NativeBlockProp(
@@ -232,25 +241,36 @@ struct NativeHStack<Content: View>: View {
     // MARK: - Body
 
     var body: some View {
-        HStack(
-            alignment: alignmentVertical,
-            spacing: spacing
-        ) {
-            if length >= 0 {
-                ForEach(0..<length, id: \.self) { index in
-                    content(index)
+        GeometryReader { geo in
+            HStack(
+                alignment: alignmentVertical,
+                spacing: spacing
+            ) {
+                if initialized {
+                    if length >= 0 {
+                        ForEach(0..<length, id: \.self) { index in
+                            content(index, proxy)
+                        }
+                    } else {
+                        content(-1, proxy)
+                    }
+                } else {
+                    Color.clear.onAppear {
+                        proxy.geo = geo
+                        proxy.totalWeight = totalWeight
+                        initialized.toggle()
+                    }
                 }
-            } else {
-                content(-1)
             }
-        }
-        .blockWidthAndHeightModifier(
+
+        }.blockWidthAndHeightModifier(
             frameWidth, frameHeight,
             alignment: Alignment(
                 horizontal: alignmentHorizontal,
                 vertical: alignmentVertical
             )
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -282,33 +302,43 @@ struct NativeHStack_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        ZStack {
-            NativeHStack(
-                content: { _ in
-                    Text("Top Left Aligned")
-                        .padding()
-                },
-                alignmentHorizontal: HorizontalAlignment.center,
-                alignmentVertical: VerticalAlignment.center,
-                spacing: 0,
-                paddingTop: 8,
-                paddingLeading: 8,
-                paddingBottom: 8,
-                paddingTrailing: 8,
-                frameWidth: "300",
-                frameHeight: "200",
-                backgroundColor: Color.blue,
-                cornerRadius: 30,
-                borderColor: Color.black,
-                borderWidth: 5,
-                shadowColor: Color.black,
-                shadowRadius: 30,
-                shadowX: 7,
-                shadowY: 7,
-                onClick: {}
-            )
-        }
-        .padding(10)
-        .background(Color.blue)
+        NativeHStack(
+            length: 5,
+            content: { index, scope in
+                if index == 0 {
+                    Text("index:\(index)")
+                        .weighted(1, proxy: scope)
+                        .background(Color.cyan)
+                } else if index == 1 {
+                    Text("index:\(index)")
+                        .weighted(1, proxy: scope)
+                        .background(Color.black)
+                } else {
+                    Text("index:\(index)")
+                        .weighted(1, proxy: scope)
+                        .background(Color.red)
+                }
+            },
+            alignmentHorizontal: HorizontalAlignment.center,
+            alignmentVertical: VerticalAlignment.center,
+            spacing: 0,
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            totalWeight: 5,
+            backgroundColor: Color.blue,
+            cornerRadius: 30,
+            borderColor: Color.black,
+            borderWidth: 5,
+            shadowColor: Color.black,
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
+            onClick: {}
+        ).padding(10)
+            .background(Color.blue)
     }
 }

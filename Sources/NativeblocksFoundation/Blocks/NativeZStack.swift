@@ -27,11 +27,12 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native ZStack",
-    keyType: "NATIVE_ZSTACK",
+    keyType: "nativeblocks/ZSTACK",
     description: "Nativeblocks ZStack block",
     version: 1
 )
 struct NativeZStack<Content: View>: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Slot Properties
 
     /// The content of the ZStack, provided as a slot.
@@ -141,7 +142,13 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     // MARK: - Background and Styling Properties
 
     /// The background color of the ZStack.
@@ -233,6 +240,7 @@ struct NativeZStack<Content: View>: View {
                 vertical: alignmentVertical
             )
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -268,7 +276,25 @@ struct NativeZStack_Previews: PreviewProvider {
             content: { _ in
                 Text("Text 1")
             },
+            alignmentHorizontal: HorizontalAlignment.center,
+            alignmentVertical: VerticalAlignment.center,
+            spacing: 0,
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            backgroundColor: Color.blue,
+            cornerRadius: 30,
+            borderColor: Color.black,
+            borderWidth: 5,
+            shadowColor: Color.black,
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
             onClick: {}
-        )
+        ).padding(10)
+            .background(Color.blue)
     }
 }

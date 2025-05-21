@@ -29,18 +29,12 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyVStack",
-    keyType: "NATIVE_LAZY_VSTACK",
+    keyType: "nativeblocks/LAZY_VSTACK",
     description: "Nativeblocks LazyVStack block",
-    version: 4
+    version: 1
 )
 struct NativeLazyVStack<Content: View>: View {
-    @NativeBlockData(
-        description:
-            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked.",
-        deprecated: true,
-        deprecatedReason: "For better performance, use the 'length' instead."
-    )
-    var list: String = ""
+    var blockProps: BlockProps? = nil
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
@@ -155,7 +149,13 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     // MARK: - Background and Styling Properties
 
     /// The background color of the LazyVStack.
@@ -251,6 +251,7 @@ struct NativeLazyVStack<Content: View>: View {
                 horizontal: alignmentHorizontal,
                 vertical: alignmentVertical)
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
