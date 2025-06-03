@@ -15,7 +15,8 @@ import NativeblocksCompiler
     name: "Native Change Variable",
     keyType: "nativeblocks/CHANGE_VARIABLE",
     description: "Native Change Variable",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 public class NativeChangeVariable {
     public init() {}

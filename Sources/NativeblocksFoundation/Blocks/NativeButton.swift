@@ -25,7 +25,8 @@ import SwiftUI
     name: "Native Button",
     keyType: "nativeblocks/BUTTON",
     description: "Nativeblocks Button block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeButton<Content: View>: View {
     var blockProps: BlockProps? = nil

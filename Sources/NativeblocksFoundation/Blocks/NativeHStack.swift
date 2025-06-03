@@ -27,7 +27,8 @@ import SwiftUI
     name: "Native HStack",
     keyType: "nativeblocks/HSTACK",
     description: "Nativeblocks HStack block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeHStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .horizontal)

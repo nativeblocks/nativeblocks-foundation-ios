@@ -31,7 +31,8 @@ import SwiftUI
     name: "Native VStack",
     keyType: "nativeblocks/VSTACK",
     description: "Nativeblocks VStack block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeVStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .vertical)

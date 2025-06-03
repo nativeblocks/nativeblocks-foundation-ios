@@ -27,7 +27,8 @@ import SwiftUI
     name: "Native Text field",
     keyType: "nativeblocks/TEXT_FIELD",
     description: "Nativeblocks text field block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeTextField: View {
     var blockProps: BlockProps? = nil

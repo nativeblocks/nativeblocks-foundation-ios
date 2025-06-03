@@ -25,7 +25,8 @@ import SwiftUI
     name: "Native Text",
     keyType: "nativeblocks/TEXT",
     description: "Nativeblocks text block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeText: View {
     var blockProps: BlockProps? = nil

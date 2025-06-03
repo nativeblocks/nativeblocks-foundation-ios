@@ -29,7 +29,8 @@ import SwiftUI
     name: "Native Image",
     keyType: "nativeblocks/IMAGE",
     description: "Nativeblocks image block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeImage<Content: View>: View {
     var blockProps: BlockProps? = nil

@@ -23,7 +23,8 @@ import SwiftUI
     name: "Native ScrollView",
     keyType: "nativeblocks/SCROLLVIEW",
     description: "Nativeblocks ScrollView block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeScrollView<Content: View>: View {
     var blockProps: BlockProps? = nil

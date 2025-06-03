@@ -29,7 +29,8 @@ import SwiftUI
     name: "Native ZStack",
     keyType: "nativeblocks/ZSTACK",
     description: "Nativeblocks ZStack block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeZStack<Content: View>: View {
     var blockProps: BlockProps? = nil

@@ -22,7 +22,8 @@ import SwiftUI
     name: "Native Spacer",
     keyType: "nativeblocks/SPACER",
     description: "Nativeblocks spacer block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeSpacer: View {
     var blockProps: BlockProps? = nil

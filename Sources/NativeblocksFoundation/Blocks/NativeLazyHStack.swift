@@ -27,7 +27,8 @@ import SwiftUI
     name: "Native LazyHStack",
     keyType: "nativeblocks/LAZY_HSTACK",
     description: "Nativeblocks LazyHStack block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeLazyHStack<Content: View>: View {
     var blockProps: BlockProps? = nil

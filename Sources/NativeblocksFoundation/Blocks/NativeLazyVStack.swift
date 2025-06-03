@@ -31,7 +31,8 @@ import SwiftUI
     name: "Native LazyVStack",
     keyType: "nativeblocks/LAZY_VSTACK",
     description: "Nativeblocks LazyVStack block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeLazyVStack<Content: View>: View {
     var blockProps: BlockProps? = nil
