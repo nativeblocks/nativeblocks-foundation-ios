@@ -27,11 +27,13 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Image",
-    keyType: "NATIVE_IMAGE",
+    keyType: "nativeblocks/IMAGE",
     description: "Nativeblocks image block",
-    version: 1
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeImage<Content: View>: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Data Properties
 
     /// The URL of the image to display.
@@ -121,7 +123,13 @@ struct NativeImage<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
-
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
     // MARK: - Background Properties
 
     /// The background color of the image.
@@ -158,6 +166,7 @@ struct NativeImage<Content: View>: View {
                 .blockResizable(resizable)
                 .blockScaled(contentMode)
                 .blockWidthAndHeightModifier(frameWidth, frameHeight)
+                .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
                 .contentShape(.rect)
                 .background(backgroundColor)
                 .clipShape(shape)

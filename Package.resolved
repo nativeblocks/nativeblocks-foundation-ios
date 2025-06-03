@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "b6256f191b4c1d8d09f4df94bae69e5ac6e42c81",
-        "version" : "8.1.1"
+        "revision" : "7deda23bbdca612076c5c315003d8638a08ed0f1",
+        "version" : "8.3.2"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nativeblocks/nativeblocks-compiler-ios",
       "state" : {
-        "revision" : "bc9e80cd348663bdb74c4a48a5b645516207f880",
-        "version" : "1.2.1"
+        "revision" : "8fa5bcac5d3abfc25004a70b615b650985fef68c",
+        "version" : "1.2.2"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nativeblocks/nativeblocks-ios-sdk",
       "state" : {
-        "revision" : "bf8f828442b970f1a9f8dcf5e5dc71928c44d62d",
-        "version" : "1.3.1"
+        "revision" : "94dbc3a8e269aad6131240a636feb8d34e843c29",
+        "version" : "1.3.2"
       }
     },
     {

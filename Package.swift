@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "NativeblocksFoundation",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v15), .macOS(.v13)],
     products: [
         .library(
             name: "NativeblocksFoundation",
@@ -13,11 +13,9 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/nativeblocks/nativeblocks-ios-sdk", .upToNextMajor(from: "1.3.1")),
-        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios", .upToNextMajor(from: "1.2.1")),
-        .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: "8.1.1")),
-//        .package(path: "../nativeblocks-compiler-ios"),
-//        .package(path: "../nativeblocks-ios"),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-ios-sdk", .upToNextMajor(from: "1.3.2")),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios", .upToNextMajor(from: "1.2.2")),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.1.1")),
     ],
     targets: [
         .target(

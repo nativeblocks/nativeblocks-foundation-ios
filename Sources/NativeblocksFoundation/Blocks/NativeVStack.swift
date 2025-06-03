@@ -29,18 +29,15 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native VStack",
-    keyType: "NATIVE_VSTACK",
+    keyType: "nativeblocks/VSTACK",
     description: "Nativeblocks VStack block",
-    version: 4
+    version: 1,
+    versionName: "1.0.0"
 )
 struct NativeVStack<Content: View>: View {
-    @NativeBlockData(
-        description:
-            "A JSON array (e.g., '[{},{},...]') used for repeating the content based on its size. If the list value is invalid, the default content slot is invoked.",
-        deprecated: true,
-        deprecatedReason: "For better performance, use the 'length' instead."
-    )
-    var list: String = ""
+    private let proxy = WeightedProxy(kind: .vertical)
+    @State private var initialized = false
+    var blockProps: BlockProps? = nil
     @NativeBlockData(
         description: "length of list",
         defaultValue: "-1"
@@ -50,7 +47,7 @@ struct NativeVStack<Content: View>: View {
 
     /// The content of the VStack, provided as a slot.
     @NativeBlockSlot(description: "The content to display inside the VStack.")
-    var content: (BlockIndex) -> Content
+    var content: (BlockIndex, Any) -> Content
 
     // MARK: - Alignment Properties
 
@@ -155,7 +152,21 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "notSet"
     )
     var frameHeight: String = "notSet"
+    @NativeBlockProp(
+        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var frameWeight: CGFloat = 0
 
+    @NativeBlockProp(
+        description: "Total weight of all items. If 0, child weights are ignored.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0"
+    )
+    var totalWeight: CGFloat = 0
     // MARK: - Background and Styling Properties
 
     /// The background color of the VStack.
@@ -232,16 +243,26 @@ struct NativeVStack<Content: View>: View {
     var onClick: (() -> Void)?
 
     var body: some View {
-        VStack(
-            alignment: alignmentHorizontal,
-            spacing: spacing
-        ) {
-            if length >= 0 {
-                ForEach(0..<length, id: \.self) { index in
-                    content(index)
+        GeometryReader { geo in
+            VStack(
+                alignment: alignmentHorizontal,
+                spacing: spacing
+            ) {
+                if initialized {
+                    if length >= 0 {
+                        ForEach(0..<length, id: \.self) { index in
+                            content(index, proxy)
+                        }
+                    } else {
+                        content(-1, proxy)
+                    }
+                } else {
+                    Color.clear.onAppear {
+                        proxy.geo = geo
+                        proxy.totalWeight = totalWeight
+                        initialized.toggle()
+                    }
                 }
-            } else {
-                content(-1)
             }
         }
         .blockWidthAndHeightModifier(
@@ -251,6 +272,7 @@ struct NativeVStack<Content: View>: View {
                 horizontal: alignmentHorizontal,
                 vertical: alignmentVertical)
         )
+        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -283,10 +305,57 @@ struct NativeVStack_Previews: PreviewProvider {
 
     static var previews: some View {
         NativeVStack(
-            content: { _ in
-                Text("Text 1")
+            length: 3,
+            content: { index, scope in
+                if index == 0 {
+                    Text("index:\(index)")
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
+                        .weighted(1, proxy: scope)
+                        .background(Color.cyan)
+                } else if index == 1 {
+                    Text("index:\(index)")
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
+                        .weighted(1, proxy: scope)
+                        .background(Color.black)
+                } else {
+                    Text("index:\(index)")
+                        .blockWidthAndHeightModifier(
+                            "infinity",
+                            "notSet",
+                            alignment: Alignment.bottom
+                        )
+                        .weighted(0, proxy: scope)
+                        .background(Color.red)
+                }
             },
+            alignmentHorizontal: HorizontalAlignment.center,
+            alignmentVertical: VerticalAlignment.center,
+            spacing: 0,
+            paddingTop: 8,
+            paddingLeading: 8,
+            paddingBottom: 8,
+            paddingTrailing: 8,
+            frameWidth: "300",
+            frameHeight: "200",
+            totalWeight: 3,
+            backgroundColor: Color.blue,
+            cornerRadius: 30,
+            borderColor: Color.black,
+            borderWidth: 5,
+            shadowColor: Color.black,
+            shadowRadius: 30,
+            shadowX: 7,
+            shadowY: 7,
             onClick: {}
-        )
+        ).padding(10)
+            .background(Color.blue)
     }
 }
