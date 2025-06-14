@@ -2,8 +2,8 @@ import SwiftUI
 
 class WeightedProxy {
     let kind: Kind
+    let totalWeight: CGFloat = 1
     var geo: GeometryProxy? = nil
-    var totalWeight: CGFloat = 0
 
     init(kind: Kind) {
         self.kind = kind

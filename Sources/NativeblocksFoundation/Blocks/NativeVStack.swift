@@ -164,14 +164,6 @@ struct NativeVStack<Content: View>: View {
     )
     var weight: CGFloat = 0
     
-    /// Total weight of all items. If 0, child weights are ignored
-    @NativeBlockProp(
-        description: "Total weight of all items. If 0, child weights are ignored.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
-    )
-    var totalWeight: CGFloat = 0
     // MARK: - Background and Styling Properties
 
     /// The background color of the VStack.
@@ -256,7 +248,6 @@ struct NativeVStack<Content: View>: View {
                 } else {
                     EmptyView().onAppear {
                         proxy.geo = geo
-                        proxy.totalWeight = totalWeight
                         initialized.toggle()
                     }
                 }
@@ -340,7 +331,6 @@ struct NativeVStack_Previews: PreviewProvider {
             width: "300",
             height: "200",
             weight: 0,
-            totalWeight: 3,
             backgroundColor: Color.blue,
             radiusTopStart: 0,
             radiusTopEnd: 0,
