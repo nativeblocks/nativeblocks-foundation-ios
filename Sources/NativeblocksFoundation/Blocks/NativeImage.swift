@@ -27,7 +27,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Image",
-    keyType: "nativeblocks/IMAGE",
+    keyType: "nativeblocks/image",
     description: "Nativeblocks image block",
     version: 1,
     versionName: "1.0.0"
@@ -73,14 +73,14 @@ struct NativeImage<Content: View>: View {
     /// The resizing mode for the image.
     /// - `valuePicker`: A dropdown picker for selecting the resizing mode.
     /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without resizing.
+    ///   - "auto": Default behavior without resizing.
     ///   - "stretch": Stretches the image to fit its frame.
     ///   - "tile": Tiles the image across its frame.
     @NativeBlockProp(
         description: "The resizing mode for the image.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
+            NativeBlockValuePickerOption("auto", "auto"),
             NativeBlockValuePickerOption("stretch", "stretch"),
             NativeBlockValuePickerOption("tile", "tile"),
         ],
@@ -90,72 +90,113 @@ struct NativeImage<Content: View>: View {
 
     // MARK: - Size Properties
 
-    /// The width of the image frame.
-    /// - `valuePicker`: A combobox input for specifying width options.
-    /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without specific width.
-    ///   - "infinity": Stretches the width to fill available space.
+    /// Width of the image frame
     @NativeBlockProp(
-        description: "The width of the image frame.",
+        description: "Width of the image frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "auto"
 
-    /// The height of the image frame.
-    /// - `valuePicker`: A combobox input for specifying height options.
-    /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without specific height.
-    ///   - "infinity": Stretches the height to fill available space.
+    /// Height of the image frame
     @NativeBlockProp(
-        description: "The height of the image frame.",
+        description: "Height of the image frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "0"
     )
-    var frameWeight: CGFloat = 0
-    // MARK: - Background Properties
-
-    /// The background color of the image.
-    /// - `valuePicker`: A color picker for selecting the background color.
+    var weight: CGFloat = 0
+    
+    // MARK: - Border Properties
+    
+    /// Top-start corner radius.
     @NativeBlockProp(
-        description: "The background color of the image.",
+        description: "Top-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopStart: CGFloat = 0.0
+    
+    /// Top-end corner radius.
+    @NativeBlockProp(
+        description: "Top-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopEnd: CGFloat = 0.0
+    
+    /// Bottom-start corner radius.
+    @NativeBlockProp(
+        description: "Bottom-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomStart: CGFloat = 0.0
+    
+    /// Bottom-end corner radius.
+    @NativeBlockProp(
+        description: "Bottom-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomEnd: CGFloat = 0.0
+    
+    /// Border color of the HStack.
+    @NativeBlockProp(
+        description: "Border color of the HStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#00000000"
     )
-    var backgroundColor: Color = Color.black.opacity(0)
+    var borderColor: Color = Color.black.opacity(0)
 
-    /// The corner radius of the image for rounded corners.
-    /// - `valuePicker`: A number input for specifying the radius.
+    /// Border width of the HStack.
     @NativeBlockProp(
-        description: "The corner radius of the image for rounded corners.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        description: "Border width of the HStack.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "0"
     )
-    var cornerRadius: CGFloat = 0
+    var borderWidth: CGFloat = 0
+
+    // MARK: - Event Handlers
+
+    /// Action triggered when the HStack is tapped.
+    @NativeBlockEvent(
+        description: "Action triggered when the HStack is tapped."
+    )
+    var onClick: (() -> Void)?
 
     // MARK: - Body
 
     var body: some View {
-        let shape = roundedRectangleShape(cornerRadius)
+        let shape = CornerRadiusShape(
+            topLeft: radiusTopStart,
+            topRight: radiusTopEnd,
+            bottomLeft: radiusBottomStart,
+            bottomRight: radiusBottomEnd
+        )
 
         if imageUrl.isValidImageUrl() {
             KFImage(URL(string: imageUrl))
@@ -165,12 +206,14 @@ struct NativeImage<Content: View>: View {
                 .resizable()
                 .blockResizable(resizable)
                 .blockScaled(contentMode)
-                .blockWidthAndHeightModifier(frameWidth, frameHeight)
-                .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
-                .contentShape(.rect)
-                .background(backgroundColor)
+                .blockWidthAndHeightModifier(width, height)
+                .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+                .contentShape(shape)
                 .clipShape(shape)
                 .accessibility(label: Text(contentDescription))
+                .blockOnTapGesture(enable: onClick != nil) {
+                    onClick?()
+                }
         } else {
             errorView(-1)
         }

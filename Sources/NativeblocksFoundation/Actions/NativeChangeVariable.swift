@@ -13,7 +13,7 @@ import NativeblocksCompiler
 ///
 @NativeAction(
     name: "Native Change Variable",
-    keyType: "nativeblocks/CHANGE_VARIABLE",
+    keyType: "nativeblocks/change-variable",
     description: "Native Change Variable",
     version: 1,
     versionName: "1.0.0"
@@ -46,7 +46,9 @@ public class NativeChangeVariable {
         // Retrieve data from the action properties.
         let data = param.actionProps.trigger?.data ?? [:]
 
-        guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else { return }
+        guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else {
+            return
+        }
 
         var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
         value = value.cast(type: variable.type)

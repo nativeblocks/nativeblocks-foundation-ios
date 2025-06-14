@@ -27,7 +27,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native ZStack",
-    keyType: "nativeblocks/ZSTACK",
+    keyType: "nativeblocks/zstack",
     description: "Nativeblocks ZStack block",
     version: 1,
     versionName: "1.0.0"
@@ -123,26 +123,26 @@ struct NativeZStack<Content: View>: View {
         description: "The width of the ZStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var width: String = "notSet"
+    var width: String = "auto"
     
     /// The height of the ZStack's frame.
     @NativeBlockProp(
         description: "The height of the ZStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var height: String = "notSet"
+    var height: String = "auto"
     
     /// Weight of the layout in HStack or VStack. Default is 0 means not set.
     @NativeBlockProp(

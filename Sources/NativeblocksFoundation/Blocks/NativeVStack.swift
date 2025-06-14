@@ -29,7 +29,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native VStack",
-    keyType: "nativeblocks/VSTACK",
+    keyType: "nativeblocks/vstack",
     description: "Nativeblocks VStack block",
     version: 1,
     versionName: "1.0.0"
@@ -134,26 +134,26 @@ struct NativeVStack<Content: View>: View {
         description: "The width of the VStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var width: String = "notSet"
+    var width: String = "auto"
 
     /// The height of the VStack's frame.
     @NativeBlockProp(
         description: "The height of the VStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var height: String = "notSet"
+    var height: String = "auto"
     
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
@@ -304,8 +304,8 @@ struct NativeVStack_Previews: PreviewProvider {
                 if index == 0 {
                     Text("index:\(index)")
                         .blockWidthAndHeightModifier(
-                            "infinity",
-                            "notSet",
+                            "fill",
+                            "auto",
                             alignment: Alignment.bottom
                         )
                         .weighted(1, proxy: scope)
@@ -313,8 +313,8 @@ struct NativeVStack_Previews: PreviewProvider {
                 } else if index == 1 {
                     Text("index:\(index)")
                         .blockWidthAndHeightModifier(
-                            "infinity",
-                            "notSet",
+                            "fill",
+                            "auto",
                             alignment: Alignment.bottom
                         )
                         .weighted(1, proxy: scope)
@@ -322,8 +322,8 @@ struct NativeVStack_Previews: PreviewProvider {
                 } else {
                     Text("index:\(index)")
                         .blockWidthAndHeightModifier(
-                            "infinity",
-                            "notSet",
+                            "fill",
+                            "auto",
                             alignment: Alignment.bottom
                         )
                         .weighted(0, proxy: scope)

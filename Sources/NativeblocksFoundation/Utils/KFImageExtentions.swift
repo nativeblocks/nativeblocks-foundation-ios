@@ -7,7 +7,7 @@ extension View {
     /// - Parameter scale: The scaling mode as a string (e.g., "fill", "fit").
     /// - Returns: A view scaled according to the specified mode.
     public func blockScaled(_ scale: String) -> some View {
-        switch scale.lowercased() {
+        switch scale {
         case "fill":
             return AnyView(self.scaledToFill())
         case "fit":
@@ -24,7 +24,7 @@ extension KFImage {
     /// - Returns: A `KFImage` object configured with the specified resizing mode.
     public func blockResizable(_ mode: String) -> KFImage {
         var resizingMode: Image.ResizingMode? = nil
-        switch mode.lowercased() {
+        switch mode {
         case "stretch":
             resizingMode = .stretch
         case "tile":
@@ -48,7 +48,7 @@ extension KFImage {
     public func blockInterpolation(_ value: String) -> KFImage {
         var interpolation: Image.Interpolation = .none
 
-        switch value.lowercased() {
+        switch value {
         case "high":
             interpolation = .high
         case "low":
@@ -69,7 +69,7 @@ extension View {
     ///   - mode: The content mode as a string (e.g., "fill").
     /// - Returns: A view with the specified aspect ratio and mode applied.
     public func blockAspectRatio(ratio: CGFloat, mode: String) -> some View {
-        switch mode.lowercased() {
+        switch mode {
         case "fill":
             return AnyView(self)
         default:

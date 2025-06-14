@@ -23,7 +23,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyHStack",
-    keyType: "nativeblocks/LAZY_HSTACK",
+    keyType: "nativeblocks/lazy-hstack",
     description: "Nativeblocks LazyHStack block",
     version: 1,
     versionName: "1.0.0"
@@ -128,26 +128,26 @@ struct NativeLazyHStack<Content: View>: View {
         description: "Width of the LazyHStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var width: String = "notSet"
+    var width: String = "auto"
 
     /// Height of the LazyHStack frame
     @NativeBlockProp(
         description: "Height of the LazyHStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var height: String = "notSet"
+    var height: String = "auto"
     // MARK: - Background Properties
 
     /// Background color of the LazyHStack

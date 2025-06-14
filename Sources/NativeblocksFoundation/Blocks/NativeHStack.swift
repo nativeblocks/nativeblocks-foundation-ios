@@ -25,7 +25,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native HStack",
-    keyType: "nativeblocks/HSTACK",
+    keyType: "nativeblocks/hstack",
     description: "Nativeblocks HStack block",
     version: 1,
     versionName: "1.0.0"
@@ -132,26 +132,26 @@ struct NativeHStack<Content: View>: View {
         description: "Width of the HStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var width: String = "notSet"
+    var width: String = "auto"
 
     /// Height of the HStack frame
     @NativeBlockProp(
         description: "Height of the HStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var height: String = "notSet"
+    var height: String = "auto"
     
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(

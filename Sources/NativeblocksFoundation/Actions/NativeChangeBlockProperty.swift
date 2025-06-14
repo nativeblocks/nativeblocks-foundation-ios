@@ -17,7 +17,7 @@ import SwiftUI
 ///
 @NativeAction(
     name: "Native Change Block Property",
-    keyType: "nativeblocks/CHANGE_BLOCK_PROPERTY",
+    keyType: "nativeblocks/change-block-property",
     description: "Native Change Block Property",
     version: 1,
     versionName: "1.0.0"

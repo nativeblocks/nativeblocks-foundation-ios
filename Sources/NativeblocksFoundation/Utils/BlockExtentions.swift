@@ -20,16 +20,16 @@ extension String {
 extension View {
     /// Applies a width and height modifier to a view.
     /// - Parameters:
-    ///   - width: The width string (e.g., "infinity" or a numeric value).
-    ///   - height: The height string (e.g., "infinity" or a numeric value).
+    ///   - width: The width string (e.g., "fill" or a numeric value).
+    ///   - height: The height string (e.g., "fill" or a numeric value).
     ///   - alignment: The alignment for the view's frame.
     /// - Returns: A view with the specified frame settings.
     public func blockWidthAndHeightModifier(_ width: String, _ height: String, alignment: Alignment = .center) -> some View {
         var maxWidth: CGFloat? = nil
         var maxHeight: CGFloat? = nil
 
-        switch width.lowercased() {
-        case "infinity":
+        switch width {
+        case "fill":
             maxWidth = .infinity
         default:
             if let widthValue = Double(width) {
@@ -37,8 +37,8 @@ extension View {
             }
         }
 
-        switch height.lowercased() {
-        case "infinity":
+        switch height {
+        case "fill":
             maxHeight = .infinity
         default:
             if let heightValue = Double(height) {
@@ -59,7 +59,7 @@ extension View {
         var font: Font? = nil
         let fontWeight = weight
         let fontDesign = design
-        switch family.lowercased() {
+        switch family {
         case "system":
             font = .system(size: size, weight: fontWeight, design: fontDesign)
         default:
@@ -102,69 +102,33 @@ extension View {
         #if os(iOS)
             var keyboardType: UIKeyboardType = .default
 
-            switch type.lowercased() {
-            case "asciicapable":
+            switch type {
+            case "asciiCapable":
                 keyboardType = .asciiCapable
-            case "numbersandpunctuation":
+            case "numbersAndPunctuation":
                 keyboardType = .numbersAndPunctuation
-            case "url":
+            case "URL":
                 keyboardType = .URL
-            case "numberpad":
+            case "numberPad":
                 keyboardType = .numberPad
-            case "phonepad":
+            case "phonePad":
                 keyboardType = .phonePad
-            case "namephonepad":
+            case "namePhonePad":
                 keyboardType = .namePhonePad
-            case "emailaddress":
+            case "emailAddress":
                 keyboardType = .emailAddress
-            case "decimalpad":
+            case "decimalPad":
                 keyboardType = .decimalPad
-            case "twitter":
-                keyboardType = .twitter
-            case "websearch":
+            case "webSearch":
                 keyboardType = .webSearch
-            case "asciicapablenumberpad":
+            case "asciiCapableNumberPad":
                 keyboardType = .asciiCapableNumberPad
             case "alphabet":
                 keyboardType = .alphabet
             default:
                 keyboardType = .default
             }
-
             return self.keyboardType(keyboardType)
-        #else
-            return self
-        #endif
-    }
-}
-
-extension View {
-    /// Configures autocapitalization behavior for text input fields within the view's environment.
-    /// - Parameter type: A string representing the autocapitalization type (e.g., "allcharacters", "sentences", "words").
-    /// - Returns: A view with the specified autocapitalization type applied.
-    ///
-    /// Supported autocapitalization types:
-    /// - "allcharacters"
-    /// - "sentences"
-    /// - "words"
-    ///
-    /// Defaults to `.none` if an unsupported type is provided.
-    public func blockAutocapitalization(_ type: String) -> some View {
-        #if os(iOS)
-            var autocapitalization: UITextAutocapitalizationType = .none
-
-            switch type.lowercased() {
-            case "allcharacters":
-                autocapitalization = .allCharacters
-            case "sentences":
-                autocapitalization = .sentences
-            case "words":
-                autocapitalization = .words
-            default:
-                autocapitalization = .none
-            }
-
-            return self.autocapitalization(autocapitalization)
         #else
             return self
         #endif
@@ -186,7 +150,7 @@ extension View {
     public func blockScrollIndicators(_ type: String) -> some View {
         if #available(iOS 16.0, *) {
             var scrollIndicatorVisibility: ScrollIndicatorVisibility = .automatic
-            switch type.lowercased() {
+            switch type {
             case "automatic":
                 scrollIndicatorVisibility = .automatic
             case "hidden":

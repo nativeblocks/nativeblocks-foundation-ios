@@ -28,7 +28,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyVStack",
-    keyType: "nativeblocks/LAZY_VSTACK",
+    keyType: "nativeblocks/lazy-vstack",
     description: "Nativeblocks LazyVStack block",
     version: 1,
     versionName: "1.0.0"
@@ -131,26 +131,26 @@ struct NativeLazyVStack<Content: View>: View {
         description: "The width of the LazyVStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var width: String = "notSet"
+    var width: String = "auto"
 
     /// The height of the LazyVStack's frame.
     @NativeBlockProp(
         description: "The height of the LazyVStack's frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var height: String = "notSet"
+    var height: String = "auto"
 
     // MARK: - Background and Styling Properties
 
@@ -216,14 +216,6 @@ struct NativeLazyVStack<Content: View>: View {
     )
     var borderWidth: CGFloat = 0
 
-    // MARK: - Event Properties
-
-    /// Action triggered when the LazyVStack is tapped.
-    @NativeBlockEvent(description: "Action triggered when the LazyVStack is tapped.")
-    var onClick: (() -> Void)?
-
-    // MARK: - Event Properties
-
     var body: some View {
         LazyVStack(alignment: alignmentHorizontal, spacing: spacing) {
             if length >= 0 {
@@ -267,8 +259,7 @@ struct NativeLazyVStack_Previews: PreviewProvider {
         NativeLazyVStack(
             content: { _ in
                 Text("Text 1")
-            },
-            onClick: {}
+            }
         )
     }
 }

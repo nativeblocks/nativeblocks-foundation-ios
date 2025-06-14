@@ -21,7 +21,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native ScrollView",
-    keyType: "nativeblocks/SCROLLVIEW",
+    keyType: "nativeblocks/scrollview",
     description: "Nativeblocks ScrollView block",
     version: 1,
     versionName: "1.0.0"
@@ -30,7 +30,7 @@ struct NativeScrollView<Content: View>: View {
     var blockProps: BlockProps? = nil
     // MARK: - Slot Properties
 
-    /// The content displayed inside the ScrollView.
+    /// The scrollable content of the ScrollView.
     @NativeBlockSlot(description: "The scrollable content of the ScrollView.")
     var content: (BlockIndex) -> Content
 
@@ -38,7 +38,7 @@ struct NativeScrollView<Content: View>: View {
 
     /// Controls the visibility of scroll indicators.
     @NativeBlockProp(
-        description: "Determines the visibility of the scroll indicators.",
+        description: "Controls the visibility of scroll indicators.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("hidden", "hidden"),
@@ -50,7 +50,7 @@ struct NativeScrollView<Content: View>: View {
     )
     var scrollIndicators: String = "visible"
 
-    /// Specifies the scrolling direction of the ScrollView.
+    /// Sets the direction of scrolling (vertical, horizontal, or both).
     @NativeBlockProp(
         description: "Sets the direction of scrolling (vertical, horizontal, or both).",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
@@ -68,7 +68,7 @@ struct NativeScrollView<Content: View>: View {
 
     /// The horizontal alignment of the content inside the ScrollView.
     @NativeBlockProp(
-        description: "Specifies the horizontal alignment of the content.",
+        description: "The horizontal alignment of the content inside the ScrollView.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("leading", "leading"),
@@ -82,7 +82,7 @@ struct NativeScrollView<Content: View>: View {
 
     /// The vertical alignment of the content inside the ScrollView.
     @NativeBlockProp(
-        description: "Specifies the vertical alignment of the content.",
+        description: "The vertical alignment of the content inside the ScrollView.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
             NativeBlockValuePickerOption("top", "top"),
@@ -106,7 +106,7 @@ struct NativeScrollView<Content: View>: View {
 
     // MARK: - Padding Properties
 
-    /// The top padding of the content inside the ScrollView.
+    /// The top padding of the content.
     @NativeBlockProp(
         description: "The top padding of the content.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -114,7 +114,7 @@ struct NativeScrollView<Content: View>: View {
     )
     var paddingTop: CGFloat = 0
 
-    /// The leading (left) padding of the content inside the ScrollView.
+    /// The leading padding of the content.
     @NativeBlockProp(
         description: "The leading padding of the content.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -122,7 +122,7 @@ struct NativeScrollView<Content: View>: View {
     )
     var paddingLeading: CGFloat = 0
 
-    /// The bottom padding of the content inside the ScrollView.
+    /// The bottom padding of the content.
     @NativeBlockProp(
         description: "The bottom padding of the content.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -130,7 +130,7 @@ struct NativeScrollView<Content: View>: View {
     )
     var paddingBottom: CGFloat = 0
 
-    /// The trailing (right) padding of the content inside the ScrollView.
+    /// The trailing padding of the content.
     @NativeBlockProp(
         description: "The trailing padding of the content.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -140,40 +140,42 @@ struct NativeScrollView<Content: View>: View {
 
     // MARK: - Frame Properties
 
-    /// The width of the ScrollView's frame.
+    /// The width of the ScrollView frame.
     @NativeBlockProp(
         description: "The width of the ScrollView frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "auto"
 
-    /// The height of the ScrollView's frame.
+    /// The height of the ScrollView frame.
     @NativeBlockProp(
         description: "The height of the ScrollView frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set.
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "0"
     )
-    var frameWeight: CGFloat = 0
+    var weight: CGFloat = 0
     // MARK: - Background Properties
-
+    
     /// The background color of the ScrollView.
     @NativeBlockProp(
         description: "The background color of the ScrollView.",
@@ -182,99 +184,88 @@ struct NativeScrollView<Content: View>: View {
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-
-    /// The corner radius of the ScrollView.
+    
+    /// Top-start corner radius.
     @NativeBlockProp(
-        description: "The corner radius of the ScrollView.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
+        description: "Top-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
     )
-    var cornerRadius: CGFloat = 0
-
-    /// The border color of the ScrollView.
+    var radiusTopStart: CGFloat = 0.0
+    
+    /// Top-end corner radius.
     @NativeBlockProp(
-        description: "The border color of the ScrollView.",
+        description: "Top-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopEnd: CGFloat = 0.0
+    
+    /// Bottom-start corner radius.
+    @NativeBlockProp(
+        description: "Bottom-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomStart: CGFloat = 0.0
+    
+    /// Bottom-end corner radius.
+    @NativeBlockProp(
+        description: "Bottom-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomEnd: CGFloat = 0.0
+    
+    /// The border color of the LazyVStack.
+    @NativeBlockProp(
+        description: "The border color of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
 
-    /// The border width of the ScrollView.
+    /// The border width of the LazyVStack.
     @NativeBlockProp(
-        description: "The border width of the ScrollView.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        description: "The border width of the LazyVStack.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-
-    // MARK: - Shadow Properties
-
-    /// The shadow color of the ScrollView.
-    @NativeBlockProp(
-        description: "The shadow color of the ScrollView.",
-        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "#00000000"
-    )
-    var shadowColor: Color = Color.black.opacity(0)
-
-    /// The blur radius of the ScrollView's shadow.
-    @NativeBlockProp(
-        description: "The blur radius of the ScrollView shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowRadius: CGFloat = 0
-
-    /// The horizontal offset of the ScrollView's shadow.
-    @NativeBlockProp(
-        description: "The horizontal offset of the ScrollView shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowX: CGFloat = 0
-
-    /// The vertical offset of the ScrollView's shadow.
-    @NativeBlockProp(
-        description: "The vertical offset of the ScrollView shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowY: CGFloat = 0
 
     var body: some View {
         ScrollView(scrollDirection) {
             content(-1)
         }
         .blockScrollIndicators(scrollIndicators)
-        .blockWidthAndHeightModifier(
-            frameWidth,
-            frameHeight,
-            alignment: Alignment(
-                horizontal: alignmentHorizontal,
-                vertical: alignmentVertical
-            )
-        )
-        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
         .background(backgroundColor)
-        .cornerRadius(cornerRadius)
-        .overlay(
-            RoundedRectangle(
-                cornerRadius:
-                    cornerRadius
-            ).stroke(
-                borderColor,
-                lineWidth: borderWidth
+        .clipShape(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
             )
         )
-        .shadow(
-            color: shadowColor,
-            radius: shadowRadius, x: shadowX, y: shadowY
+        .overlay(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
+            )
+            .stroke(borderColor, lineWidth: borderWidth)
         )
     }
 }
@@ -313,23 +304,22 @@ struct NativeScrollView_Previews: PreviewProvider {
                 },
                 scrollIndicators: "visible",
                 scrollDirection: .vertical,
-                alignmentHorizontal: .center,
-                alignmentVertical: .center,
+                alignmentHorizontal: HorizontalAlignment.center,
+                alignmentVertical: VerticalAlignment.center,
                 spacing: 0,
-                paddingTop: 0,
-                paddingLeading: 0,
-                paddingBottom: 0,
-                paddingTrailing: 0,
-                frameWidth: "300",
-                frameHeight: "infinity",
+                paddingTop: 8,
+                paddingLeading: 8,
+                paddingBottom: 8,
+                paddingTrailing: 8,
+                width: "300",
+                height: "200",
                 backgroundColor: Color.blue,
-                cornerRadius: 30,
-                borderColor: Color.white,
+                radiusTopStart: 0,
+                radiusTopEnd: 0,
+                radiusBottomStart: 0,
+                radiusBottomEnd: 0,
+                borderColor: Color.black,
                 borderWidth: 5,
-                shadowColor: Color.black,
-                shadowRadius: 30,
-                shadowX: 7,
-                shadowY: 7
             )
         }
         .padding(10)
