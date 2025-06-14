@@ -199,9 +199,9 @@ struct NativeButton<Content: View>: View {
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
+        defaultValue: "0.0"
     )
-    var weight: CGFloat = 0
+    var weight: CGFloat = 0.0
     
     /// The background color of the button when enabled.
     @NativeBlockProp(
