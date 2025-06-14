@@ -28,7 +28,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyVStack",
-    keyType: "nativeblocks/lazy-vstack",
+    keyType: "nativeblocks/lazy_vstack",
     description: "Nativeblocks LazyVStack block",
     version: 1,
     versionName: "1.0.0"

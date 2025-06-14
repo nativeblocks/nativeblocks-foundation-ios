@@ -23,7 +23,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native LazyHStack",
-    keyType: "nativeblocks/lazy-hstack",
+    keyType: "nativeblocks/lazy_hstack",
     description: "Nativeblocks LazyHStack block",
     version: 1,
     versionName: "1.0.0"

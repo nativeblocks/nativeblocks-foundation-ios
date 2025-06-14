@@ -59,7 +59,7 @@ struct NativeText: View {
             NativeBlockValuePickerOption("heavy", "heavy"),
             NativeBlockValuePickerOption("black", "black"),
             NativeBlockValuePickerOption("light", "light"),
-            NativeBlockValuePickerOption("ultralight", "ultralight"),
+            NativeBlockValuePickerOption("ultraLight", "ultraLight"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "regular"

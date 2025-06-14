@@ -25,7 +25,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Text field",
-    keyType: "nativeblocks/text-field",
+    keyType: "nativeblocks/text_field",
     description: "Nativeblocks text field block",
     version: 1,
     versionName: "1.0.0"
@@ -86,7 +86,7 @@ struct NativeTextField: View {
             NativeBlockValuePickerOption("heavy", "heavy"),
             NativeBlockValuePickerOption("black", "black"),
             NativeBlockValuePickerOption("light", "light"),
-            NativeBlockValuePickerOption("ultralight", "ultralight"),
+            NativeBlockValuePickerOption("ultraLight", "ultraLight"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "regular"
@@ -283,6 +283,7 @@ struct NativeTextField: View {
             NativeBlockValuePickerOption("bottom", "bottom"),
             NativeBlockValuePickerOption("center", "center"),
             NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
+            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
         defaultValue: "top"

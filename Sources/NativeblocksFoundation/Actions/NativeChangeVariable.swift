@@ -13,7 +13,7 @@ import NativeblocksCompiler
 ///
 @NativeAction(
     name: "Native Change Variable",
-    keyType: "nativeblocks/change-variable",
+    keyType: "nativeblocks/change_variable",
     description: "Native Change Variable",
     version: 1,
     versionName: "1.0.0"
