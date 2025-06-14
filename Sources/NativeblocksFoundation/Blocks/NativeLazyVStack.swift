@@ -4,8 +4,8 @@ import SwiftUI
 
 /// A customizable lazy vertical stack (LazyVStack) block for Nativeblocks.
 ///
-/// `NativeLazyVStack` allows you to stack child views vertically with alignment, spacing, padding,
-/// and styling options. It also supports click events and customizable layout.
+/// `LazyVStack` is a flexible vertical stack layout that integrates with the Nativeblocks ecosystem.
+/// It supports features like customizable alignment, spacing, padding, colors, and more.
 ///
 /// ### Features:
 /// - Customizable alignment (horizontal and vertical).
@@ -24,7 +24,6 @@ import SwiftUI
 ///     alignmentVertical: "top",
 ///     spacing: 10,
 ///     backgroundColor: "#ffffff",
-///     onClick: { print("LazyVStack clicked") }
 /// )
 /// ```
 @NativeBlock(
@@ -36,14 +35,16 @@ import SwiftUI
 )
 struct NativeLazyVStack<Content: View>: View {
     var blockProps: BlockProps? = nil
+
+    /// Length of list
     @NativeBlockData(
-        description: "length of list",
+        description: "Length of list",
         defaultValue: "-1"
     )
     var length: Int = -1
     // MARK: - Slot Properties
 
-    /// The content of the LazyVStack, provided as a slot.
+    /// The content to display inside the LazyVStack.
     @NativeBlockSlot(description: "The content to display inside the LazyVStack.")
     var content: (BlockIndex) -> Content
 
@@ -99,7 +100,7 @@ struct NativeLazyVStack<Content: View>: View {
     )
     var paddingTop: CGFloat = 0
 
-    /// The leading (left) padding inside the LazyVStack.
+    /// The leading padding inside the LazyVStack..
     @NativeBlockProp(
         description: "The leading padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -115,7 +116,7 @@ struct NativeLazyVStack<Content: View>: View {
     )
     var paddingBottom: CGFloat = 0
 
-    /// The trailing (right) padding inside the LazyVStack.
+    /// The trailing padding inside the LazyVStack.
     @NativeBlockProp(
         description: "The trailing padding inside the LazyVStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -136,7 +137,7 @@ struct NativeLazyVStack<Content: View>: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "notSet"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "notSet"
 
     /// The height of the LazyVStack's frame.
     @NativeBlockProp(
@@ -149,14 +150,8 @@ struct NativeLazyVStack<Content: View>: View {
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "notSet"
     )
-    var frameHeight: String = "notSet"
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
-    )
-    var frameWeight: CGFloat = 0
+    var height: String = "notSet"
+
     // MARK: - Background and Styling Properties
 
     /// The background color of the LazyVStack.
@@ -167,20 +162,48 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-
-    /// The corner radius of the LazyVStack.
+    
+    /// Top-start corner radius.
     @NativeBlockProp(
-        description: "The corner radius of the LazyVStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
+        description: "Top-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
     )
-    var cornerRadius: CGFloat = 0
-
+    var radiusTopStart: CGFloat = 0.0
+    
+    /// Top-end corner radius.
+    @NativeBlockProp(
+        description: "Top-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopEnd: CGFloat = 0.0
+    
+    /// Bottom-start corner radius.
+    @NativeBlockProp(
+        description: "Bottom-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomStart: CGFloat = 0.0
+    
+    /// Bottom-end corner radius.
+    @NativeBlockProp(
+        description: "Bottom-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomEnd: CGFloat = 0.0
+    
     /// The border color of the LazyVStack.
     @NativeBlockProp(
         description: "The border color of the LazyVStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
@@ -188,93 +211,50 @@ struct NativeLazyVStack<Content: View>: View {
     /// The border width of the LazyVStack.
     @NativeBlockProp(
         description: "The border width of the LazyVStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
 
-    /// The shadow color of the LazyVStack.
-    @NativeBlockProp(
-        description: "The shadow color of the LazyVStack.",
-        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "#00000000"
-    )
-    var shadowColor: Color = Color.black.opacity(0)
+    // MARK: - Event Properties
 
-    /// The shadow radius of the LazyVStack.
-    @NativeBlockProp(
-        description: "The shadow radius of the LazyVStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowRadius: CGFloat = 0
-
-    /// The horizontal shadow offset of the LazyVStack.
-    @NativeBlockProp(
-        description: "The horizontal shadow offset of the LazyVStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowX: CGFloat = 0
-
-    /// The vertical shadow offset of the LazyVStack.
-    @NativeBlockProp(
-        description: "The vertical shadow offset of the LazyVStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowY: CGFloat = 0
+    /// Action triggered when the LazyVStack is tapped.
+    @NativeBlockEvent(description: "Action triggered when the LazyVStack is tapped.")
+    var onClick: (() -> Void)?
 
     // MARK: - Event Properties
 
-    /// Triggered when the LazyVStack is clicked.
-    @NativeBlockEvent(description: "Triggered when the LazyVStack is clicked.")
-    var onClick: () -> Void
-
     var body: some View {
-        LazyVStack(
-            alignment: alignmentHorizontal,
-            spacing: spacing
-        ) {
+        LazyVStack(alignment: alignmentHorizontal, spacing: spacing) {
             if length >= 0 {
                 ForEach(0..<length, id: \.self) { index in
                     content(index)
                 }
-            } else {
-                content(-1)
             }
         }
-        .blockWidthAndHeightModifier(
-            frameWidth,
-            frameHeight,
-            alignment: Alignment(
-                horizontal: alignmentHorizontal,
-                vertical: alignmentVertical)
-        )
-        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
         .background(backgroundColor)
-        .cornerRadius(cornerRadius)
-        .overlay(
-            RoundedRectangle(
-                cornerRadius:
-                    cornerRadius
-            ).stroke(
-                borderColor,
-                lineWidth: borderWidth
+        .clipShape(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
             )
         )
-        .shadow(
-            color: shadowColor,
-            radius: shadowRadius, x: shadowX, y: shadowY
+        .overlay(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
+            )
+            .stroke(borderColor, lineWidth: borderWidth)
         )
-        .onTapGesture {
-            onClick()
-        }
     }
 }
 
