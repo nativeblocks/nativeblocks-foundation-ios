@@ -131,6 +131,40 @@ struct NativeButton<Content: View>: View {
         defaultValue: "center"
     )
     var multilineTextAlignment: TextAlignment = TextAlignment.center
+    
+    // MARK: - Padding Properties
+
+    /// Padding at the top of the Button.
+    @NativeBlockProp(
+        description: "Padding at the top of the Button.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Content padding"),
+        defaultValue: "4"
+    )
+    var contentPaddingTop: CGFloat = 4
+
+    /// Padding at the leading edge of the Button.
+    @NativeBlockProp(
+        description: "Padding at the leading edge of the Button.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Content padding"),
+        defaultValue: "4"
+    )
+    var contentPaddingLeading: CGFloat = 4
+
+    /// Padding at the bottom of the Button.
+    @NativeBlockProp(
+        description: "Padding at the bottom of the Button.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Content padding"),
+        defaultValue: "4"
+    )
+    var contentPaddingBottom: CGFloat = 4
+
+    /// Padding at the trailing edge of the Button.
+    @NativeBlockProp(
+        description: "Padding at the trailing edge of the Button.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Content padding"),
+        defaultValue: "4"
+    )
+    var contentPaddingTrailing: CGFloat = 4
 
     // MARK: - Padding Properties
 
@@ -307,10 +341,10 @@ struct NativeButton<Content: View>: View {
             }
             .blockWidthAndHeightModifier(width, height)
             .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
-            .padding(.top, paddingTop)
-            .padding(.leading, paddingLeading)
-            .padding(.bottom, paddingBottom)
-            .padding(.trailing, paddingTrailing)
+            .padding(.top, contentPaddingTop)
+            .padding(.leading, contentPaddingLeading)
+            .padding(.bottom, contentPaddingBottom)
+            .padding(.trailing, contentPaddingTrailing)
         }
         .disabled(!enable)
         .background(background)
@@ -331,6 +365,10 @@ struct NativeButton<Content: View>: View {
             )
             .stroke(border, lineWidth: borderWidth)
         )
+        .padding(.top, paddingTop)
+        .padding(.leading, paddingLeading)
+        .padding(.bottom, paddingBottom)
+        .padding(.trailing, paddingTrailing)
     }
 }
 
