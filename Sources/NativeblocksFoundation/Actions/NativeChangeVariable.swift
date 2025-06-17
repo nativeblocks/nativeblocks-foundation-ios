@@ -22,7 +22,7 @@ public class NativeChangeVariable {
     public init() {}
 
     /// Parameters required for the `NativeChangeVariable` action.
-    @NativeActionParameter()
+    @NativeActionParameter
     struct Parameter {
         /// The key of the variable to be modified.
         @NativeActionData(description: "key of the variable")

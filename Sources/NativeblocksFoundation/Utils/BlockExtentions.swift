@@ -153,19 +153,13 @@ extension View {
     }
 }
 
-extension String {
-    func listSize() -> Int? {
-        return (NativeJsonPath().query(jsonString: self, query: "$") as? [Any])?.count ?? nil
-    }
-}
-
 extension View {
     public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
         self.modifier(BlockOnTapGestureModifier(enable: enable, action: action))
     }
 }
 
-struct BlockOnTapGestureModifier: ViewModifier {
+private struct BlockOnTapGestureModifier: ViewModifier {
     let enable: Bool
     let action: () -> Void
 
@@ -180,7 +174,7 @@ struct BlockOnTapGestureModifier: ViewModifier {
     }
 }
 
-struct CornerRadiusShape: Shape {
+internal struct CornerRadiusShape: Shape {
     var topLeft: CGFloat = 0
     var topRight: CGFloat = 0
     var bottomLeft: CGFloat = 0

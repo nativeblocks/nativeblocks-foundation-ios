@@ -27,7 +27,7 @@ public class NativeChangeBlockProperty {
     public init() {}
 
     /// The parameters required for the `NativeChangeBlockProperty` action.
-    @NativeActionParameter()
+    @NativeActionParameter
     struct Parameter {
         /// The key of the block to modify.
         @NativeActionProp(description: "key of the block")
