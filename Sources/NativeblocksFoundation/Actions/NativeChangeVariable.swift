@@ -41,7 +41,8 @@ public class NativeChangeVariable {
     }
 
     /// Function to handle the change of a variable.
-    @NativeActionFunction()
+    @NativeActionFunction
+    @MainActor
     func onChangeBlock(param: Parameter) async {
         // Retrieve data from the action properties.
         let data = param.actionProps.trigger?.data ?? [:]
