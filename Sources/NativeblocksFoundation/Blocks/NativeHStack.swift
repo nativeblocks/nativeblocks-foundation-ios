@@ -248,14 +248,14 @@ struct NativeHStack<Content: View>: View {
                         content(-1, proxy)
                     }
                 } else {
-                    EmptyView().onAppear {
+                    Color.clear.onAppear {
                         proxy.geo = geo
                         initialized.toggle()
                     }
                 }
             }
         }
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)

@@ -49,7 +49,6 @@ struct NativeLazyVStack<Content: View>: View {
     var content: (BlockIndex) -> Content
 
     // MARK: - Alignment Properties
-
     /// The horizontal alignment of the LazyVStack's content.
     @NativeBlockProp(
         description: "The horizontal alignment of the LazyVStack's content.",
@@ -63,22 +62,6 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "leading"
     )
     var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the LazyVStack's content.
-    @NativeBlockProp(
-        description: "The vertical alignment of the LazyVStack's content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
 
     // MARK: - Layout Properties
 
@@ -224,7 +207,7 @@ struct NativeLazyVStack<Content: View>: View {
                 }
             }
         }
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)

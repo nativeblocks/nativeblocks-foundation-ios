@@ -192,38 +192,6 @@ struct NativeText: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
-    // MARK: - Alignment Properties
-
-    /// The horizontal alignment of the text.
-    @NativeBlockProp(
-        description: "The horizontal alignment of the text.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "leading"
-    )
-    var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the text.
-    @NativeBlockProp(
-        description: "The vertical alignment of the text.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
 
     var body: some View {
         Text(text)
@@ -231,7 +199,7 @@ struct NativeText: View {
             .foregroundColor(foregroundColor)
             .multilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
-            .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+            .blockWidthAndHeightModifier(width, height)
             .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)

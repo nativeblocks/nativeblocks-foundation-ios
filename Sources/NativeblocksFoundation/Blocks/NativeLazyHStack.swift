@@ -45,22 +45,6 @@ struct NativeLazyHStack<Content: View>: View {
 
     // MARK: - Alignment Properties
 
-    /// Horizontal alignment of the LazyHStack's content.
-    /// - `valuePicker`: A dropdown picker for choosing alignment options.
-    /// - `valuePickerOptions`: Contains options like "leading", "trailing", and "center".
-    @NativeBlockProp(
-        description: "Horizontal alignment of the LazyHStack's content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-            NativeBlockValuePickerOption("center", "center"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "leading"
-    )
-    var alignmentHorizontal: HorizontalAlignment = HorizontalAlignment.leading
-
     /// Vertical alignment of the LazyHStack's content.
     /// - `valuePicker`: A dropdown picker for choosing vertical alignment options.
     /// - `valuePickerOptions`: Contains options like "top", "bottom", "center", and baselines.
@@ -222,7 +206,7 @@ struct NativeLazyHStack<Content: View>: View {
                 }
             }
         }
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -282,7 +266,6 @@ struct NativeLazyHStack_Padding_Previews: PreviewProvider {
                         .background(Color.red)
                 }
             },
-            alignmentHorizontal: HorizontalAlignment.center,
             alignmentVertical: VerticalAlignment.center,
             spacing: 0,
             paddingTop: 8,

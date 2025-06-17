@@ -64,38 +64,6 @@ struct NativeScrollView<Content: View>: View {
     )
     var scrollDirection: Axis.Set = .vertical
 
-    // MARK: - Alignment Properties
-
-    /// The horizontal alignment of the content inside the ScrollView.
-    @NativeBlockProp(
-        description: "The horizontal alignment of the content inside the ScrollView.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-            NativeBlockValuePickerOption("center", "center"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "leading"
-    )
-    var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the content inside the ScrollView.
-    @NativeBlockProp(
-        description: "The vertical alignment of the content inside the ScrollView.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lasttextbaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
-
     /// The spacing between elements inside the ScrollView.
     @NativeBlockProp(
         description: "The spacing between elements inside the ScrollView.",
@@ -243,7 +211,7 @@ struct NativeScrollView<Content: View>: View {
             content(-1)
         }
         .blockScrollIndicators(scrollIndicators)
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
@@ -304,8 +272,6 @@ struct NativeScrollView_Previews: PreviewProvider {
                 },
                 scrollIndicators: "visible",
                 scrollDirection: .vertical,
-                alignmentHorizontal: HorizontalAlignment.center,
-                alignmentVertical: VerticalAlignment.center,
                 spacing: 0,
                 paddingTop: 8,
                 paddingLeading: 8,

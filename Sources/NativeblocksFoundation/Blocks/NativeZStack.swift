@@ -227,7 +227,7 @@ struct NativeZStack<Content: View>: View {
         ZStack(alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical)) {
             content(-1)
         }
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)

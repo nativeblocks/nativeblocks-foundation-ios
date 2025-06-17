@@ -21,7 +21,6 @@ import SwiftUI
 ///            .padding()
 ///     },
 ///     alignmentHorizontal: "center",
-///     alignmentVertical: "top",
 ///     spacing: 10,
 ///     backgroundColor: "#ffffff",
 ///     onClick: { print("VStack clicked") }
@@ -66,22 +65,6 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "leading"
     )
     var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the VStack's content.
-    @NativeBlockProp(
-        description: "The vertical alignment of the VStack's content.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
 
     // MARK: - Layout Properties
 
@@ -246,14 +229,14 @@ struct NativeVStack<Content: View>: View {
                         content(-1, proxy)
                     }
                 } else {
-                    EmptyView().onAppear {
+                    Color.clear.onAppear {
                         proxy.geo = geo
                         initialized.toggle()
                     }
                 }
             }
         }
-        .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
+        .blockWidthAndHeightModifier(width, height)
         .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
@@ -297,7 +280,6 @@ struct NativeVStack_Previews: PreviewProvider {
                         .blockWidthAndHeightModifier(
                             "fill",
                             "auto",
-                            alignment: Alignment.bottom
                         )
                         .weighted(1, proxy: scope)
                         .background(Color.cyan)
@@ -306,7 +288,6 @@ struct NativeVStack_Previews: PreviewProvider {
                         .blockWidthAndHeightModifier(
                             "fill",
                             "auto",
-                            alignment: Alignment.bottom
                         )
                         .weighted(1, proxy: scope)
                         .background(Color.black)
@@ -315,14 +296,12 @@ struct NativeVStack_Previews: PreviewProvider {
                         .blockWidthAndHeightModifier(
                             "fill",
                             "auto",
-                            alignment: Alignment.bottom
                         )
                         .weighted(0, proxy: scope)
                         .background(Color.red)
                 }
             },
             alignmentHorizontal: HorizontalAlignment.center,
-            alignmentVertical: VerticalAlignment.center,
             spacing: 0,
             paddingTop: 8,
             paddingLeading: 8,
