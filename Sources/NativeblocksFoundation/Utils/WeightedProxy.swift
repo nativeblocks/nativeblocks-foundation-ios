@@ -2,23 +2,23 @@ import SwiftUI
 
 class WeightedProxy {
     let kind: Kind
-    let totalWeight: CGFloat = 1
+    let totalWeight: CGFloat = 1.0
     var geo: GeometryProxy? = nil
-
+    
     init(kind: Kind) {
         self.kind = kind
     }
-
+    
     func dimensionForRelative(weight: CGFloat) -> CGFloat {
         guard let geo = geo,
-            totalWeight > 0
+              totalWeight > 0
         else {
             return 0
         }
         let dimension = (kind == .vertical) ? geo.size.height : geo.size.width
         return dimension * weight / totalWeight
     }
-
+    
     enum Kind {
         case vertical, horizontal
     }
@@ -35,7 +35,7 @@ struct Weighted: ViewModifier {
             proxy = nil
         }
     }
-
+    
     @ViewBuilder func body(content: Content) -> some View {
         if proxy == nil || proxy?.totalWeight == 0 {
             content

@@ -2,21 +2,6 @@ import Foundation
 import Nativeblocks
 import SwiftUI
 
-extension String {
-    /// Checks if the string is a valid URL for an image.
-    /// - Returns: `true` if the URL is valid, otherwise `false`.
-    public func isValidImageUrl() -> Bool {
-        guard let url = URL(string: self) else { return false }
-        guard url.scheme == "http" || url.scheme == "https" else { return false }
-
-        #if os(iOS)
-            return UIApplication.shared.canOpenURL(url)
-        #else
-            return true
-        #endif
-    }
-}
-
 extension View {
     /// Applies a width and height modifier to a view.
     /// - Parameters:
@@ -24,7 +9,7 @@ extension View {
     ///   - height: The height string (e.g., "fill" or a numeric value).
     ///   - alignment: The alignment for the view's frame.
     /// - Returns: A view with the specified frame settings.
-    public func blockWidthAndHeightModifier(_ width: String, _ height: String, alignment: Alignment = .center) -> some View {
+    public func blockWidthAndHeightModifier(_ width: String, _ height: String) -> some View {
         var maxWidth: CGFloat? = nil
         var maxHeight: CGFloat? = nil
 
@@ -50,8 +35,7 @@ extension View {
             minWidth: (maxWidth != nil && maxWidth != .infinity) ? maxWidth : nil,
             maxWidth: maxWidth,
             minHeight: (maxHeight != nil && maxHeight != .infinity) ? maxHeight : nil,
-            maxHeight: maxHeight,
-            alignment: alignment
+            maxHeight: maxHeight
         )
     }
 
