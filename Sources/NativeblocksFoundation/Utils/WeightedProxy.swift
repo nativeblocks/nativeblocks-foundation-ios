@@ -1,30 +1,30 @@
 import SwiftUI
 
-class WeightedProxy {
+public class WeightedProxy {
     let kind: Kind
+    let totalWeight: CGFloat = 1.0
     var geo: GeometryProxy? = nil
-    var totalWeight: CGFloat = 0
-
+    
     init(kind: Kind) {
         self.kind = kind
     }
-
-    func dimensionForRelative(weight: CGFloat) -> CGFloat {
+    
+    internal func dimensionForRelative(weight: CGFloat) -> CGFloat {
         guard let geo = geo,
-            totalWeight > 0
+              totalWeight > 0
         else {
             return 0
         }
         let dimension = (kind == .vertical) ? geo.size.height : geo.size.width
         return dimension * weight / totalWeight
     }
-
-    enum Kind {
+    
+    public enum Kind {
         case vertical, horizontal
     }
 }
 
-struct Weighted: ViewModifier {
+public struct Weighted: ViewModifier {
     private let weight: CGFloat
     private let proxy: WeightedProxy?
     init(_ weight: CGFloat, proxyObject: Any?) {
@@ -35,8 +35,8 @@ struct Weighted: ViewModifier {
             proxy = nil
         }
     }
-
-    @ViewBuilder func body(content: Content) -> some View {
+    
+    @ViewBuilder public func body(content: Content) -> some View {
         if proxy == nil || proxy?.totalWeight == 0 {
             content
         } else if proxy?.kind == .vertical {
@@ -49,7 +49,7 @@ struct Weighted: ViewModifier {
 }
 
 extension View {
-    func weighted(_ weight: CGFloat, proxy: Any?) -> some View {
+    public func weighted(_ weight: CGFloat, proxy: Any?) -> some View {
         return self.modifier(Weighted(weight, proxyObject: proxy))
     }
 }

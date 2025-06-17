@@ -14,13 +14,13 @@ import SwiftUI
 /// ### Example:
 /// ```swift
 /// NativeSpacer(
-///     frameWidth: "infinity",
-///     frameHeight: "notSet"
+///     frameWidth: "fill",
+///     frameHeight: "auto"
 /// )
 /// ```
 @NativeBlock(
     name: "Native Spacer",
-    keyType: "nativeblocks/SPACER",
+    keyType: "nativeblocks/spacer",
     description: "Nativeblocks spacer block",
     version: 1,
     versionName: "1.0.0"
@@ -29,55 +29,52 @@ struct NativeSpacer: View {
     var blockProps: BlockProps? = nil
     // MARK: - Frame Properties
 
-    /// The width of the spacer.
-    ///
-    /// The `frameWidth` determines how the spacer behaves horizontally. It can either have a fixed value,
-    /// be infinite to grow within its container, or be unset (`notSet`) to rely on the layout's default behavior.
+    /// The width of the Spacer frame.
     @NativeBlockProp(
-        description: "The width of the spacer. It can be a fixed value, infinite, or not set.",
+        description: "The width of the Spacer frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "auto"
 
-    /// The height of the spacer.
-    ///
-    /// The `frameHeight` determines how the spacer behaves vertically. It can either have a fixed value,
-    /// be infinite to grow within its container, or be unset (`notSet`) to rely on the layout's default behavior.
+    /// The height of the Spacer frame.
     @NativeBlockProp(
-        description: "The height of the spacer. It can be a fixed value, infinite, or not set.",
+        description: "The height of the Spacer frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set.
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
+        defaultValue: "0.0"
     )
-    var frameWeight: CGFloat = 0
+    var weight: CGFloat = 0.0
+    
     var body: some View {
         Spacer()
-            .blockWidthAndHeightModifier(frameWidth, frameHeight)
-            .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+            .blockWidthAndHeightModifier(width, height)
+            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
 
     }
 }
 
 #Preview("NativeSpacer") {
     NativeSpacer(
-        frameWidth: "notSet",
-        frameHeight: "infinity"
+        width: "auto",
+        height: "fill"
     )
 }

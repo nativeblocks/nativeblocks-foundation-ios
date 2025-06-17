@@ -23,7 +23,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Text",
-    keyType: "nativeblocks/TEXT",
+    keyType: "nativeblocks/text",
     description: "Nativeblocks text block",
     version: 1,
     versionName: "1.0.0"
@@ -59,7 +59,7 @@ struct NativeText: View {
             NativeBlockValuePickerOption("heavy", "heavy"),
             NativeBlockValuePickerOption("black", "black"),
             NativeBlockValuePickerOption("light", "light"),
-            NativeBlockValuePickerOption("ultralight", "ultralight"),
+            NativeBlockValuePickerOption("ultraLight", "ultraLight"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "regular"
@@ -118,139 +118,89 @@ struct NativeText: View {
     @NativeBlockProp(
         description: "The maximum number of lines for the text.",
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
-        defaultValue: "9999"
+        defaultValue: "1"
     )
-    var lineLimit: Int = 9999
-
-    /// The spacing between lines of text.
-    @NativeBlockProp(
-        description: "The spacing between lines of text.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
-        defaultValue: "0"
-    )
-    var lineSpacing: CGFloat = 0
+    var lineLimit: Int = 1
 
     // MARK: - Padding Properties
 
-    /// The top padding of the text.
+    /// Padding at the top of the Text.
     @NativeBlockProp(
-        description: "The top padding around the text.",
+        description: "Padding at the top of the Text.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
 
-    /// The leading (left) padding of the text.
+    /// Padding at the leading edge of the Text.
     @NativeBlockProp(
-        description: "The leading padding around the text.",
+        description: "Padding at the leading edge of the Text.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
 
-    /// The bottom padding of the text.
+    /// Padding at the bottom of the Text.
     @NativeBlockProp(
-        description: "The bottom padding around the text.",
+        description: "Padding at the bottom of the Text.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
 
-    /// The trailing (right) padding of the text.
+    /// Padding at the trailing edge of the Text.
     @NativeBlockProp(
-        description: "The trailing padding around the text.",
+        description: "Padding at the trailing edge of the Text.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
 
-    // MARK: - Frame Properties
+    // MARK: - Size Properties
 
-    /// The width of the text's frame.
+    /// Width of the text frame
     @NativeBlockProp(
-        description: "The width of the frame surrounding the text.",
+        description: "Width of the text frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "auto"
 
-    /// The height of the text's frame.
+    /// Height of the text frame
     @NativeBlockProp(
-        description: "The height of the frame surrounding the text.",
+        description: "Height of the text frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
+        defaultValue: "0.0"
     )
-    var frameWeight: CGFloat = 0
-    // MARK: - Alignment Properties
-
-    /// The horizontal alignment of the text.
-    @NativeBlockProp(
-        description: "Specifies the horizontal alignment of the text.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "leading"
-    )
-    var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the text.
-    @NativeBlockProp(
-        description: "Specifies the vertical alignment of the text.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
+    var weight: CGFloat = 0.0
 
     var body: some View {
         Text(text)
-            .blockFont(
-                family: fontFamily,
-                size: fontSize,
-                weight: fontWeight,
-                design: fontDesign
-            )
+            .blockFont(family: fontFamily, size: fontSize, weight: fontWeight, design: fontDesign)
             .foregroundColor(foregroundColor)
             .multilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
-            .lineSpacing(lineSpacing)
-            .blockWidthAndHeightModifier(
-                frameWidth,
-                frameHeight,
-                alignment: Alignment(
-                    horizontal: alignmentHorizontal,
-                    vertical: alignmentVertical
-                )
-            )
-            .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+            .blockWidthAndHeightModifier(width, height)
+            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)
@@ -273,13 +223,12 @@ struct NativeText_Previews: PreviewProvider {
             foregroundColor: Color.blue,
             multilineTextAlignment: .leading,
             lineLimit: 3,
-            lineSpacing: 9,
             paddingTop: 8,
             paddingLeading: 8,
             paddingBottom: 8,
             paddingTrailing: 8,
-            frameWidth: "infinity",
-            frameHeight: "infinity"
+            width: "fill",
+            height: "fill",
         )
     }
 }

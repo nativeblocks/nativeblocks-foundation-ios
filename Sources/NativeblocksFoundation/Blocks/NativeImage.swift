@@ -27,7 +27,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native Image",
-    keyType: "nativeblocks/IMAGE",
+    keyType: "nativeblocks/image",
     description: "Nativeblocks image block",
     version: 1,
     versionName: "1.0.0"
@@ -35,27 +35,23 @@ import SwiftUI
 struct NativeImage<Content: View>: View {
     var blockProps: BlockProps? = nil
     // MARK: - Data Properties
-
+    
     /// The URL of the image to display.
     @NativeBlockData(description: "The URL of the image to display.")
     var imageUrl: String
-
+    
     // MARK: - Slot Properties
-
+    
     /// A placeholder view to display while the image is loading.
     @NativeBlockSlot(description: "The placeholder view displayed while the image is loading.")
     var placeHolder: (BlockIndex) -> Content
-
-    /// A view to display if there is an error loading the image.
-    @NativeBlockSlot(description: "The error view displayed when the image fails to load.")
-    var errorView: (BlockIndex) -> Content
-
+    
     /// A description of the image for accessibility purposes.
     @NativeBlockData(description: "The content description for the image, used for accessibility.")
     var contentDescription: String = ""
-
+    
     // MARK: - Resizing and Scaling Properties
-
+    
     /// The content mode for scaling the image.
     /// - `valuePicker`: A dropdown picker for selecting the content mode.
     /// - `valuePickerOptions`: Options include "fill" (scale to fill the frame) and "fit" (scale to fit the frame).
@@ -69,110 +65,187 @@ struct NativeImage<Content: View>: View {
         defaultValue: "fit"
     )
     var contentMode: String = "fit"
-
+    
     /// The resizing mode for the image.
     /// - `valuePicker`: A dropdown picker for selecting the resizing mode.
     /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without resizing.
+    ///   - "auto": Default behavior without resizing.
     ///   - "stretch": Stretches the image to fit its frame.
     ///   - "tile": Tiles the image across its frame.
     @NativeBlockProp(
         description: "The resizing mode for the image.",
         valuePicker: NativeBlockValuePicker.DROPDOWN,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
+            NativeBlockValuePickerOption("auto", "auto"),
             NativeBlockValuePickerOption("stretch", "stretch"),
             NativeBlockValuePickerOption("tile", "tile"),
         ],
         defaultValue: "stretch"
     )
     var resizable: String = "stretch"
-
+    
     // MARK: - Size Properties
-
-    /// The width of the image frame.
-    /// - `valuePicker`: A combobox input for specifying width options.
-    /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without specific width.
-    ///   - "infinity": Stretches the width to fill available space.
+    
+    /// Width of the image frame
     @NativeBlockProp(
-        description: "The width of the image frame.",
+        description: "Width of the image frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
-
-    /// The height of the image frame.
-    /// - `valuePicker`: A combobox input for specifying height options.
-    /// - `valuePickerOptions`: Options include:
-    ///   - "notSet": Default behavior without specific height.
-    ///   - "infinity": Stretches the height to fill available space.
+    var width: String = "auto"
+    
+    /// Height of the image frame
     @NativeBlockProp(
-        description: "The height of the image frame.",
+        description: "Height of the image frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0.0"
+    )
+    var weight: CGFloat = 0.0
+    
+    // MARK: - Padding Properties
+
+    /// Padding at the top of the Text.
+    @NativeBlockProp(
+        description: "Padding at the top of the Text.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "0"
     )
-    var frameWeight: CGFloat = 0
-    // MARK: - Background Properties
+    var paddingTop: CGFloat = 0
 
-    /// The background color of the image.
-    /// - `valuePicker`: A color picker for selecting the background color.
+    /// Padding at the leading edge of the Text.
     @NativeBlockProp(
-        description: "The background color of the image.",
+        description: "Padding at the leading edge of the Text.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
+    )
+    var paddingLeading: CGFloat = 0
+
+    /// Padding at the bottom of the Text.
+    @NativeBlockProp(
+        description: "Padding at the bottom of the Text.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
+    )
+    var paddingBottom: CGFloat = 0
+
+    /// Padding at the trailing edge of the Text.
+    @NativeBlockProp(
+        description: "Padding at the trailing edge of the Text.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "0"
+    )
+    var paddingTrailing: CGFloat = 0
+    
+    // MARK: - Border Properties
+    
+    /// Top-start corner radius.
+    @NativeBlockProp(
+        description: "Top-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopStart: CGFloat = 0.0
+    
+    /// Top-end corner radius.
+    @NativeBlockProp(
+        description: "Top-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopEnd: CGFloat = 0.0
+    
+    /// Bottom-start corner radius.
+    @NativeBlockProp(
+        description: "Bottom-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomStart: CGFloat = 0.0
+    
+    /// Bottom-end corner radius.
+    @NativeBlockProp(
+        description: "Bottom-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomEnd: CGFloat = 0.0
+    
+    /// Border color of the HStack.
+    @NativeBlockProp(
+        description: "Border color of the HStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#00000000"
     )
-    var backgroundColor: Color = Color.black.opacity(0)
-
-    /// The corner radius of the image for rounded corners.
-    /// - `valuePicker`: A number input for specifying the radius.
+    var borderColor: Color = Color.black.opacity(0)
+    
+    /// Border width of the HStack.
     @NativeBlockProp(
-        description: "The corner radius of the image for rounded corners.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        description: "Border width of the HStack.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "0"
     )
-    var cornerRadius: CGFloat = 0
-
+    var borderWidth: CGFloat = 0
+    
+    // MARK: - Event Handlers
+    
+    /// Action triggered when the HStack is tapped.
+    @NativeBlockEvent(
+        description: "Action triggered when the HStack is tapped."
+    )
+    var onClick: (() -> Void)?
+    
     // MARK: - Body
-
+    
     var body: some View {
-        let shape = roundedRectangleShape(cornerRadius)
-
-        if imageUrl.isValidImageUrl() {
-            KFImage(URL(string: imageUrl))
-                .placeholder {
-                    placeHolder(-1)
-                }
-                .resizable()
-                .blockResizable(resizable)
-                .blockScaled(contentMode)
-                .blockWidthAndHeightModifier(frameWidth, frameHeight)
-                .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
-                .contentShape(.rect)
-                .background(backgroundColor)
-                .clipShape(shape)
-                .accessibility(label: Text(contentDescription))
-        } else {
-            errorView(-1)
-        }
+        let shape = CornerRadiusShape(
+            topLeft: radiusTopStart,
+            topRight: radiusTopEnd,
+            bottomLeft: radiusBottomStart,
+            bottomRight: radiusBottomEnd
+        )
+        
+        KFImage(URL(string: imageUrl))
+            .placeholder {
+                placeHolder(-1)
+            }
+            .resizable()
+            .blockResizable(resizable)
+            .blockScaled(contentMode)
+            .blockWidthAndHeightModifier(width, height)
+            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+            .contentShape(shape)
+            .clipShape(shape)
+            .accessibility(label: Text(contentDescription))
+            .blockOnTapGesture(enable: onClick != nil) {
+                onClick?()
+            }
+            .padding(.top, paddingTop)
+            .padding(.leading, paddingLeading)
+            .padding(.bottom, paddingBottom)
+            .padding(.trailing, paddingTrailing)
     }
 }

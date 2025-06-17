@@ -5,12 +5,12 @@ import SwiftUI
 /// A customizable HStack block for Nativeblocks.
 ///
 /// `NativeHStack` is a flexible horizontal stack layout that integrates with the Nativeblocks ecosystem.
-/// It supports features like customizable alignment, spacing, padding, colors, shadows, and more.
+/// It supports features like customizable alignment, spacing, padding, colors, and more.
 ///
 /// ### Features:
 /// - Dynamic content defined using slots.
 /// - Configurable alignment, padding, and size.
-/// - Background, border, and shadow styling options.
+/// - Background, border and styling options.
 /// - Trigger actions on tap events.
 ///
 /// ### Example:
@@ -25,7 +25,7 @@ import SwiftUI
 /// ```
 @NativeBlock(
     name: "Native HStack",
-    keyType: "nativeblocks/HSTACK",
+    keyType: "nativeblocks/hstack",
     description: "Nativeblocks HStack block",
     version: 1,
     versionName: "1.0.0"
@@ -34,20 +34,22 @@ struct NativeHStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .horizontal)
     @State private var initialized = false
     var blockProps: BlockProps? = nil
+    
+    /// Length of list
     @NativeBlockData(
-        description: "length of list",
+        description: "Length of list",
         defaultValue: "-1"
     )
     var length: Int = -1
     // MARK: - Properties
 
-    /// The content of the HStack, defined as a slot.
+    /// The content displayed inside the HStack.
     @NativeBlockSlot(description: "The content displayed inside the HStack.")
     var content: (BlockIndex, Any) -> Content
 
     // MARK: - Alignment Properties
 
-    /// Horizontal alignment of the content in the HStack.
+    /// Horizontal alignment of the HStack's content.
     /// - `valuePicker`: A dropdown picker for choosing alignment options.
     /// - `valuePickerOptions`: Contains options like "leading", "trailing", and "center".
     @NativeBlockProp(
@@ -63,7 +65,7 @@ struct NativeHStack<Content: View>: View {
     )
     var alignmentHorizontal: HorizontalAlignment = HorizontalAlignment.leading
 
-    /// Vertical alignment of the content in the HStack.
+    /// Vertical alignment of the HStack's content.
     /// - `valuePicker`: A dropdown picker for choosing vertical alignment options.
     /// - `valuePickerOptions`: Contains options like "top", "bottom", "center", and baselines.
     @NativeBlockProp(
@@ -81,7 +83,7 @@ struct NativeHStack<Content: View>: View {
     )
     var alignmentVertical: VerticalAlignment = VerticalAlignment.top
 
-    /// Spacing between elements in the HStack.
+    /// Spacing between elements inside the HStack.
     @NativeBlockProp(
         description: "Spacing between elements inside the HStack.",
         valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
@@ -125,46 +127,44 @@ struct NativeHStack<Content: View>: View {
 
     // MARK: - Size Properties
 
+    /// Width of the HStack frame
     @NativeBlockProp(
         description: "Width of the HStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameWidth: String = "notSet"
+    var width: String = "auto"
 
+    /// Height of the HStack frame
     @NativeBlockProp(
         description: "Height of the HStack frame.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
-            NativeBlockValuePickerOption("notSet", "notSet"),
-            NativeBlockValuePickerOption("infinity", "infinity"),
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "notSet"
+        defaultValue: "auto"
     )
-    var frameHeight: String = "notSet"
+    var height: String = "auto"
+    
+    /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
         valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
+        defaultValue: "0.0"
     )
-    var frameWeight: CGFloat = 0
-
-    @NativeBlockProp(
-        description: "Total weight of all items. If 0, child weights are ignored.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0"
-    )
-    var totalWeight: CGFloat = 0
+    var weight: CGFloat = 0.0
+    
     // MARK: - Background Properties
 
+    /// Background color of the HStack.
     @NativeBlockProp(
         description: "Background color of the HStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
@@ -173,69 +173,64 @@ struct NativeHStack<Content: View>: View {
     )
     var backgroundColor: Color = Color.black.opacity(0)
 
+    /// Top-start corner radius.
     @NativeBlockProp(
-        description: "Corner radius of the HStack's background.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
+        description: "Top-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
     )
-    var cornerRadius: CGFloat = 0
-
+    var radiusTopStart: CGFloat = 0.0
+    
+    /// Top-end corner radius.
+    @NativeBlockProp(
+        description: "Top-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusTopEnd: CGFloat = 0.0
+    
+    /// Bottom-start corner radius.
+    @NativeBlockProp(
+        description: "Bottom-start corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomStart: CGFloat = 0.0
+    
+    /// Bottom-end corner radius.
+    @NativeBlockProp(
+        description: "Bottom-end corner radius.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "0.0"
+    )
+    var radiusBottomEnd: CGFloat = 0.0
+    
+    /// Border color of the HStack.
     @NativeBlockProp(
         description: "Border color of the HStack.",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
 
+    /// Border width of the HStack.
     @NativeBlockProp(
         description: "Border width of the HStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-
-    // MARK: - Shadow Properties
-
-    /// Shadow color of the HStack.
-    /// - `valuePicker`: A color picker for selecting the shadow color.
-    @NativeBlockProp(
-        description: "Shadow color of the HStack.",
-        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "#00000000"
-    )
-    var shadowColor: Color = Color.black.opacity(0)
-
-    /// Shadow blur radius of the HStack.
-    @NativeBlockProp(
-        description: "Shadow blur radius of the HStack.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowRadius: CGFloat = 0
-
-    /// Horizontal offset of the HStack's shadow.
-    @NativeBlockProp(
-        description: "Horizontal offset of the HStack's shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowX: CGFloat = 0
-
-    /// Vertical offset of the HStack's shadow.
-    @NativeBlockProp(
-        description: "Vertical offset of the HStack's shadow.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
-        defaultValue: "0"
-    )
-    var shadowY: CGFloat = 0
 
     // MARK: - Event Handlers
 
     /// Action triggered when the HStack is tapped.
     @NativeBlockEvent(
-        description: "The action triggered when the HStack is tapped."
+        description: "Action triggered when the HStack is tapped."
     )
     var onClick: (() -> Void)?
 
@@ -243,10 +238,7 @@ struct NativeHStack<Content: View>: View {
 
     var body: some View {
         GeometryReader { geo in
-            HStack(
-                alignment: alignmentVertical,
-                spacing: spacing
-            ) {
+            HStack(alignment: alignmentVertical, spacing: spacing) {
                 if initialized {
                     if length >= 0 {
                         ForEach(0..<length, id: \.self) { index in
@@ -258,38 +250,34 @@ struct NativeHStack<Content: View>: View {
                 } else {
                     Color.clear.onAppear {
                         proxy.geo = geo
-                        proxy.totalWeight = totalWeight
                         initialized.toggle()
                     }
                 }
             }
-
-        }.blockWidthAndHeightModifier(
-            frameWidth, frameHeight,
-            alignment: Alignment(
-                horizontal: alignmentHorizontal,
-                vertical: alignmentVertical
-            )
-        )
-        .weighted(frameWeight, proxy: blockProps?.hierarchy?.last?.scope)
+        }
+        .blockWidthAndHeightModifier(width, height)
+        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
         .background(backgroundColor)
-        .cornerRadius(cornerRadius)
-        .overlay(
-            RoundedRectangle(
-                cornerRadius:
-                    cornerRadius
-            ).stroke(
-                borderColor,
-                lineWidth: borderWidth
+        .clipShape(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
             )
         )
-        .shadow(
-            color: shadowColor,
-            radius: shadowRadius, x: shadowX, y: shadowY
+        .overlay(
+            CornerRadiusShape(
+                topLeft: radiusTopStart,
+                topRight: radiusTopEnd,
+                bottomLeft: radiusBottomStart,
+                bottomRight: radiusBottomEnd
+            )
+            .stroke(borderColor, lineWidth: borderWidth)
         )
         .blockOnTapGesture(enable: onClick != nil) {
             onClick?()
@@ -327,17 +315,15 @@ struct NativeHStack_Previews: PreviewProvider {
             paddingLeading: 8,
             paddingBottom: 8,
             paddingTrailing: 8,
-            frameWidth: "300",
-            frameHeight: "200",
-            totalWeight: 5,
+            width: "300",
+            height: "200",
             backgroundColor: Color.blue,
-            cornerRadius: 30,
+            radiusTopStart: 0,
+            radiusTopEnd: 0,
+            radiusBottomStart: 0,
+            radiusBottomEnd: 0,
             borderColor: Color.black,
             borderWidth: 5,
-            shadowColor: Color.black,
-            shadowRadius: 30,
-            shadowX: 7,
-            shadowY: 7,
             onClick: {}
         ).padding(10)
             .background(Color.blue)

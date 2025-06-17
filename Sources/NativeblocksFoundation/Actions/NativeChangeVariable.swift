@@ -13,7 +13,7 @@ import NativeblocksCompiler
 ///
 @NativeAction(
     name: "Native Change Variable",
-    keyType: "nativeblocks/CHANGE_VARIABLE",
+    keyType: "nativeblocks/change_variable",
     description: "Native Change Variable",
     version: 1,
     versionName: "1.0.0"
@@ -22,7 +22,7 @@ public class NativeChangeVariable {
     public init() {}
 
     /// Parameters required for the `NativeChangeVariable` action.
-    @NativeActionParameter()
+    @NativeActionParameter
     struct Parameter {
         /// The key of the variable to be modified.
         @NativeActionData(description: "key of the variable")
@@ -41,12 +41,15 @@ public class NativeChangeVariable {
     }
 
     /// Function to handle the change of a variable.
-    @NativeActionFunction()
+    @NativeActionFunction
+    @MainActor
     func onChangeBlock(param: Parameter) async {
         // Retrieve data from the action properties.
         let data = param.actionProps.trigger?.data ?? [:]
 
-        guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else { return }
+        guard let variable = param.actionProps.variables?[data["variableKey"]?.value ?? ""] else {
+            return
+        }
 
         var value = actionHandleVariableValue(actionProps: param.actionProps, value: param.variableValue) ?? ""
         value = value.cast(type: variable.type)

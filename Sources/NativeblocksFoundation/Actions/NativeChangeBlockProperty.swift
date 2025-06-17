@@ -17,7 +17,7 @@ import SwiftUI
 ///
 @NativeAction(
     name: "Native Change Block Property",
-    keyType: "nativeblocks/CHANGE_BLOCK_PROPERTY",
+    keyType: "nativeblocks/change_block_property",
     description: "Native Change Block Property",
     version: 1,
     versionName: "1.0.0"
@@ -27,7 +27,7 @@ public class NativeChangeBlockProperty {
     public init() {}
 
     /// The parameters required for the `NativeChangeBlockProperty` action.
-    @NativeActionParameter()
+    @NativeActionParameter
     struct Parameter {
         /// The key of the block to modify.
         @NativeActionProp(description: "key of the block")
@@ -57,7 +57,8 @@ public class NativeChangeBlockProperty {
         var actionProps: ActionProps
     }
 
-    @NativeActionFunction()
+    @NativeActionFunction
+    @MainActor
     func onChangeBlock(param: Parameter) async {
         var valueMobile = param.propertyValueMobile
         var valueTablet = param.propertyValueTablet
