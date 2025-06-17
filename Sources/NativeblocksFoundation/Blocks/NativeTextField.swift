@@ -18,8 +18,6 @@ import SwiftUI
 /// NativeTextField(
 ///     text: "Enter your text",
 ///     isEditing: false,
-///     onCommit: { print("Commit!") },
-///     onEditingChanged: { isEditing in print("Editing: \(isEditing)") },
 ///     onChange: { newText in print("Changed: \(newText)") }
 /// )
 /// ```
@@ -30,41 +28,49 @@ import SwiftUI
     version: 1,
     versionName: "1.0.0"
 )
-struct NativeTextField: View {
+struct NativeTextField<Content: View>: View {
     var blockProps: BlockProps? = nil
-
+    
     // MARK: - Data Properties
-
+    
     /// The current text in the TextField.
     @NativeBlockData(description: "The current text in the TextField.")
     var text: String
-
+    
     /// The hint text in the TextField.
     @NativeBlockData(description: "The hint text in the TextField.")
     var hint: String
-
+    
     @State private var localText: String = ""
-
+    
     // MARK: - Event Properties
-
+    
     /// Triggered whenever the text in the text field changes, with `text` updated automatically.
     @NativeBlockEvent(
         description: "Triggered whenever the text changes. Updates `text` automatically.",
         dataBinding: ["text"]
     )
     var onChange: (String) -> Void
-
+    
     // MARK: - Input Properties
-
+    
     /// Indicates whether the text field hides input for secure entry.
     @NativeBlockProp(
         description: "Hides input for secure entry if set to true.",
         defaultValue: "false"
     )
     var isSecure: Bool = false
-
+    
+    /// An optional leading icon displayed in the TextField.
+    @NativeBlockSlot(description: "A view that appears as the leading icon of the TextField.")
+    var leadingIcon: ((BlockIndex) -> Content)? = nil
+    
+    /// An optional trailing icon displayed in the TextField.
+    @NativeBlockSlot(description: "A view that appears as the trailing icon of the TextField.")
+    var trailingIcon: ((BlockIndex) -> Content)? = nil
+    
     // MARK: - Font Properties
-
+    
     /// The font family used in the TextField.
     @NativeBlockProp(
         description: "The font family used in the TextField.",
@@ -72,7 +78,7 @@ struct NativeTextField: View {
         defaultValue: "system"
     )
     var fontFamily: String = "system"
-
+    
     /// The font weight used in the TextField.
     @NativeBlockProp(
         description: "The font weight used in the TextField.",
@@ -92,7 +98,7 @@ struct NativeTextField: View {
         defaultValue: "regular"
     )
     var fontWeight: Font.Weight = .regular
-
+    
     /// The font design used in the TextField.
     @NativeBlockProp(
         description: "The font design used in the TextField.",
@@ -107,7 +113,7 @@ struct NativeTextField: View {
         defaultValue: "default"
     )
     var fontDesign: Font.Design = .default
-
+    
     /// The font size used in the TextField.
     @NativeBlockProp(
         description: "The font size used in the TextField.",
@@ -115,7 +121,7 @@ struct NativeTextField: View {
         defaultValue: "16"
     )
     var fontSize: CGFloat = 16
-
+    
     /// The text color of the TextField.
     @NativeBlockProp(
         description: "The text color of the TextField.",
@@ -124,16 +130,16 @@ struct NativeTextField: View {
         defaultValue: "#ff000000"
     )
     var foregroundColor: Color = .black
-
+    
     /// The background color of the TextField.
     @NativeBlockProp(
         description: "The background color of the TextField.",
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-
+    
     // MARK: - Padding Properties
-
+    
     /// Padding at the top of the TextField.
     @NativeBlockProp(
         description: "Padding at the top of the TextField.",
@@ -141,7 +147,7 @@ struct NativeTextField: View {
         defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
-
+    
     /// Padding at the leading edge of the TextField.
     @NativeBlockProp(
         description: "Padding at the leading edge of the TextField.",
@@ -149,7 +155,7 @@ struct NativeTextField: View {
         defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
-
+    
     /// Padding at the bottom of the TextField.
     @NativeBlockProp(
         description: "Padding at the bottom of the TextField.",
@@ -157,7 +163,7 @@ struct NativeTextField: View {
         defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
-
+    
     /// Padding at the trailing edge of the TextField.
     @NativeBlockProp(
         description: "Padding at the trailing edge of the TextField.",
@@ -165,9 +171,9 @@ struct NativeTextField: View {
         defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
-
+    
     // MARK: - Border Properties
-
+    
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -176,7 +182,7 @@ struct NativeTextField: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-
+    
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -185,7 +191,7 @@ struct NativeTextField: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-
+    
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -194,7 +200,7 @@ struct NativeTextField: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-
+    
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -203,7 +209,7 @@ struct NativeTextField: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-
+    
     /// Border color of the TextField.
     @NativeBlockProp(
         description: "Border color of the TextField.",
@@ -212,7 +218,7 @@ struct NativeTextField: View {
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
-
+    
     /// Border width of the TextField.
     @NativeBlockProp(
         description: "Border width of the TextField.",
@@ -220,9 +226,9 @@ struct NativeTextField: View {
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-
+    
     // MARK: - Size Properties
-
+    
     /// Width of the TextField frame
     @NativeBlockProp(
         description: "Width of the TextField frame.",
@@ -235,7 +241,7 @@ struct NativeTextField: View {
         defaultValue: "auto"
     )
     var width: String = "auto"
-
+    
     /// Height of the TextField frame
     @NativeBlockProp(
         description: "Height of the TextField frame.",
@@ -248,7 +254,7 @@ struct NativeTextField: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-
+    
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -257,39 +263,7 @@ struct NativeTextField: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-
-    // MARK: - Alignment Properties
-
-    /// The horizontal alignment of the TextField.
-    @NativeBlockProp(
-        description: "The horizontal alignment of the TextField.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("leading", "leading"),
-            NativeBlockValuePickerOption("trailing", "trailing"),
-            NativeBlockValuePickerOption("center", "center"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "leading"
-    )
-    var alignmentHorizontal: HorizontalAlignment = .leading
-
-    /// The vertical alignment of the TextField.
-    @NativeBlockProp(
-        description: "The vertical alignment of the TextField.",
-        valuePicker: NativeBlockValuePicker.DROPDOWN,
-        valuePickerOptions: [
-            NativeBlockValuePickerOption("top", "top"),
-            NativeBlockValuePickerOption("bottom", "bottom"),
-            NativeBlockValuePickerOption("center", "center"),
-            NativeBlockValuePickerOption("firstTextBaseline", "firstTextBaseline"),
-            NativeBlockValuePickerOption("lastTextBaseline", "lastTextBaseline"),
-        ],
-        valuePickerGroup: NativeBlockValuePickerPosition("Alignment"),
-        defaultValue: "top"
-    )
-    var alignmentVertical: VerticalAlignment = .top
-
+    
     /// The multiline text alignment of the TextField.
     @NativeBlockProp(
         description: "The alignment for multiline text within the TextField.",
@@ -303,7 +277,7 @@ struct NativeTextField: View {
         defaultValue: "leading"
     )
     var multilineTextAlignment: TextAlignment = .leading
-
+    
     /// The maximum number of lines allowed in the TextField.
     @NativeBlockProp(
         description: "The maximum number of lines for the TextField.",
@@ -311,7 +285,7 @@ struct NativeTextField: View {
         defaultValue: "1"
     )
     var lineLimit: Int = 1
-
+    
     /// Specifies the keyboard type for the TextField.
     @NativeBlockProp(
         description: "Specifies the keyboard type for the TextField.",
@@ -333,13 +307,15 @@ struct NativeTextField: View {
         defaultValue: "default"
     )
     var keyboardType: String = "default"
-
+    
     init(
         blockProps: BlockProps?,
         text: String,
         hint: String,
         onChange: @escaping (String) -> Void,
         isSecure: Bool,
+        leadingIcon: ((BlockIndex) -> Content)?,
+        trailingIcon: ((BlockIndex) -> Content)?,
         fontFamily: String,
         fontWeight: Font.Weight,
         fontDesign: Font.Design,
@@ -359,8 +335,6 @@ struct NativeTextField: View {
         width: String,
         height: String,
         weight: CGFloat,
-        alignmentHorizontal: HorizontalAlignment,
-        alignmentVertical: VerticalAlignment,
         multilineTextAlignment: TextAlignment,
         lineLimit: Int,
         keyboardType: String
@@ -370,6 +344,8 @@ struct NativeTextField: View {
         self.hint = hint
         self.onChange = onChange
         self.isSecure = isSecure
+        self.leadingIcon = leadingIcon
+        self.trailingIcon = trailingIcon
         self.fontFamily = fontFamily
         self.fontWeight = fontWeight
         self.fontDesign = fontDesign
@@ -389,38 +365,42 @@ struct NativeTextField: View {
         self.width = width
         self.height = height
         self.weight = weight
-        self.alignmentHorizontal = alignmentHorizontal
-        self.alignmentVertical = alignmentVertical
         self.multilineTextAlignment = multilineTextAlignment
         self.lineLimit = lineLimit
         self.keyboardType = keyboardType
     }
-
+    
     var body: some View {
-        ZStack {
-               if isSecure {
-                   configuredField(
-                       SecureField(hint, text: $localText)
-                   )
-                   TextField(hint, text: $localText)
-                       .opacity(0)
-                       .disabled(true)
-                       .blockKeyboardType(keyboardType)
-                       .multilineTextAlignment(multilineTextAlignment)
-                       .lineLimit(lineLimit)
-                       .onChange(of: localText) { newValue in
-                           onChange(newValue)
-                       }
-
-               } else {
-                   configuredField(
-                       TextField(hint, text: $localText)
-                           .onChange(of: localText) { newValue in
-                               onChange(newValue)
-                           }
-                   )
-               }
-           }
+        HStack(alignment: VerticalAlignment.center) {
+            leadingIcon?(-1)
+            if isSecure {
+                configuredField(
+                    SecureField(hint, text: $localText)
+                        .onChange(of: text) { newValue in
+                            self.localText = newValue
+                            onChange(newValue)
+                        }
+                )
+            } else {
+                configuredField(
+                    TextField(hint, text: $localText)
+                        .onChange(of: text) { newValue in
+                            self.localText = newValue
+                            onChange(newValue)
+                        }
+                )
+            }
+            trailingIcon?(-1)
+        }
+        .blockWidthAndHeightModifier(width, height)
+        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+        .padding(.top, paddingTop)
+        .padding(.leading, paddingLeading)
+        .padding(.bottom, paddingBottom)
+        .padding(.trailing, paddingTrailing)
+        .onAppear {
+            self.localText = self.text
+        }
     }
     
     @ViewBuilder
@@ -429,12 +409,7 @@ struct NativeTextField: View {
             .blockKeyboardType(keyboardType)
             .blockFont(family: fontFamily, size: fontSize, weight: fontWeight, design: fontDesign)
             .foregroundColor(foregroundColor)
-            .blockWidthAndHeightModifier(width, height, alignment: Alignment(horizontal: alignmentHorizontal, vertical: alignmentVertical))
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
-            .padding(.top, paddingTop)
-            .padding(.leading, paddingLeading)
-            .padding(.bottom, paddingBottom)
-            .padding(.trailing, paddingTrailing)
+            .blockWidthAndHeightModifier("fill", "auto")
             .background(backgroundColor)
             .multilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
@@ -460,25 +435,9 @@ struct NativeTextField: View {
 
 struct NativeTextFieldTest: View {
     @State var text = "test"
-
+    
     var body: some View {
         VStack {
-            NativeText(
-                text: text,
-                fontFamily: "system",
-                fontWeight: .bold,
-                fontDesign: .monospaced,
-                fontSize: 20,
-                foregroundColor: Color.blue,
-                multilineTextAlignment: .leading,
-                lineLimit: 3,
-                paddingTop: 8,
-                paddingLeading: 8,
-                paddingBottom: 8,
-                paddingTrailing: 8,
-                width: "fill",
-                height: "auto"
-            )
             NativeTextField(
                 blockProps: nil,
                 text: text,
@@ -488,6 +447,20 @@ struct NativeTextFieldTest: View {
                     self.text = newText
                 },
                 isSecure: false,
+                leadingIcon: { _ in
+                    AnyView(
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .foregroundColor(Color.primary))
+                },
+                trailingIcon: { _ in
+                    AnyView(
+                        Image(systemName: "a")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(Color.white))
+                },
                 fontFamily: "system",
                 fontWeight: .regular,
                 fontDesign: .default,
@@ -507,8 +480,6 @@ struct NativeTextFieldTest: View {
                 width: "fill",
                 height: "auto",
                 weight: 0,
-                alignmentHorizontal: .leading,
-                alignmentVertical: .top,
                 multilineTextAlignment: .leading,
                 lineLimit: 1,
                 keyboardType: "default"
@@ -521,7 +492,7 @@ struct NativeTextField_Previews: PreviewProvider {
     init() {
         NativeblocksFoundationTypeProvider.provideTypes()
     }
-
+    
     static var previews: some View {
         NativeTextFieldTest()
             .previewLayout(.sizeThatFits)
