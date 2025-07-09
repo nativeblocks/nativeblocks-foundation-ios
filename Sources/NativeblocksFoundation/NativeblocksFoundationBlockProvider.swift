@@ -12,5 +12,6 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/hstack", block: NativeHStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/text_field", block: NativeTextFieldBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/button", block: NativeButtonBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/checkbox", block: NativeCheckboxBlock())
     }
 }
