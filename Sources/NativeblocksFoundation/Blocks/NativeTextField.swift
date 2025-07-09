@@ -30,47 +30,46 @@ import SwiftUI
 )
 struct NativeTextField<Content: View>: View {
     var blockProps: BlockProps? = nil
-    
+
     // MARK: - Data Properties
-    
+
     /// The current text in the TextField.
     @NativeBlockData(description: "The current text in the TextField.")
     var text: String
-    
+
     /// The hint text in the TextField.
     @NativeBlockData(description: "The hint text in the TextField.")
     var hint: String
-    
-    @State private var localText: String = ""
-    
+
+
     // MARK: - Event Properties
-    
+
     /// Triggered whenever the text in the text field changes, with `text` updated automatically.
     @NativeBlockEvent(
         description: "Triggered whenever the text changes. Updates `text` automatically.",
         dataBinding: ["text"]
     )
     var onChange: (String) -> Void
-    
+
     // MARK: - Input Properties
-    
+
     /// Indicates whether the text field hides input for secure entry.
     @NativeBlockProp(
         description: "Hides input for secure entry if set to true.",
         defaultValue: "false"
     )
     var isSecure: Bool = false
-    
+
     /// An optional leading icon displayed in the TextField.
     @NativeBlockSlot(description: "A view that appears as the leading icon of the TextField.")
     var leadingIcon: ((BlockIndex) -> Content)? = nil
-    
+
     /// An optional trailing icon displayed in the TextField.
     @NativeBlockSlot(description: "A view that appears as the trailing icon of the TextField.")
     var trailingIcon: ((BlockIndex) -> Content)? = nil
-    
+
     // MARK: - Font Properties
-    
+
     /// The font family used in the TextField.
     @NativeBlockProp(
         description: "The font family used in the TextField.",
@@ -78,7 +77,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "system"
     )
     var fontFamily: String = "system"
-    
+
     /// The font weight used in the TextField.
     @NativeBlockProp(
         description: "The font weight used in the TextField.",
@@ -98,7 +97,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "regular"
     )
     var fontWeight: Font.Weight = .regular
-    
+
     /// The font design used in the TextField.
     @NativeBlockProp(
         description: "The font design used in the TextField.",
@@ -113,7 +112,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "default"
     )
     var fontDesign: Font.Design = .default
-    
+
     /// The font size used in the TextField.
     @NativeBlockProp(
         description: "The font size used in the TextField.",
@@ -121,7 +120,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "16"
     )
     var fontSize: CGFloat = 16
-    
+
     /// The text color of the TextField.
     @NativeBlockProp(
         description: "The text color of the TextField.",
@@ -130,16 +129,16 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "#ff000000"
     )
     var foregroundColor: Color = .black
-    
+
     /// The background color of the TextField.
     @NativeBlockProp(
         description: "The background color of the TextField.",
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-    
+
     // MARK: - Padding Properties
-    
+
     /// Padding at the top of the TextField.
     @NativeBlockProp(
         description: "Padding at the top of the TextField.",
@@ -147,7 +146,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
-    
+
     /// Padding at the leading edge of the TextField.
     @NativeBlockProp(
         description: "Padding at the leading edge of the TextField.",
@@ -155,7 +154,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
-    
+
     /// Padding at the bottom of the TextField.
     @NativeBlockProp(
         description: "Padding at the bottom of the TextField.",
@@ -163,7 +162,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
-    
+
     /// Padding at the trailing edge of the TextField.
     @NativeBlockProp(
         description: "Padding at the trailing edge of the TextField.",
@@ -171,9 +170,9 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
-    
+
     // MARK: - Border Properties
-    
+
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -182,7 +181,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -191,7 +190,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -200,7 +199,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -209,7 +208,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// Border color of the TextField.
     @NativeBlockProp(
         description: "Border color of the TextField.",
@@ -218,7 +217,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
-    
+
     /// Border width of the TextField.
     @NativeBlockProp(
         description: "Border width of the TextField.",
@@ -226,9 +225,9 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-    
+
     // MARK: - Size Properties
-    
+
     /// Width of the TextField frame
     @NativeBlockProp(
         description: "Width of the TextField frame.",
@@ -241,7 +240,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "auto"
     )
     var width: String = "auto"
-    
+
     /// Height of the TextField frame
     @NativeBlockProp(
         description: "Height of the TextField frame.",
@@ -254,7 +253,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -263,7 +262,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     /// The multiline text alignment of the TextField.
     @NativeBlockProp(
         description: "The alignment for multiline text within the TextField.",
@@ -277,7 +276,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "leading"
     )
     var multilineTextAlignment: TextAlignment = .leading
-    
+
     /// The maximum number of lines allowed in the TextField.
     @NativeBlockProp(
         description: "The maximum number of lines for the TextField.",
@@ -285,7 +284,7 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "1"
     )
     var lineLimit: Int = 1
-    
+
     /// Specifies the keyboard type for the TextField.
     @NativeBlockProp(
         description: "Specifies the keyboard type for the TextField.",
@@ -308,86 +307,28 @@ struct NativeTextField<Content: View>: View {
     )
     var keyboardType: String = "default"
     
-    init(
-        blockProps: BlockProps?,
-        text: String,
-        hint: String,
-        onChange: @escaping (String) -> Void,
-        isSecure: Bool,
-        leadingIcon: ((BlockIndex) -> Content)?,
-        trailingIcon: ((BlockIndex) -> Content)?,
-        fontFamily: String,
-        fontWeight: Font.Weight,
-        fontDesign: Font.Design,
-        fontSize: CGFloat,
-        foregroundColor: Color,
-        backgroundColor: Color,
-        paddingTop: CGFloat,
-        paddingLeading: CGFloat,
-        paddingBottom: CGFloat,
-        paddingTrailing: CGFloat,
-        radiusTopStart: CGFloat,
-        radiusTopEnd: CGFloat,
-        radiusBottomStart: CGFloat,
-        radiusBottomEnd: CGFloat,
-        borderColor: Color,
-        borderWidth: CGFloat,
-        width: String,
-        height: String,
-        weight: CGFloat,
-        multilineTextAlignment: TextAlignment,
-        lineLimit: Int,
-        keyboardType: String
-    ) {
-        self.blockProps = blockProps
-        self.text = text
-        self.hint = hint
-        self.onChange = onChange
-        self.isSecure = isSecure
-        self.leadingIcon = leadingIcon
-        self.trailingIcon = trailingIcon
-        self.fontFamily = fontFamily
-        self.fontWeight = fontWeight
-        self.fontDesign = fontDesign
-        self.fontSize = fontSize
-        self.foregroundColor = foregroundColor
-        self.backgroundColor = backgroundColor
-        self.paddingTop = paddingTop
-        self.paddingLeading = paddingLeading
-        self.paddingBottom = paddingBottom
-        self.paddingTrailing = paddingTrailing
-        self.radiusTopStart = radiusTopStart
-        self.radiusTopEnd = radiusTopEnd
-        self.radiusBottomStart = radiusBottomStart
-        self.radiusBottomEnd = radiusBottomEnd
-        self.borderColor = borderColor
-        self.borderWidth = borderWidth
-        self.width = width
-        self.height = height
-        self.weight = weight
-        self.multilineTextAlignment = multilineTextAlignment
-        self.lineLimit = lineLimit
-        self.keyboardType = keyboardType
+    private var localText: Binding<String> {
+        Binding<String>(
+            get: { internalText },
+            set: { newValue in
+                internalText = newValue
+                onChange(newValue)
+            }
+        )
     }
+
+    @State private var internalText: String = ""
     
     var body: some View {
         HStack(alignment: VerticalAlignment.center) {
             leadingIcon?(-1)
             if isSecure {
                 configuredField(
-                    SecureField(hint, text: $localText)
-                        .onChange(of: text) { newValue in
-                            self.localText = newValue
-                            onChange(newValue)
-                        }
+                    SecureField(hint, text: localText)
                 )
             } else {
                 configuredField(
-                    TextField(hint, text: $localText)
-                        .onChange(of: text) { newValue in
-                            self.localText = newValue
-                            onChange(newValue)
-                        }
+                    TextField(hint, text: localText)
                 )
             }
             trailingIcon?(-1)
@@ -399,10 +340,10 @@ struct NativeTextField<Content: View>: View {
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
         .onAppear {
-            self.localText = self.text
+            self.internalText = self.text
         }
     }
-    
+
     @ViewBuilder
     private func configuredField<T: View>(_ field: T) -> some View {
         field
@@ -435,7 +376,7 @@ struct NativeTextField<Content: View>: View {
 
 struct NativeTextFieldTest: View {
     @State var text = "test"
-    
+
     var body: some View {
         VStack {
             NativeTextField(
@@ -484,6 +425,7 @@ struct NativeTextFieldTest: View {
                 lineLimit: 1,
                 keyboardType: "default"
             )
+            Text(text)
         }
     }
 }
@@ -492,7 +434,7 @@ struct NativeTextField_Previews: PreviewProvider {
     init() {
         NativeblocksFoundationTypeProvider.provideTypes()
     }
-    
+
     static var previews: some View {
         NativeTextFieldTest()
             .previewLayout(.sizeThatFits)
