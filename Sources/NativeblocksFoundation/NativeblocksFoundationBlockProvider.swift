@@ -1,4 +1,5 @@
 import Nativeblocks
+
 public class NativeblocksFoundationBlockProvider {
     public static func provideBlocks() {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/image", block: NativeImageBlock())
@@ -13,5 +14,7 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/text_field", block: NativeTextFieldBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/button", block: NativeButtonBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/checkbox", block: NativeCheckboxBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/picker", block: NativePickerBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/radiogroup", block: NativeRadioGroupBlock())
     }
 }

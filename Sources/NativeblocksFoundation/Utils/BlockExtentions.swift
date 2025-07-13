@@ -154,6 +154,40 @@ extension View {
 }
 
 extension View {
+    @ViewBuilder
+    func applyPickerStyle(_ style: String) -> some View {
+        switch style.lowercased() {
+        case "menu":
+            self.pickerStyle(.menu)
+        case "wheel":
+            #if os(iOS)
+                self.pickerStyle(.wheel)
+            #else
+                self.pickerStyle(.automatic)
+            #endif
+        case "inline":
+            self.pickerStyle(.inline)
+        case "radiogroup":
+            #if os(iOS)
+                self.pickerStyle(.automatic)
+            #else
+                self.pickerStyle(.radioGroup)
+            #endif
+        case "palette":
+            if #available(macOS 14.0, iOS 17.0, *) {
+                self.pickerStyle(.palette)
+            } else {
+                self.pickerStyle(.automatic)
+            }
+        case "segmented":
+            self.pickerStyle(.segmented)
+        default:
+            self.pickerStyle(.automatic)
+        }
+    }
+}
+
+extension View {
     public func blockOnTapGesture(enable: Bool = true, _ action: @escaping () -> Void) -> some View {
         self.modifier(BlockOnTapGestureModifier(enable: enable, action: action))
     }

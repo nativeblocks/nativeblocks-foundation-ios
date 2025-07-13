@@ -2,27 +2,6 @@ import Nativeblocks
 import NativeblocksCompiler
 import SwiftUI
 
-/// A customizable checkbox block for Nativeblocks.
-///
-/// `NativeCheckbox` provides a simple checkbox that reflects and updates its checked state.
-/// You can configure its label, initial state, size, color, and also attach an event handler.
-///
-/// ### Features:
-/// - Toggle checkbox with visual feedback
-/// - Configurable label, color, and size
-/// - State synchronization with Nativeblocks data
-/// - Action callback when toggled
-///
-/// ### Example:
-/// ```swift
-/// NativeCheckbox(
-///     label: "Accept Terms",
-///     isChecked: true,
-///     onChange: { checked in
-///         print("Checkbox is now \(checked)")
-///     }
-/// )
-/// ```
 @NativeBlock(
     name: "Native Checkbox",
     keyType: "nativeblocks/checkbox",
@@ -169,7 +148,7 @@ struct NativeCheckbox: View {
                         .strokeBorder(Color.gray, lineWidth: 1)
                         .background(
                             RoundedRectangle(cornerRadius: 4)
-                                .fill(isOnInternal  ? checkedColor : Color.clear)
+                                .fill(isOnInternal ? checkedColor : Color.clear)
                         )
                         .frame(width: size, height: size)
 
