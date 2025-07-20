@@ -23,6 +23,12 @@ struct NativeRadioGroup<Content: View>: View {
         defaultValue: "0"
     )
     var selectedIndex: Int = 0
+    
+    @NativeBlockData(
+        description: "When true, the layout is disabled and does not respond to user interaction.",
+        defaultValue: "false"
+    )
+    var isDisabled: Bool = false
 
     @NativeBlockSlot(
         description: "Defines the visual appearance of each item. Can include text, icons, or custom views."
@@ -120,6 +126,72 @@ struct NativeRadioGroup<Content: View>: View {
         defaultValue: "#FF0000FF"
     )
     var foregroundColor: Color = Color.blue
+    
+    
+    @NativeBlockProp(
+        description: "Padding at the top edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingTop: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the leading edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingLeading: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the bottom edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingBottom: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the trailing edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingTrailing: CGFloat = 8
+    
+    
+    @NativeBlockProp(
+        description: "Corner radius for rounding the edges of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "8.0"
+    )
+    var cornerRadius: CGFloat = 8.0
+
+    @NativeBlockProp(
+        description: "Background color of the main layout button.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
+        defaultValue: "#00000000"
+    )
+    var backgroundColor: Color = Color.clear
+    
+    @NativeBlockProp(
+        description: "Background color when the layout is disabled.",
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        defaultValue: "#F2F2F2"
+    )
+    var disabledBackgroundColor: Color = Color.gray.opacity(0.1)
+
+
+    @NativeBlockProp(
+        description: "Stroke color for the layout border.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "#CCCCCC"
+    )
+    var borderColor: Color = Color.gray
+
+    @NativeBlockProp(
+        description: "Thickness of the border around the layout.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
+        defaultValue: "1.0"
+    )
+    var borderWidth: CGFloat = 1.0
 
     @State private var selectedIndexInternal: Int = 0
 
@@ -140,7 +212,16 @@ struct NativeRadioGroup<Content: View>: View {
         }
         .blockWidthAndHeightModifier(width, height)
         .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
-
+        .padding(.top, paddingTop)
+        .padding(.leading, paddingLeading)
+        .padding(.bottom, paddingBottom)
+        .padding(.trailing, paddingTrailing)
+        .background(isDisabled ? disabledBackgroundColor : backgroundColor)
+        .cornerRadius(cornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .stroke(borderColor, lineWidth: borderWidth)
+        )
         .onAppear {
             selectedIndexInternal = selectedIndex
         }
@@ -175,8 +256,8 @@ struct NativeRadioGroup_Previews: PreviewProvider {
                         selectedIndex = index
                         print("Selected index: \(index)")
                     },
-                    horizontalSpacing: 12,
-                    verticalSpacing: 12,
+                    horizontalSpacing: 8,
+                    verticalSpacing: 8,
                     horizontalAlignment: .leading,
                     verticalAlignment: .center
                 )

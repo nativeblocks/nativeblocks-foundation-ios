@@ -10,6 +10,7 @@ import SwiftUI
     versionName: "1.0.0"
 )
 struct NativeCheckbox: View {
+    var blockProps: BlockProps? = nil
     // MARK: - Datas
 
     @NativeBlockData(
@@ -36,9 +37,42 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Text label displayed next to the checkbox.",
-        defaultValue: "Label"
+        valuePickerGroup: NativeBlockValuePickerPosition("Label"),
+        defaultValue: "Label",
     )
     var label: String = "Label"
+    
+    @NativeBlockProp(
+        description: "Defines the width of the layout container. Use 'auto' for intrinsic width or 'fill' to expand fully in its parent.",
+        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill")
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "auto"
+    )
+    var width: String = "auto"
+
+    @NativeBlockProp(
+        description: "Defines the height of the layout container. Use 'auto' for intrinsic height or 'fill' to occupy all available vertical space.",
+        valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
+        valuePickerOptions: [
+            NativeBlockValuePickerOption("auto", "auto"),
+            NativeBlockValuePickerOption("fill", "fill")
+        ],
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "auto"
+    )
+    var height: String = "auto"
+
+    @NativeBlockProp(
+        description: "Weight value for layout distribution in horizontal or vertical stacks. Use 0 for no weight.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
+        defaultValue: "0.0"
+    )
+    var weight: CGFloat = 0.0
 
     @NativeBlockProp(
         description: "Size of the checkbox square.",
@@ -121,6 +155,36 @@ struct NativeCheckbox: View {
         defaultValue: "center"
     )
     var multilineTextAlignment: TextAlignment = TextAlignment.center
+    
+    
+    @NativeBlockProp(
+        description: "Padding at the top edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingTop: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the leading edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingLeading: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the bottom edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingBottom: CGFloat = 8
+
+    @NativeBlockProp(
+        description: "Padding at the trailing edge of the layout container.",
+        valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
+        defaultValue: "8"
+    )
+    var paddingTrailing: CGFloat = 8
+
 
     // MARK: - State
     @State private var isOnInternal: Bool = false
@@ -167,6 +231,12 @@ struct NativeCheckbox: View {
             }
             .buttonStyle(.plain)
         }
+        .blockWidthAndHeightModifier(width, height)
+        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+        .padding(.top, paddingTop)
+        .padding(.leading, paddingLeading)
+        .padding(.bottom, paddingBottom)
+        .padding(.trailing, paddingTrailing)
         .disabled(!enable)
         .onAppear {
             isOnInternal = isChecked
