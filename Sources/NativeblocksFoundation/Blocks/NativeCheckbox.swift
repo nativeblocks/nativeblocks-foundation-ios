@@ -35,19 +35,18 @@ struct NativeCheckbox: View {
 
     // MARK: - Props
 
-    @NativeBlockProp(
+    @NativeBlockData(
         description: "Text label displayed next to the checkbox.",
-        valuePickerGroup: NativeBlockValuePickerPosition("Label"),
-        defaultValue: "Label",
+        defaultValue: "",
     )
-    var label: String = "Label"
-    
+    var label: String = ""
+
     @NativeBlockProp(
         description: "Defines the width of the layout container. Use 'auto' for intrinsic width or 'fill' to expand fully in its parent.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("auto", "auto"),
-            NativeBlockValuePickerOption("fill", "fill")
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "auto"
@@ -55,11 +54,12 @@ struct NativeCheckbox: View {
     var width: String = "auto"
 
     @NativeBlockProp(
-        description: "Defines the height of the layout container. Use 'auto' for intrinsic height or 'fill' to occupy all available vertical space.",
+        description:
+            "Defines the height of the layout container. Use 'auto' for intrinsic height or 'fill' to occupy all available vertical space.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("auto", "auto"),
-            NativeBlockValuePickerOption("fill", "fill")
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "auto"
@@ -155,8 +155,7 @@ struct NativeCheckbox: View {
         defaultValue: "center"
     )
     var multilineTextAlignment: TextAlignment = TextAlignment.center
-    
-    
+
     @NativeBlockProp(
         description: "Padding at the top edge of the layout container.",
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
@@ -184,7 +183,6 @@ struct NativeCheckbox: View {
         defaultValue: "8"
     )
     var paddingTrailing: CGFloat = 8
-
 
     // MARK: - State
     @State private var isOnInternal: Bool = false

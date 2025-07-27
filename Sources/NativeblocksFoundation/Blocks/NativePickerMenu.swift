@@ -5,7 +5,7 @@ import SwiftUI
 @NativeBlock(
     name: "Native Picker Menu",
     keyType: "nativeblocks/picker_menu",
-    description: "A dropdown-style menu that displays a list of selectable items using standard SwiftUI Menu with styling and disable support.",
+    description: "A dropdown-style menu that displays a list of selectable items.",
     version: 1,
     versionName: "1.0.0"
 )
@@ -26,7 +26,7 @@ struct NativePickerMenu<Content: View>: View {
         defaultValue: "0"
     )
     var selectedIndex: Int = 0
-    
+
     @NativeBlockData(
         description: "When true, the dropdown is disabled and does not respond to user interaction.",
         defaultValue: "false"
@@ -38,11 +38,6 @@ struct NativePickerMenu<Content: View>: View {
     )
     var itemContent: (BlockIndex) -> Content
 
-    @NativeBlockSlot(
-        description: "Optional slot for rendering a custom icon beside the selected label."
-    )
-    var menuIcon: (() -> Content)? = nil
-
     @NativeBlockEvent(
         description: "Callback triggered when the user selects an item. Updates the `selectedIndex`.",
         dataBinding: ["selectedIndex"]
@@ -52,11 +47,25 @@ struct NativePickerMenu<Content: View>: View {
     // MARK: - Size Properties
 
     @NativeBlockProp(
+        description: "Picker icon color.",
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        defaultValue: "#CCCCCC"
+    )
+    var pickerIconColor: Color = Color.gray
+
+    @NativeBlockProp(
+        description: "Picker icon color.",
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        defaultValue: "#88CCCCCC"
+    )
+    var disablePickerIconColor: Color = Color.gray.opacity(0.3)
+
+    @NativeBlockProp(
         description: "Defines the width of the dropdown container. Use 'auto' for intrinsic width or 'fill' to expand fully in its parent.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("auto", "auto"),
-            NativeBlockValuePickerOption("fill", "fill")
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "auto"
@@ -64,11 +73,12 @@ struct NativePickerMenu<Content: View>: View {
     var width: String = "auto"
 
     @NativeBlockProp(
-        description: "Defines the height of the dropdown container. Use 'auto' for intrinsic height or 'fill' to occupy all available vertical space.",
+        description:
+            "Defines the height of the dropdown container. Use 'auto' for intrinsic height or 'fill' to occupy all available vertical space.",
         valuePicker: NativeBlockValuePicker.COMBOBOX_INPUT,
         valuePickerOptions: [
             NativeBlockValuePickerOption("auto", "auto"),
-            NativeBlockValuePickerOption("fill", "fill")
+            NativeBlockValuePickerOption("fill", "fill"),
         ],
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "auto"
@@ -84,7 +94,6 @@ struct NativePickerMenu<Content: View>: View {
     var weight: CGFloat = 0.0
 
     // MARK: - Style: Border and Background
-
 
     @NativeBlockProp(
         description: "Text color of the dropdown label and items.",
@@ -171,65 +180,55 @@ struct NativePickerMenu<Content: View>: View {
         defaultValue: "#A0A0A0"
     )
     var disabledTextColor: Color = Color.gray
-
-    // MARK: - State
-
-    @State private var selectedIndexInternal: Int = 0
-
     // MARK: - View
 
     var body: some View {
-        Menu {
-            ForEach(0..<length, id: \.self) { index in
-                Button(action: {
-                    selectedIndexInternal = index
-                    onSelect(index)
-                }) {
-                    HStack {
-                        itemContent(index)
-                            .font(.system(size: fontSize))
-                            .foregroundColor(isDisabled ? disabledTextColor : textColor)
+        VStack {
+            Menu {
+                ForEach(0..<length, id: \.self) { index in
+                    Button(action: {
+                        onSelect(index)
+                    }) {
+                        HStack {
+                            itemContent(index)
+                                .id(selectedIndex)
+                                .font(.system(size: fontSize))
+                                .foregroundColor(isDisabled ? disabledTextColor : textColor)
 
-                        if index == selectedIndexInternal {
-                            Image(systemName: "checkmark")
+                            if index == selectedIndex {
+                                Image(systemName: "checkmark")
+                            }
                         }
                     }
+                    .disabled(isDisabled)
                 }
-                .disabled(isDisabled)
-            }
-        } label: {
-            HStack {
-                itemContent(selectedIndexInternal)
-                    .font(.system(size: fontSize))
-                    .foregroundColor(isDisabled ? disabledTextColor : textColor)
+            } label: {
+                HStack {
+                    itemContent(selectedIndex)
+                        .font(.system(size: fontSize))
+                        .foregroundColor(isDisabled ? disabledTextColor : textColor)
+                        .id(selectedIndex)
 
-                Image(systemName: "chevron.down")
-                    .foregroundColor(.gray)
-
-                if let icon = menuIcon {
-                    icon()
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(isDisabled ? disablePickerIconColor : pickerIconColor)
                 }
+                .blockWidthAndHeightModifier(width, height)
+                .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+                .padding(.top, paddingTop)
+                .padding(.leading, paddingLeading)
+                .padding(.bottom, paddingBottom)
+                .padding(.trailing, paddingTrailing)
+                .background(isDisabled ? disabledBackgroundColor : backgroundColor)
+                .cornerRadius(cornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(borderColor, lineWidth: borderWidth)
+                )
             }
-            .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
-            .padding(.top, paddingTop)
-            .padding(.leading, paddingLeading)
-            .padding(.bottom, paddingBottom)
-            .padding(.trailing, paddingTrailing)
-            .background(isDisabled ? disabledBackgroundColor : backgroundColor)
-            .cornerRadius(cornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(borderColor, lineWidth: borderWidth)
-            )
-        }
-        .disabled(isDisabled)
-        .onAppear {
-            selectedIndexInternal = selectedIndex
+            .disabled(isDisabled)
         }
     }
 }
-
 
 struct NativePickerMenu_Previews: PreviewProvider {
 
