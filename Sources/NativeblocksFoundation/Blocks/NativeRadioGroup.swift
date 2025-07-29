@@ -25,10 +25,10 @@ struct NativeRadioGroup<Content: View>: View {
     var selectedIndex: Int = 0
 
     @NativeBlockData(
-        description: "When true, the layout is disabled and does not respond to user interaction.",
-        defaultValue: "false"
+        description: "When false, the layout is disabled and does not respond to user interaction.",
+        defaultValue: "true"
     )
-    var isDisabled: Bool = false
+    var enable: Bool = true
 
     @NativeBlockSlot(
         description: "Defines the visual appearance of each item. Can include text, icons, or custom views."
@@ -120,20 +120,27 @@ struct NativeRadioGroup<Content: View>: View {
     var verticalAlignment: VerticalAlignment = .center
 
     @NativeBlockProp(
-        description: "Specifies the color of the disabled selected indicator (radio circle).",
+        description: "Specifies the color of the selected indicator (radio circle).",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
         defaultValue: "#FF0000FF"
     )
-    var foregroundColor: Color = Color.blue
+    var selectedColor: Color = Color.blue
 
     @NativeBlockProp(
-        description: "Specifies the color of the selected indicator (radio circle).",
+        description: "Specifies the color of the unselected indicator (radio circle).",
+        valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
+        defaultValue: "#FF0000FF"
+    )
+    var unselectedColor: Color = Color.blue
+
+    @NativeBlockProp(
+        description: "Specifies the color of the disabled indicator (radio circle).",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
         defaultValue: "#880000FF"
     )
-    var disabledForegroundColor: Color = Color.blue.opacity(0.3)
+    var disabledColor: Color = Color.gray
 
     @NativeBlockProp(
         description: "Padding at the top edge of the layout container.",
@@ -203,12 +210,12 @@ struct NativeRadioGroup<Content: View>: View {
             ForEach(0..<length, id: \.self) { index in
                 HStack(alignment: verticalAlignment, spacing: horizontalSpacing) {
                     Image(systemName: selectedIndex == index ? "largecircle.fill.circle" : "circle")
-                        .foregroundColor(isDisabled ? disabledForegroundColor : foregroundColor)
+                        .foregroundColor(!enable ? disabledColor : (selectedIndex == index ? selectedColor : unselectedColor))
                         .imageScale(.large)
                     itemContent(index)
                 }
                 .onTapGesture {
-                    if !isDisabled {
+                    if enable {
                         onSelect(index)
                     }
                 }
@@ -220,7 +227,7 @@ struct NativeRadioGroup<Content: View>: View {
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
-        .background(isDisabled ? disabledBackgroundColor : backgroundColor)
+        .background(!enable ? disabledBackgroundColor : backgroundColor)
         .cornerRadius(cornerRadius)
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
@@ -249,7 +256,7 @@ struct NativeRadioGroup_Previews: PreviewProvider {
                 NativeRadioGroup(
                     length: 3,
                     selectedIndex: selectedIndex,
-                    isDisabled: false,
+                    enable: true,
                     itemContent: { index in
                         Text(itemTitle(for: index))
                             .padding(.vertical, 4)
