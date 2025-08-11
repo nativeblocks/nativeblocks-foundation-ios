@@ -54,7 +54,7 @@ struct NativeSpacer: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set.
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -63,11 +63,11 @@ struct NativeSpacer: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     var body: some View {
         Spacer()
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
 
     }
 }

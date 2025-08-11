@@ -34,7 +34,7 @@ struct NativeHStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .horizontal)
     @State private var initialized = false
     var blockProps: BlockProps? = nil
-    
+
     /// Length of list
     @NativeBlockData(
         description: "Length of list",
@@ -152,7 +152,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -161,7 +161,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     // MARK: - Background Properties
 
     /// Background color of the HStack.
@@ -181,7 +181,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -190,7 +190,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -199,7 +199,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -208,7 +208,7 @@ struct NativeHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// Border color of the HStack.
     @NativeBlockProp(
         description: "Border color of the HStack.",
@@ -256,7 +256,7 @@ struct NativeHStack<Content: View>: View {
             }
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)

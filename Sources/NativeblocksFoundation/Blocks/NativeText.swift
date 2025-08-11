@@ -183,7 +183,7 @@ struct NativeText: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -200,7 +200,7 @@ struct NativeText: View {
             .multilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)

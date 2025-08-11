@@ -30,7 +30,7 @@ import SwiftUI
 )
 struct NativeLazyHStack<Content: View>: View {
     var blockProps: BlockProps? = nil
-    
+
     /// Length of list
     @NativeBlockData(
         description: "Length of list",
@@ -151,7 +151,7 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -160,7 +160,7 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -169,7 +169,7 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -178,7 +178,7 @@ struct NativeLazyHStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// Border color of the HStack
     @NativeBlockProp(
         description: "Border color of the HStack.",

@@ -145,7 +145,7 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-    
+
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -154,7 +154,7 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -163,7 +163,7 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -172,7 +172,7 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -181,7 +181,7 @@ struct NativeLazyVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// The border color of the LazyVStack.
     @NativeBlockProp(
         description: "The border color of the LazyVStack.",
