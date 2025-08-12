@@ -10,7 +10,7 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/spacer", block: NativeSpacerBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/lazy_vstack", block: NativeLazyVStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/lazy_hstack", block: NativeLazyHStackBlock())
-        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/radiogroup", block: NativeRadioGroupBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/radio_group", block: NativeRadioGroupBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/vstack", block: NativeVStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/hstack", block: NativeHStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/text_field", block: NativeTextFieldBlock())

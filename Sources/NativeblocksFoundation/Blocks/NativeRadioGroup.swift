@@ -4,7 +4,7 @@ import SwiftUI
 
 @NativeBlock(
     name: "Native Radio Group",
-    keyType: "nativeblocks/radiogroup",
+    keyType: "nativeblocks/radio_group",
     description: "Displays a list of radio options. Only one item can be selected at a time.",
     version: 1,
     versionName: "1.0.0"
