@@ -41,6 +41,7 @@ struct NativeTextField<Content: View>: View {
     @NativeBlockData(description: "The hint text in the TextField.")
     var hint: String
 
+    @State private var localText: String = ""
 
     // MARK: - Event Properties
 
@@ -306,29 +307,87 @@ struct NativeTextField<Content: View>: View {
         defaultValue: "default"
     )
     var keyboardType: String = "default"
-    
-    private var localText: Binding<String> {
-        Binding<String>(
-            get: { internalText },
-            set: { newValue in
-                internalText = newValue
-                onChange(newValue)
-            }
-        )
+
+    init(
+        blockProps: BlockProps?,
+        text: String,
+        hint: String,
+        onChange: @escaping (String) -> Void,
+        isSecure: Bool,
+        leadingIcon: ((BlockIndex) -> Content)?,
+        trailingIcon: ((BlockIndex) -> Content)?,
+        fontFamily: String,
+        fontWeight: Font.Weight,
+        fontDesign: Font.Design,
+        fontSize: CGFloat,
+        foregroundColor: Color,
+        backgroundColor: Color,
+        paddingTop: CGFloat,
+        paddingLeading: CGFloat,
+        paddingBottom: CGFloat,
+        paddingTrailing: CGFloat,
+        radiusTopStart: CGFloat,
+        radiusTopEnd: CGFloat,
+        radiusBottomStart: CGFloat,
+        radiusBottomEnd: CGFloat,
+        borderColor: Color,
+        borderWidth: CGFloat,
+        width: String,
+        height: String,
+        weight: CGFloat,
+        multilineTextAlignment: TextAlignment,
+        lineLimit: Int,
+        keyboardType: String
+    ) {
+        self.blockProps = blockProps
+        self.text = text
+        self.hint = hint
+        self.onChange = onChange
+        self.isSecure = isSecure
+        self.leadingIcon = leadingIcon
+        self.trailingIcon = trailingIcon
+        self.fontFamily = fontFamily
+        self.fontWeight = fontWeight
+        self.fontDesign = fontDesign
+        self.fontSize = fontSize
+        self.foregroundColor = foregroundColor
+        self.backgroundColor = backgroundColor
+        self.paddingTop = paddingTop
+        self.paddingLeading = paddingLeading
+        self.paddingBottom = paddingBottom
+        self.paddingTrailing = paddingTrailing
+        self.radiusTopStart = radiusTopStart
+        self.radiusTopEnd = radiusTopEnd
+        self.radiusBottomStart = radiusBottomStart
+        self.radiusBottomEnd = radiusBottomEnd
+        self.borderColor = borderColor
+        self.borderWidth = borderWidth
+        self.width = width
+        self.height = height
+        self.weight = weight
+        self.multilineTextAlignment = multilineTextAlignment
+        self.lineLimit = lineLimit
+        self.keyboardType = keyboardType
     }
 
-    @State private var internalText: String = ""
-    
     var body: some View {
         HStack(alignment: VerticalAlignment.center) {
             leadingIcon?(-1)
             if isSecure {
                 configuredField(
-                    SecureField(hint, text: localText)
+                    SecureField(hint, text: $localText)
+                        .onChange(of: text) { newValue in
+                            self.localText = newValue
+                            onChange(newValue)
+                        }
                 )
             } else {
                 configuredField(
-                    TextField(hint, text: localText)
+                    TextField(hint, text: $localText)
+                        .onChange(of: text) { newValue in
+                            self.localText = newValue
+                            onChange(newValue)
+                        }
                 )
             }
             trailingIcon?(-1)
@@ -340,7 +399,7 @@ struct NativeTextField<Content: View>: View {
         .padding(.bottom, paddingBottom)
         .padding(.trailing, paddingTrailing)
         .onAppear {
-            self.internalText = self.text
+            self.localText = self.text
         }
     }
 
@@ -425,7 +484,6 @@ struct NativeTextFieldTest: View {
                 lineLimit: 1,
                 keyboardType: "default"
             )
-            Text(text)
         }
     }
 }
