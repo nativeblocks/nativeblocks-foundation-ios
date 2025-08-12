@@ -3,13 +3,13 @@ import NativeblocksCompiler
 import SwiftUI
 
 @NativeBlock(
-    name: "Native Picker Menu",
-    keyType: "nativeblocks/picker_menu",
+    name: "Native Dropdown",
+    keyType: "nativeblocks/dropdown",
     description: "A dropdown-style menu that displays a list of selectable items.",
     version: 1,
     versionName: "1.0.0"
 )
-struct NativePickerMenu<Content: View>: View {
+struct NativeDropdown<Content: View>: View {
 
     var blockProps: BlockProps? = nil
 
@@ -48,14 +48,16 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Picker icon color.",
-        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Icon"),
         defaultValue: "#CCCCCC"
     )
     var pickerIconColor: Color = Color.gray
 
     @NativeBlockProp(
         description: "Picker icon color.",
-        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Icon"),
         defaultValue: "#88CCCCCC"
     )
     var disablePickerIconColor: Color = Color.gray.opacity(0.3)
@@ -97,6 +99,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Text color of the dropdown label and items.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "#000000"
     )
@@ -104,6 +107,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Font size used for the dropdown items and label.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "16"
     )
@@ -111,6 +115,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Corner radius for rounding the edges of the menu container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "8.0"
     )
@@ -118,6 +123,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Background color of the main dropdown button.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#00000000"
     )
@@ -125,6 +131,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Stroke color for the dropdown’s border.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#CCCCCC"
     )
@@ -132,6 +139,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Thickness of the border around the dropdown.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "1.0"
     )
@@ -141,6 +149,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the top edge of the dropdown container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -148,6 +157,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the leading edge of the dropdown container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -155,6 +165,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the bottom edge of the dropdown container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -162,6 +173,7 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the trailing edge of the dropdown container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -169,14 +181,16 @@ struct NativePickerMenu<Content: View>: View {
 
     @NativeBlockProp(
         description: "Background color when the dropdown is disabled.",
-        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#F2F2F2"
     )
     var disabledBackgroundColor: Color = Color.gray.opacity(0.1)
 
     @NativeBlockProp(
         description: "Text color when the dropdown is disabled.",
-        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Font"),
         defaultValue: "#A0A0A0"
     )
     var disabledTextColor: Color = Color.gray
@@ -237,17 +251,17 @@ struct NativePickerMenu_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        NativePickerPreviewContainer()
+        NativeDropdownPreviewContainer()
             .padding()
             .previewLayout(.sizeThatFits)
     }
 
-    struct NativePickerPreviewContainer: View {
+    struct NativeDropdownPreviewContainer: View {
         @State private var selectedIndex: Int = 0
 
         var body: some View {
             VStack(alignment: .leading, spacing: 20) {
-                NativePickerMenu(
+                NativeDropdown(
                     length: 3,
                     selectedIndex: selectedIndex,
                     itemContent: { index in getItem(index) },
@@ -255,7 +269,7 @@ struct NativePickerMenu_Previews: PreviewProvider {
                     width: "fill",
                 )
 
-                NativePickerMenu(
+                NativeDropdown(
                     length: 3,
                     selectedIndex: selectedIndex,
                     isDisabled: true,

@@ -122,14 +122,15 @@ struct NativeRadioGroup<Content: View>: View {
     @NativeBlockProp(
         description: "Specifies the color of the selected indicator (radio circle).",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
         defaultValue: "#FF0000FF"
     )
     var selectedColor: Color = Color.blue
 
     @NativeBlockProp(
         description: "Specifies the color of the unselected indicator (radio circle).",
-        valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
         defaultValue: "#FF0000FF"
     )
     var unselectedColor: Color = Color.blue
@@ -137,13 +138,14 @@ struct NativeRadioGroup<Content: View>: View {
     @NativeBlockProp(
         description: "Specifies the color of the disabled indicator (radio circle).",
         valuePicker: NativeBlockValuePicker.COLOR_PICKER,
-        valuePickerGroup: NativeBlockValuePickerPosition("Colors"),
+        valuePickerGroup: NativeBlockValuePickerPosition("State"),
         defaultValue: "#880000FF"
     )
     var disabledColor: Color = Color.gray
 
     @NativeBlockProp(
         description: "Padding at the top edge of the layout container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -151,6 +153,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the leading edge of the layout container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -158,6 +161,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the bottom edge of the layout container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -165,6 +169,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Padding at the trailing edge of the layout container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -172,6 +177,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Corner radius for rounding the edges of the layout container.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "8.0"
     )
@@ -179,6 +185,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Background color of the main layout button.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#00000000"
     )
@@ -186,13 +193,15 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Background color when the layout is disabled.",
-        valuePickerGroup: NativeBlockValuePickerPosition("State"),
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Background"),
         defaultValue: "#F2F2F2"
     )
     var disabledBackgroundColor: Color = Color.gray.opacity(0.1)
 
     @NativeBlockProp(
         description: "Stroke color for the layout border.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "#CCCCCC"
     )
@@ -200,6 +209,7 @@ struct NativeRadioGroup<Content: View>: View {
 
     @NativeBlockProp(
         description: "Thickness of the border around the layout.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "1.0"
     )

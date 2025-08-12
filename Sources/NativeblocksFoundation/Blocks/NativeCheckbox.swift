@@ -36,6 +36,7 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Size of the checkbox.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Size"),
         defaultValue: "20"
     )
@@ -43,36 +44,47 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Color when checked.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Check"),
         defaultValue: "#007AFF"
     )
     var checkedColor: Color = .blue
 
     @NativeBlockProp(
         description: "Color when unchecked.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Check"),
         defaultValue: "#FF888888"
     )
     var uncheckedColor: Color = .gray
 
     @NativeBlockProp(
         description: "Color of the checkmark.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Check"),
         defaultValue: "#FFFFFF"
     )
     var checkmarkColor: Color = .white
 
     @NativeBlockProp(
         description: "Color when disabled.",
+        valuePicker: NativeBlockValuePicker.COLOR_PICKER,
+        valuePickerGroup: NativeBlockValuePickerPosition("Check"),
         defaultValue: "#FFCCCCCC"
     )
     var disabledColor: Color = .gray
 
     @NativeBlockProp(
         description: "Corner radius of the checkbox.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
+        valuePickerGroup: NativeBlockValuePickerPosition("Border"),
         defaultValue: "4"
     )
     var cornerRadius: CGFloat = 4
 
     @NativeBlockProp(
         description: "Top padding.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -80,6 +92,7 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Leading padding.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -87,6 +100,7 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Bottom padding.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )
@@ -94,6 +108,7 @@ struct NativeCheckbox: View {
 
     @NativeBlockProp(
         description: "Trailing padding.",
+        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
         valuePickerGroup: NativeBlockValuePickerPosition("Padding"),
         defaultValue: "8"
     )

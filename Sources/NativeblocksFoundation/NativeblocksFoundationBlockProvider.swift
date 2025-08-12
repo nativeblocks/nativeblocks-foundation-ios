@@ -6,7 +6,7 @@ public class NativeblocksFoundationBlockProvider {
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/zstack", block: NativeZStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/scrollview", block: NativeScrollViewBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/text", block: NativeTextBlock())
-        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/picker_menu", block: NativePickerMenuBlock())
+        NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/dropdown", block: NativeDropdownBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/spacer", block: NativeSpacerBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/lazy_vstack", block: NativeLazyVStackBlock())
         NativeblocksManager.getInstance().provideBlock(blockKeyType: "nativeblocks/lazy_hstack", block: NativeLazyHStackBlock())
