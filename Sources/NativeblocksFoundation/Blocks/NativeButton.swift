@@ -131,7 +131,7 @@ struct NativeButton<Content: View>: View {
         defaultValue: "center"
     )
     var multilineTextAlignment: TextAlignment = TextAlignment.center
-    
+
     // MARK: - Padding Properties
 
     /// Padding at the top of the Button.
@@ -227,7 +227,7 @@ struct NativeButton<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -236,7 +236,7 @@ struct NativeButton<Content: View>: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     /// The background color of the button when enabled.
     @NativeBlockProp(
         description: "The background color of the button when enabled.",
@@ -340,7 +340,7 @@ struct NativeButton<Content: View>: View {
                 trailingIcon?(-1)
             }
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .padding(.top, contentPaddingTop)
             .padding(.leading, contentPaddingLeading)
             .padding(.bottom, contentPaddingBottom)
