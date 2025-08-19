@@ -47,7 +47,7 @@ public class NativeChangeVariable {
         // Retrieve data from the action properties.
         let data = param.actionProps.trigger?.data ?? [:]
 
-        guard let variable = param.actionProps.variables[data["variableKey"]?.value ?? ""] else {
+        guard let variable = param.actionProps.onFindVariable(data["variableKey"]?.value ?? "") else {
             return
         }
 
