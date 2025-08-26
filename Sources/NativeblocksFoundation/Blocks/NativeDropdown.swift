@@ -227,7 +227,7 @@ struct NativeDropdown<Content: View>: View {
                         .foregroundColor(isDisabled ? disablePickerIconColor : pickerIconColor)
                 }
                 .blockWidthAndHeightModifier(width, height)
-                .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+                .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
                 .padding(.top, paddingTop)
                 .padding(.leading, paddingLeading)
                 .padding(.bottom, paddingBottom)
