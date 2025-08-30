@@ -13,8 +13,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/nativeblocks/nativeblocks-ios-sdk", .upToNextMajor(from: "1.4.0")),
-        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios", .upToNextMajor(from: "1.2.2")),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-ios-sdk", .upToNextMajor(from: "1.5.0")),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-compiler-ios", .upToNextMajor(from: "1.3.0")),
         .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.1.1")),
     ],
     targets: [
