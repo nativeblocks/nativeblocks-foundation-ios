@@ -35,13 +35,13 @@ import SwiftUI
 struct NativeZStack<Content: View>: View {
     var blockProps: BlockProps? = nil
     // MARK: - Slot Properties
-    
+
     /// The content to display inside the ZStack.
     @NativeBlockSlot(description: "The content to display inside the ZStack.")
     var content: (BlockIndex) -> Content
-    
+
     // MARK: - Alignment Properties
-    
+
     /// The horizontal alignment of the ZStack's content.
     @NativeBlockProp(
         description: "The horizontal alignment of the ZStack's content.",
@@ -55,7 +55,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "leading"
     )
     var alignmentHorizontal: HorizontalAlignment = .leading
-    
+
     /// The vertical alignment of the ZStack's content.
     @NativeBlockProp(
         description: "The vertical alignment of the ZStack's content.",
@@ -71,9 +71,9 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "top"
     )
     var alignmentVertical: VerticalAlignment = .top
-    
+
     // MARK: - Layout Properties
-    
+
     /// The spacing between child views in the ZStack.
     @NativeBlockProp(
         description: "The spacing between child views in the ZStack.",
@@ -81,9 +81,9 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var spacing: CGFloat = 0
-    
+
     // MARK: - Padding Properties
-    
+
     /// The top padding inside the ZStack.
     @NativeBlockProp(
         description: "The top padding inside the ZStack.",
@@ -91,7 +91,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var paddingTop: CGFloat = 0
-    
+
     /// The leading padding inside the ZStack.
     @NativeBlockProp(
         description: "The leading padding inside the ZStack.",
@@ -99,7 +99,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var paddingLeading: CGFloat = 0
-    
+
     /// The bottom padding inside the ZStack.
     @NativeBlockProp(
         description: "The bottom padding inside the ZStack.",
@@ -107,7 +107,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var paddingBottom: CGFloat = 0
-    
+
     /// The trailing padding inside the ZStack.
     @NativeBlockProp(
         description: "The trailing padding inside the ZStack.",
@@ -115,9 +115,9 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
-    
+
     // MARK: - Frame Properties
-    
+
     /// The width of the ZStack's frame.
     @NativeBlockProp(
         description: "The width of the ZStack's frame.",
@@ -130,7 +130,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "auto"
     )
     var width: String = "auto"
-    
+
     /// The height of the ZStack's frame.
     @NativeBlockProp(
         description: "The height of the ZStack's frame.",
@@ -143,7 +143,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set.
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -154,7 +154,7 @@ struct NativeZStack<Content: View>: View {
     var weight: CGFloat = 0.0
 
     // MARK: - Background and Styling Properties
-    
+
     /// The background color of the ZStack.
     @NativeBlockProp(
         description: "The background color of the ZStack.",
@@ -163,7 +163,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-    
+
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -172,7 +172,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -181,7 +181,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -190,7 +190,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -199,7 +199,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// The border color of the ZStack.
     @NativeBlockProp(
         description: "The border color of the ZStack.",
@@ -208,7 +208,7 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
-    
+
     /// The border width of the ZStack.
     @NativeBlockProp(
         description: "The border width of the ZStack.",
@@ -216,9 +216,9 @@ struct NativeZStack<Content: View>: View {
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-    
+
     // MARK: - Event Properties
-    
+
     /// Action triggered when the ZStack is tapped.
     @NativeBlockEvent(description: "Action triggered when the ZStack is tapped.")
     var onClick: (() -> Void)?
@@ -228,7 +228,7 @@ struct NativeZStack<Content: View>: View {
             content(-1)
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -261,7 +261,7 @@ struct NativeZStack_Previews: PreviewProvider {
     init() {
         NativeblocksFoundationTypeProvider.provideTypes()
     }
-    
+
     static var previews: some View {
         NativeZStack(
             content: { _ in

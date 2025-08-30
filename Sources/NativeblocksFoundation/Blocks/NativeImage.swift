@@ -35,23 +35,23 @@ import SwiftUI
 struct NativeImage<Content: View>: View {
     var blockProps: BlockProps? = nil
     // MARK: - Data Properties
-    
+
     /// The URL of the image to display.
     @NativeBlockData(description: "The URL of the image to display.")
     var imageUrl: String
-    
+
     // MARK: - Slot Properties
-    
+
     /// A placeholder view to display while the image is loading.
     @NativeBlockSlot(description: "The placeholder view displayed while the image is loading.")
     var placeHolder: (BlockIndex) -> Content
-    
+
     /// A description of the image for accessibility purposes.
     @NativeBlockData(description: "The content description for the image, used for accessibility.")
     var contentDescription: String = ""
-    
+
     // MARK: - Resizing and Scaling Properties
-    
+
     /// The content mode for scaling the image.
     /// - `valuePicker`: A dropdown picker for selecting the content mode.
     /// - `valuePickerOptions`: Options include "fill" (scale to fill the frame) and "fit" (scale to fit the frame).
@@ -65,7 +65,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "fit"
     )
     var contentMode: String = "fit"
-    
+
     /// The resizing mode for the image.
     /// - `valuePicker`: A dropdown picker for selecting the resizing mode.
     /// - `valuePickerOptions`: Options include:
@@ -83,9 +83,9 @@ struct NativeImage<Content: View>: View {
         defaultValue: "stretch"
     )
     var resizable: String = "stretch"
-    
+
     // MARK: - Size Properties
-    
+
     /// Width of the image frame
     @NativeBlockProp(
         description: "Width of the image frame.",
@@ -98,7 +98,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "auto"
     )
     var width: String = "auto"
-    
+
     /// Height of the image frame
     @NativeBlockProp(
         description: "Height of the image frame.",
@@ -111,7 +111,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -120,7 +120,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     // MARK: - Padding Properties
 
     /// Padding at the top of the Text.
@@ -154,9 +154,9 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0"
     )
     var paddingTrailing: CGFloat = 0
-    
+
     // MARK: - Border Properties
-    
+
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -165,7 +165,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -174,7 +174,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -183,7 +183,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -192,7 +192,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// Border color of the HStack.
     @NativeBlockProp(
         description: "Border color of the HStack.",
@@ -201,7 +201,7 @@ struct NativeImage<Content: View>: View {
         defaultValue: "#00000000"
     )
     var borderColor: Color = Color.black.opacity(0)
-    
+
     /// Border width of the HStack.
     @NativeBlockProp(
         description: "Border width of the HStack.",
@@ -209,17 +209,17 @@ struct NativeImage<Content: View>: View {
         defaultValue: "0"
     )
     var borderWidth: CGFloat = 0
-    
+
     // MARK: - Event Handlers
-    
+
     /// Action triggered when the HStack is tapped.
     @NativeBlockEvent(
         description: "Action triggered when the HStack is tapped."
     )
     var onClick: (() -> Void)?
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         let shape = CornerRadiusShape(
             topLeft: radiusTopStart,
@@ -227,7 +227,7 @@ struct NativeImage<Content: View>: View {
             bottomLeft: radiusBottomStart,
             bottomRight: radiusBottomEnd
         )
-        
+
         KFImage(URL(string: imageUrl))
             .placeholder {
                 placeHolder(-1)
@@ -236,7 +236,7 @@ struct NativeImage<Content: View>: View {
             .blockResizable(resizable)
             .blockScaled(contentMode)
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .contentShape(shape)
             .clipShape(shape)
             .accessibility(label: Text(contentDescription))

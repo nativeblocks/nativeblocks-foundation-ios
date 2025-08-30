@@ -64,7 +64,7 @@ public class NativeChangeBlockProperty {
         var valueTablet = param.propertyValueTablet
         var valueDesktop = param.propertyValueDesktop
 
-        if var block = param.actionProps.blocks?[param.blockKey] {
+        if var block = param.actionProps.onFindBlock(param.blockKey) {
             if var currentProperty = block.properties?[param.propertyKey] {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
@@ -92,7 +92,7 @@ public class NativeChangeBlockProperty {
             }
 
             // Notify the change
-            param.actionProps.onChangeBlock?(block)
+            param.actionProps.onChangeBlock(block)
         }
 
         // Execute the next step

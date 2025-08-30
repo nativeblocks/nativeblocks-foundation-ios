@@ -37,7 +37,7 @@ struct NativeVStack<Content: View>: View {
     private let proxy = WeightedProxy(kind: .vertical)
     @State private var initialized = false
     var blockProps: BlockProps? = nil
-    
+
     /// Length of list
     @NativeBlockData(
         description: "Length of list",
@@ -137,7 +137,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-    
+
     /// Weight of the layout in HStack or VStack. Default is 0 means not set
     @NativeBlockProp(
         description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
@@ -146,7 +146,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var weight: CGFloat = 0.0
-    
+
     // MARK: - Background and Styling Properties
 
     /// The background color of the VStack.
@@ -157,7 +157,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "#00000000"
     )
     var backgroundColor: Color = Color.black.opacity(0)
-    
+
     /// Top-start corner radius.
     @NativeBlockProp(
         description: "Top-start corner radius.",
@@ -166,7 +166,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopStart: CGFloat = 0.0
-    
+
     /// Top-end corner radius.
     @NativeBlockProp(
         description: "Top-end corner radius.",
@@ -175,7 +175,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusTopEnd: CGFloat = 0.0
-    
+
     /// Bottom-start corner radius.
     @NativeBlockProp(
         description: "Bottom-start corner radius.",
@@ -184,7 +184,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomStart: CGFloat = 0.0
-    
+
     /// Bottom-end corner radius.
     @NativeBlockProp(
         description: "Bottom-end corner radius.",
@@ -193,7 +193,7 @@ struct NativeVStack<Content: View>: View {
         defaultValue: "0.0"
     )
     var radiusBottomEnd: CGFloat = 0.0
-    
+
     /// The border color of the VStack.
     @NativeBlockProp(
         description: "The border color of the VStack.",
@@ -216,7 +216,7 @@ struct NativeVStack<Content: View>: View {
     /// Action triggered when the VStack is tapped.
     @NativeBlockEvent(description: "Action triggered when the VStack is tapped.")
     var onClick: (() -> Void)?
-    
+
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: alignmentHorizontal, spacing: spacing) {
@@ -237,7 +237,7 @@ struct NativeVStack<Content: View>: View {
             }
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy?.last?.scope)
+        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)

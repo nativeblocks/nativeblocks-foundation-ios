@@ -41,10 +41,11 @@ class ColorNativeType: INativeType<Color> {
 
         return String(
             format: "#%02X%02X%02X%02X",
-            Int(alpha * 255),
-            Int(red * 255),
-            Int(green * 255),
-            Int(blue * 255))
+            Int(round(alpha * 255)),
+            Int(round(red * 255)),
+            Int(round(green * 255)),
+            Int(round(blue * 255))
+        )
     }
 
     override func fromString(_ input: String?) -> Color {

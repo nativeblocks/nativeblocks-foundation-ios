@@ -20,9 +20,9 @@ public class NativeblocksFoundationProvider {
     /// Call this method to ensure that the foundation module's functionalities are properly
     /// integrated into the Nativeblocks framework.
     ///
-    public static func provide() {
-        NativeblocksFoundationActionProvider.provideActions()
-        NativeblocksFoundationBlockProvider.provideBlocks()
-        NativeblocksFoundationTypeProvider.provideTypes()
+    public static func provide(name: String = "default") {
+        NativeblocksFoundationActionProvider.provideActions(name: name)
+        NativeblocksFoundationBlockProvider.provideBlocks(name: name)
+        NativeblocksFoundationTypeProvider.provideTypes(name: name)
     }
 }
