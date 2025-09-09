@@ -11,6 +11,7 @@ public class NativeblocksFoundationTypeProvider {
         _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(LayoutDirection.self, converter: LayoutDirectionNativeType())
         _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(Axis.Set.self, converter: ScrollableNativeType())
         _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(TextAlignment.self, converter: TextAlignmentNativeType())
-        _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(VerticalAlignment.self, converter: VerticalAlignmentNativeType())
+        _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(
+            VerticalAlignment.self, converter: VerticalAlignmentNativeType())
     }
 }
