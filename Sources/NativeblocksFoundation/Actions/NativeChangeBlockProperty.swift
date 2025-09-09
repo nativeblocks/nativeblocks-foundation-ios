@@ -23,38 +23,38 @@ import SwiftUI
     versionName: "1.0.0"
 )
 public class NativeChangeBlockProperty {
-    /// Initializes a new instance of `NativeChangeBlockProperty`.
-    public init() {}
 
-    /// The parameters required for the `NativeChangeBlockProperty` action.
+    /// Parameters for the action.
     @NativeActionParameter
     struct Parameter {
-        /// The key of the block to modify.
+        var actionProps: ActionProps
+
         @NativeActionProp(description: "key of the block")
         var blockKey: String
 
-        /// The key of the block's property to modify.
         @NativeActionProp(description: "key of the block's property")
         var propertyKey: String
 
-        /// The new value for the block's mobile property.
-        @NativeActionProp(description: "new value for the block's Mobile property", valuePicker: .SCRIPT_AREA_INPUT)
+        @NativeActionProp(
+            description: "new value for the block's Mobile property",
+            valuePicker: .SCRIPT_AREA_INPUT
+        )
         var propertyValueMobile: String
 
-        /// The new value for the block's tablet property.
-        @NativeActionProp(description: "new value for the block's Tablet property", valuePicker: .SCRIPT_AREA_INPUT)
+        @NativeActionProp(
+            description: "new value for the block's Tablet property",
+            valuePicker: .SCRIPT_AREA_INPUT
+        )
         var propertyValueTablet: String
 
-        /// The new value for the block's desktop property.
-        @NativeActionProp(description: "new value for the block's Desktop property", valuePicker: .SCRIPT_AREA_INPUT)
+        @NativeActionProp(
+            description: "new value for the block's Desktop property",
+            valuePicker: .SCRIPT_AREA_INPUT
+        )
         var propertyValueDesktop: String
 
-        /// A closure to execute after the property is changed.
         @NativeActionEvent(then: .NEXT)
         var onNext: () -> Void
-
-        /// Additional action properties, such as variables and blocks.
-        var actionProps: ActionProps
     }
 
     @NativeActionFunction
@@ -64,8 +64,10 @@ public class NativeChangeBlockProperty {
         var valueTablet = param.propertyValueTablet
         var valueDesktop = param.propertyValueDesktop
 
-        if var block = param.actionProps.onFindBlock(param.blockKey) {
-            if var currentProperty = block.properties?[param.propertyKey] {
+        if let block = param.actionProps.onFindBlock(param.blockKey) {
+            var blockProperties = block.properties ?? [:]
+
+            if var currentProperty = blockProperties[param.propertyKey] {
                 // Update mobile value
                 if !param.propertyValueMobile.isEmpty {
                     valueMobile = actionHandleVariableValue(actionProps: param.actionProps, value: valueMobile) ?? ""
@@ -87,15 +89,13 @@ public class NativeChangeBlockProperty {
                     currentProperty.valueDesktop = valueDesktop
                 }
 
-                // Update the property in the block
-                block.properties?[currentProperty.key] = currentProperty
+                blockProperties[currentProperty.key] = currentProperty
             }
 
-            // Notify the change
-            param.actionProps.onChangeBlock(block)
+            let updatedBlock = block.copy(properties: blockProperties)
+            param.actionProps.onChangeBlock(updatedBlock)
         }
 
-        // Execute the next step
         param.onNext()
     }
 }
