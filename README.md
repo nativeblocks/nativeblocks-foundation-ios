@@ -18,7 +18,7 @@ To integrate **NativeblocksFoundation** into your project, add it via Swift Pack
 
     ```swift
     dependencies: [
-        .package(url: "https://github.com/nativeblocks/nativeblocks-foundation-ios.git", .upToNextMajor(from: "1.2.0")),
+        .package(url: "https://github.com/nativeblocks/nativeblocks-foundation-ios.git", .upToNextMajor(from: "1.3.0")),
     ],
     ```
 
@@ -31,7 +31,7 @@ To integrate **NativeblocksFoundation** into your project, add it via Swift Pack
 3. Provide nativeblocks foundation: 
 
     ```swift
-    NativeblocksFoundationProvider.provide()
+    FoundationProvider.provide()
     ```
 
 4. Start using the blocks provided by **NativeblocksFoundation** to create dynamic, server-driven UIs.
@@ -59,7 +59,7 @@ struct SampleApp: App {
                 developmentMode: true
             )
         )
-        NativeblocksFoundationProvider.provide() // add foundation provider
+        FoundationProvider.provide() // add foundation provider
     }
 
     var body: some Scene {
