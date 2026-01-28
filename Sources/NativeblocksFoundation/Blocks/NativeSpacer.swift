@@ -22,8 +22,8 @@ import SwiftUI
     name: "Native Spacer",
     keyType: "nativeblocks/spacer",
     description: "Nativeblocks spacer block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeSpacer: View {
     var blockProps: BlockProps? = nil
@@ -55,19 +55,8 @@ struct NativeSpacer: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set.
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     var body: some View {
-        Spacer()
-            .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
+        Spacer().blockWidthAndHeightModifier(width, height)
 
     }
 }

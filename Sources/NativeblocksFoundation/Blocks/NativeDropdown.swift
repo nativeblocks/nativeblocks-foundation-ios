@@ -6,8 +6,8 @@ import SwiftUI
     name: "Native Dropdown",
     keyType: "nativeblocks/dropdown",
     description: "A dropdown-style menu that displays a list of selectable items.",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeDropdown<Content: View>: View {
 
@@ -86,14 +86,6 @@ struct NativeDropdown<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-
-    @NativeBlockProp(
-        description: "Weight value for layout distribution in horizontal or vertical stacks. Use 0 for no weight.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
 
     // MARK: - Style: Border and Background
 
@@ -227,7 +219,6 @@ struct NativeDropdown<Content: View>: View {
                         .foregroundColor(isDisabled ? disablePickerIconColor : pickerIconColor)
                 }
                 .blockWidthAndHeightModifier(width, height)
-                .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
                 .padding(.top, paddingTop)
                 .padding(.leading, paddingLeading)
                 .padding(.bottom, paddingBottom)
@@ -247,7 +238,7 @@ struct NativeDropdown<Content: View>: View {
 struct NativePickerMenu_Previews: PreviewProvider {
 
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

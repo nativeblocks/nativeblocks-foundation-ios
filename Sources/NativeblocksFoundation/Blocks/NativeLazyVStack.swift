@@ -30,8 +30,8 @@ import SwiftUI
     name: "Native LazyVStack",
     keyType: "nativeblocks/lazy_vstack",
     description: "Nativeblocks LazyVStack block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeLazyVStack<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -235,7 +235,7 @@ struct NativeLazyVStack<Content: View>: View {
 
 struct NativeLazyVStack_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

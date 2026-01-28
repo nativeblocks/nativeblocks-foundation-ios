@@ -1,7 +1,7 @@
 import Nativeblocks
 import SwiftUI
 
-public class NativeblocksFoundationTypeProvider {
+public class FoundationTypeProvider {
     public static func provideTypes(name: String = "default") {
         _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(Color.self, converter: ColorNativeType())
         _ = NativeblocksManager.getInstance(name: name).provideTypeConverter(Font.Design.self, converter: FontDesignNativeType())

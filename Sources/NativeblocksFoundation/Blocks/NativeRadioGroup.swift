@@ -6,8 +6,8 @@ import SwiftUI
     name: "Native Radio Group",
     keyType: "nativeblocks/radio_group",
     description: "Displays a list of radio options. Only one item can be selected at a time.",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeRadioGroup<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -82,14 +82,6 @@ struct NativeRadioGroup<Content: View>: View {
         defaultValue: "auto"
     )
     var height: String = "auto"
-
-    @NativeBlockProp(
-        description: "A layout weight that determines how much space this view should occupy relative to siblings inside a stack.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
 
     @NativeBlockProp(
         description: "Sets the horizontal alignment of all items inside the group.",
@@ -232,7 +224,6 @@ struct NativeRadioGroup<Content: View>: View {
             }
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -249,7 +240,7 @@ struct NativeRadioGroup<Content: View>: View {
 struct NativeRadioGroup_Previews: PreviewProvider {
 
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

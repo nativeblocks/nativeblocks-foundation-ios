@@ -23,8 +23,8 @@ import SwiftUI
     name: "Native ScrollView",
     keyType: "nativeblocks/scrollview",
     description: "Nativeblocks ScrollView block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeScrollView<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -134,14 +134,6 @@ struct NativeScrollView<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set.
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
     // MARK: - Background Properties
 
     /// The background color of the ScrollView.
@@ -212,7 +204,6 @@ struct NativeScrollView<Content: View>: View {
         }
         .blockScrollIndicators(scrollIndicators)
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -240,7 +231,7 @@ struct NativeScrollView<Content: View>: View {
 
 struct NativeScrollView_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

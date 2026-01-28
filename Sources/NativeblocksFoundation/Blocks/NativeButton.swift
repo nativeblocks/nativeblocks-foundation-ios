@@ -25,8 +25,8 @@ import SwiftUI
     name: "Native Button",
     keyType: "nativeblocks/button",
     description: "Nativeblocks Button block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeButton<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -228,15 +228,6 @@ struct NativeButton<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     /// The background color of the button when enabled.
     @NativeBlockProp(
         description: "The background color of the button when enabled.",
@@ -340,7 +331,6 @@ struct NativeButton<Content: View>: View {
                 trailingIcon?(-1)
             }
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .padding(.top, contentPaddingTop)
             .padding(.leading, contentPaddingLeading)
             .padding(.bottom, contentPaddingBottom)
@@ -374,7 +364,7 @@ struct NativeButton<Content: View>: View {
 
 struct NativeButton_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

@@ -29,8 +29,8 @@ import SwiftUI
     name: "Native Image",
     keyType: "nativeblocks/image",
     description: "Nativeblocks image block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeImage<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -236,7 +236,6 @@ struct NativeImage<Content: View>: View {
             .blockResizable(resizable)
             .blockScaled(contentMode)
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .contentShape(shape)
             .clipShape(shape)
             .accessibility(label: Text(contentDescription))

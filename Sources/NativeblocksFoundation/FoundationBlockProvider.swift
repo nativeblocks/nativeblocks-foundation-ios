@@ -1,6 +1,6 @@
 import Nativeblocks
 
-public class NativeblocksFoundationBlockProvider {
+public class FoundationBlockProvider {
     public static func provideBlocks(name: String = "default") {
         _ = NativeblocksManager.getInstance(name: name).provideBlock(blockKeyType: "nativeblocks/image") { props in
             NativeImageBlock(blockProps: props)
