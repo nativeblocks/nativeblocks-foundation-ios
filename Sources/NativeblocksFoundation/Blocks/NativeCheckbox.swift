@@ -6,8 +6,8 @@ import SwiftUI
     name: "Native Checkbox",
     keyType: "nativeblocks/checkbox",
     description: "A simple checkbox component for Nativeblocks.",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeCheckbox: View {
     // MARK: - Datas
@@ -147,7 +147,7 @@ struct NativeCheckbox: View {
 }
 struct NativeCheckbox_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

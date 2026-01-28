@@ -29,8 +29,8 @@ import SwiftUI
     name: "Native ZStack",
     keyType: "nativeblocks/zstack",
     description: "Nativeblocks ZStack block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeZStack<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -144,15 +144,6 @@ struct NativeZStack<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set.
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     // MARK: - Background and Styling Properties
 
     /// The background color of the ZStack.
@@ -228,7 +219,6 @@ struct NativeZStack<Content: View>: View {
             content(-1)
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -259,7 +249,7 @@ struct NativeZStack<Content: View>: View {
 
 struct NativeZStack_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

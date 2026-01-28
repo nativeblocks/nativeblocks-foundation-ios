@@ -25,8 +25,8 @@ import SwiftUI
     name: "Native Text field",
     keyType: "nativeblocks/text_field",
     description: "Nativeblocks text field block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeTextField<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -255,15 +255,6 @@ struct NativeTextField<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     /// The multiline text alignment of the TextField.
     @NativeBlockProp(
         description: "The alignment for multiline text within the TextField.",
@@ -334,7 +325,6 @@ struct NativeTextField<Content: View>: View {
         borderWidth: CGFloat,
         width: String,
         height: String,
-        weight: CGFloat,
         multilineTextAlignment: TextAlignment,
         lineLimit: Int,
         keyboardType: String
@@ -364,7 +354,6 @@ struct NativeTextField<Content: View>: View {
         self.borderWidth = borderWidth
         self.width = width
         self.height = height
-        self.weight = weight
         self.multilineTextAlignment = multilineTextAlignment
         self.lineLimit = lineLimit
         self.keyboardType = keyboardType
@@ -393,7 +382,6 @@ struct NativeTextField<Content: View>: View {
             trailingIcon?(-1)
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -479,7 +467,6 @@ struct NativeTextFieldTest: View {
                 borderWidth: 0,
                 width: "fill",
                 height: "auto",
-                weight: 0,
                 multilineTextAlignment: .leading,
                 lineLimit: 1,
                 keyboardType: "default"
@@ -490,7 +477,7 @@ struct NativeTextFieldTest: View {
 
 struct NativeTextField_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

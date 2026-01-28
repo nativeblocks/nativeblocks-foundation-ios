@@ -27,25 +27,17 @@ import SwiftUI
     name: "Native HStack",
     keyType: "nativeblocks/hstack",
     description: "Nativeblocks HStack block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeHStack<Content: View>: View {
-    private let proxy = WeightedProxy(kind: .horizontal)
-    @State private var initialized = false
     var blockProps: BlockProps? = nil
 
-    /// Length of list
-    @NativeBlockData(
-        description: "Length of list",
-        defaultValue: "-1"
-    )
-    var length: Int = -1
     // MARK: - Properties
 
     /// The content displayed inside the HStack.
     @NativeBlockSlot(description: "The content displayed inside the HStack.")
-    var content: (BlockIndex, Any) -> Content
+    var content: (BlockIndex) -> Content
 
     // MARK: - Alignment Properties
 
@@ -153,15 +145,6 @@ struct NativeHStack<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     // MARK: - Background Properties
 
     /// Background color of the HStack.
@@ -239,24 +222,10 @@ struct NativeHStack<Content: View>: View {
     var body: some View {
         GeometryReader { geo in
             HStack(alignment: alignmentVertical, spacing: spacing) {
-                if initialized {
-                    if length >= 0 {
-                        ForEach(0..<length, id: \.self) { index in
-                            content(index, proxy)
-                        }
-                    } else {
-                        content(-1, proxy)
-                    }
-                } else {
-                    Color.clear.onAppear {
-                        proxy.geo = geo
-                        initialized.toggle()
-                    }
-                }
+                content(-1)
             }
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -287,24 +256,20 @@ struct NativeHStack<Content: View>: View {
 
 struct NativeHStack_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {
         NativeHStack(
-            length: 5,
-            content: { index, scope in
+            content: { index in
                 if index == 0 {
                     Text("index:\(index)")
-                        .weighted(1, proxy: scope)
                         .background(Color.cyan)
                 } else if index == 1 {
                     Text("index:\(index)")
-                        .weighted(1, proxy: scope)
                         .background(Color.black)
                 } else {
                     Text("index:\(index)")
-                        .weighted(1, proxy: scope)
                         .background(Color.red)
                 }
             },

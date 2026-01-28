@@ -25,8 +25,8 @@ import SwiftUI
     name: "Native Text",
     keyType: "nativeblocks/text",
     description: "Nativeblocks text block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeText: View {
     var blockProps: BlockProps? = nil
@@ -184,15 +184,6 @@ struct NativeText: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     var body: some View {
         Text(text)
             .blockFont(family: fontFamily, size: fontSize, weight: fontWeight, design: fontDesign)
@@ -200,7 +191,6 @@ struct NativeText: View {
             .multilineTextAlignment(multilineTextAlignment)
             .lineLimit(lineLimit)
             .blockWidthAndHeightModifier(width, height)
-            .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
             .padding(.top, paddingTop)
             .padding(.leading, paddingLeading)
             .padding(.bottom, paddingBottom)
@@ -210,7 +200,7 @@ struct NativeText: View {
 
 struct NativeText_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

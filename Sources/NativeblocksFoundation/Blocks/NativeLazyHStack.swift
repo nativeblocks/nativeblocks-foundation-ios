@@ -25,8 +25,8 @@ import SwiftUI
     name: "Native LazyHStack",
     keyType: "nativeblocks/lazy_hstack",
     description: "Nativeblocks LazyHStack block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeLazyHStack<Content: View>: View {
     var blockProps: BlockProps? = nil
@@ -234,7 +234,7 @@ struct NativeLazyHStack<Content: View>: View {
 
 struct NativeLazyHStack_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {
@@ -248,7 +248,7 @@ struct NativeLazyHStack_Previews: PreviewProvider {
 
 struct NativeLazyHStack_Padding_Previews: PreviewProvider {
     init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
+        FoundationTypeProvider.provideTypes()
     }
 
     static var previews: some View {

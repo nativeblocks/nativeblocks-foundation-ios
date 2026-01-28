@@ -30,12 +30,10 @@ import SwiftUI
     name: "Native VStack",
     keyType: "nativeblocks/vstack",
     description: "Nativeblocks VStack block",
-    version: 1,
-    versionName: "1.0.0"
+    version: 2,
+    versionName: "2"
 )
 struct NativeVStack<Content: View>: View {
-    private let proxy = WeightedProxy(kind: .vertical)
-    @State private var initialized = false
     var blockProps: BlockProps? = nil
 
     /// Length of list
@@ -48,7 +46,7 @@ struct NativeVStack<Content: View>: View {
 
     /// The content to display inside the VStack.
     @NativeBlockSlot(description: "The content to display inside the VStack.")
-    var content: (BlockIndex, Any) -> Content
+    var content: (BlockIndex) -> Content
 
     // MARK: - Alignment Properties
 
@@ -138,15 +136,6 @@ struct NativeVStack<Content: View>: View {
     )
     var height: String = "auto"
 
-    /// Weight of the layout in HStack or VStack. Default is 0 means not set
-    @NativeBlockProp(
-        description: "Weight of the layout in HStack or VStack. Default is 0 means not set.",
-        valuePicker: NativeBlockValuePicker.NUMBER_INPUT,
-        valuePickerGroup: NativeBlockValuePickerPosition("Size"),
-        defaultValue: "0.0"
-    )
-    var weight: CGFloat = 0.0
-
     // MARK: - Background and Styling Properties
 
     /// The background color of the VStack.
@@ -220,24 +209,10 @@ struct NativeVStack<Content: View>: View {
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: alignmentHorizontal, spacing: spacing) {
-                if initialized {
-                    if length >= 0 {
-                        ForEach(0..<length, id: \.self) { index in
-                            content(index, proxy)
-                        }
-                    } else {
-                        content(-1, proxy)
-                    }
-                } else {
-                    Color.clear.onAppear {
-                        proxy.geo = geo
-                        initialized.toggle()
-                    }
-                }
+                content(-1)
             }
         }
         .blockWidthAndHeightModifier(width, height)
-        .weighted(weight, proxy: blockProps?.hierarchy.last?.scope)
         .padding(.top, paddingTop)
         .padding(.leading, paddingLeading)
         .padding(.bottom, paddingBottom)
@@ -263,62 +238,5 @@ struct NativeVStack<Content: View>: View {
         .blockOnTapGesture(enable: onClick != nil) {
             onClick?()
         }
-    }
-}
-
-struct NativeVStack_Previews: PreviewProvider {
-    init() {
-        NativeblocksFoundationTypeProvider.provideTypes()
-    }
-
-    static var previews: some View {
-        NativeVStack(
-            length: 3,
-            content: { index, scope in
-                if index == 0 {
-                    Text("index:\(index)")
-                        .blockWidthAndHeightModifier(
-                            "fill",
-                            "auto",
-                        )
-                        .weighted(1, proxy: scope)
-                        .background(Color.cyan)
-                } else if index == 1 {
-                    Text("index:\(index)")
-                        .blockWidthAndHeightModifier(
-                            "fill",
-                            "auto",
-                        )
-                        .weighted(1, proxy: scope)
-                        .background(Color.black)
-                } else {
-                    Text("index:\(index)")
-                        .blockWidthAndHeightModifier(
-                            "fill",
-                            "auto",
-                        )
-                        .weighted(0, proxy: scope)
-                        .background(Color.red)
-                }
-            },
-            alignmentHorizontal: HorizontalAlignment.center,
-            spacing: 0,
-            paddingTop: 8,
-            paddingLeading: 8,
-            paddingBottom: 8,
-            paddingTrailing: 8,
-            width: "300",
-            height: "200",
-            weight: 0,
-            backgroundColor: Color.blue,
-            radiusTopStart: 0,
-            radiusTopEnd: 0,
-            radiusBottomStart: 0,
-            radiusBottomEnd: 0,
-            borderColor: Color.black,
-            borderWidth: 5,
-            onClick: {}
-        ).padding(10)
-            .background(Color.blue)
     }
 }
